@@ -1,0 +1,193 @@
+    {% extends 'base.html' %}
+    {% load static %}
+
+    {% block customcss %}
+        <link rel="stylesheet" href="{% static 'style.css' %}">
+        <link rel="stylesheet" href="{% static 'reset.css' %}">
+    {% endblock customcss %}
+
+    {% block header %}
+    <header>
+        <ul class="h-left">
+            <li><i class="fas fa-laptop">G-up</i></li>
+            <li><a href="{% url 'all_contents' %}">コンテンツ一覧</a></li>
+        </ul>
+        <ul class="h-right">
+            <li>
+                <form action="{% url 'search' %}" method="GET">
+                    <input type="search" style="font-size: 13px; width: 180px;" placeholder="キーワードで検索" name="key_search" id="q_in_topbar" value="" autocomplete="off">
+                    <button type="submit" ><i class="fas fa-search"></i></button>
+                </form>
+            </li>
+            {% if user.id %}
+            <li>こんにちは、{{ user.username }}さん</li>
+            <li><a href="/mypage/{{ user.id }}">マイページ</a></li>
+            <li><a href="{% url 'logout' %}">ログアウトする</a></li>
+            {% else %}
+            <li><a href="{% url 'create' %}">新規登録</a></li>
+            <li><a href="{% url 'login' %}">ログイン</a></li>
+            {% endif %}
+        </ul>
+        <button class="mobile-menu__btn menu-icon-bar">
+            <i class="fas fa-bars fa-2x"></i>
+        </button>
+
+        <button class="mobile-menu__btn menu-icon-sign-in">
+            <i class="fas fa-sign-in-alt fa-2x"></i>
+        </button>
+    </header>
+    {% endblock header %}
+
+    {% block main %}
+    <main> 
+        <div class="container">
+        <section class="about-contents"> 
+            <div class="headline">
+                <h2 class="h2-headline">コンテンツ一覧</h2>
+            </div>
+
+            <div class="contents-block">
+                <div class="contents-title">
+                    <h2><i class="fas fa-book-open"></i> Office365関連</h2>
+                </div>
+                <div class="contents-inner-block">
+                    <div class="content-wrapper">
+                        <div class="content c-all">
+                            <h3>Word</h3>
+                            <img src="{% static 'images/PngItem_2864729.png' %}" >
+                        </div>
+                    </div>
+                 
+                    <div class="content-wrapper">
+                        <div class="content c-all">
+                            <h3>Excel</h3>
+                            <img src="{% static 'images/microsoft-excel-2019--v1.png' %}" >
+                        </div>
+                    </div>
+                    <div class="content-wrapper">
+                        <a href="{%url 'category' cats='ppt' %}">
+                        <div class="content c-all">
+                            <h3>Power Point</h3>
+                            <img src="{% static 'images/Microsoft_PowerPoint-Logo.wine.png' %}" >
+                        </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contents-block">
+                <div class="contents-title">
+                    <h2><i class="fas fa-book-open"></i> Googleアプリ関連</h2>
+                </div>
+                <div class="contents-inner-block">
+                    <div class="content-wrapper">
+                        <div class="content c-all">
+                            <h3>Gmail</h3>
+                            <img src="{% static 'images/unnamed.png' %}" >
+                        </div>
+                    </div>
+                    <div class="content-wrapper">
+                        <div class="content c-all">
+                            <h3>スプレッドシート</h3>
+                            <img src="{% static 'images/png-clipart-google-docs-online-spreadsheet-google-analytics-google-rectangle-logo-thumbnail.png' %}" >
+                        </div>
+                    </div>
+                    <div class="content-wrapper">
+                        <div class="content c-all">
+                            <h3>ドライブ</h3>
+                            <img src="{% static 'images/hh_drive_96dp.png' %}" >
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contents-block">
+                <div class="contents-title">
+                    <h2><i class="fas fa-book-open"></i> Web会議システム関連</h2>
+                </div>
+                <div class="contents-inner-block">
+                    <div class="content-wrapper">
+                        <div class="content c-all">
+                            <h3>Zoom</h3>
+                            <img src="{% static 'images/y0vow7ahvvowqitnsx7q.png' %}" >
+                        </div>
+                    </div>
+                    <div class="content-wrapper">
+                        <div class="content c-all">
+                            <h3>Skype</h3>
+                            <img src="{% static 'images/Skype-new-logo.jpg' %}" >
+                        </div>
+                    </div>
+                    <div class="content-wrapper">
+                        <div class="content c-all">
+                            <h3>Slack</h3>
+                            <img src="{% static 'images/slack.jpg' %}" >
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contents-block">
+                <div class="contents-title">
+                    <h2><i class="fas fa-book-open"></i> Windows関連</h2>
+                </div>
+                <div class="contents-inner-block">
+                    <div class="content-wrapper">
+                        <div class="content c-all">
+                            <h3>便利なショートカットキー</h3>
+                            <img src="{% static 'images/windows.jpg' %}" >
+                        </div>
+                    </div>
+                    <div class="content-wrapper">
+                        <div class="content c-all">
+                            <h3>おすすめ設定</h3>
+                            <img src="{% static 'images/windows.jpg' %}" >
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contents-block">
+                <div class="contents-title">
+                    <h2><i class="fas fa-book-open"></i> Mac関連</h2>
+                </div>
+                <div class="contents-inner-block">
+                    <div class="content-wrapper">
+                        <div class="content c-all">
+                            <h3>便利なショートカットキー</h3>
+                            <img src="{% static 'images/mac.jpg' %}" >
+                        </div>
+                    </div>
+                    <div class="content-wrapper">
+                        <div class="content c-all">
+                            <h3>おすすめ設定</h3>
+                            <img src="{% static 'images/mac.jpg' %} " >
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contents-block">
+                <div class="contents-title">
+                    <h2><i class="fas fa-book-open"></i> その他便利機能</h2>
+                </div>
+                <div class="contents-inner-block">
+                    <div class="content-wrapper">
+                        <div class="content c-all">
+                            <h3>xxxxxxx</h3>
+                            <img src="{% static 'images/good.jpeg' %}" >
+                        </div>
+                    </div>
+                    <div class="content-wrapper">
+                        <div class="content c-all">
+                            <h3>xxxxxxx</h3>
+                            <img src="{% static 'images/good.jpeg' %}" >
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+              
+        </section>   
+    </main>
+    {% endblock main %}

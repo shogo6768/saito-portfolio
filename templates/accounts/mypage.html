@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block customcss %}
+    <link rel="stylesheet" href="{% static 'semantic.min.css' %}">
+    <link rel="stylesheet" href="{% static 'reset.css' %}">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+{% endblock customcss %}
+
+{% block header %}
+    <header>
+        <ul class="h-left">
+            <li><i class="fas fa-laptop">G-up</i></li>
+            <li><a href="{% url 'all_contents' %}">コンテンツ一覧</a></li>
+        </ul>
+        <ul class="h-right">
+            <li>
+                <form action="{% url 'search' %}" method="GET">
+                    <input type="search" style="font-size: 13px; width: 180px;" placeholder="キーワードで検索" name="key_search" id="q_in_topbar" value="" autocomplete="off">
+                    <button type="submit" ><i class="fas fa-search"></i></button>
+                </form>
+            </li>
+            {% if user.id %}
+            <li>こんにちは、{{ user.username }}さん</li>
+            <li><a href="/mypage/{{ user.id }}">マイページ</a></li>
+            <li><a href="{% url 'logout' %}">ログアウトする</a></li>
+            {% else %}
+            <li><a href="{% url 'create' %}">新規登録</a></li>
+            <li><a href="{% url 'login' %}">ログイン</a></li>
+            {% endif %}
+        </ul>
+    </header>
+{% endblock header %}
+
+    {% block main %}
+    <div class="top-wrapper">
+      <div class="container">
+        <h2>{{ user.username }}</h2>
+      </div>
+    </div>
+    <div class="recommend-wrapper">
+      <div class="container">
+        <h2>あなたへのオススメ</h2>
+        <div class="recommend-items">
+
+        </div>
+      </div>
+    </div>
+    <div class="pastread-wrapper">
+      <div class="container">
+        <h2>あなたの閲覧履歴</h2>
+        <div class="pastread-items">
+
+        </div>
+      </div>
+    </div>
+    <!-- お気に入り記事の表示用のHTML文 -->
+    <div class="pastread-wrapper">
+      <div class="container">
+        <h2>あなたのお気に入り記事</h2>
+        <div class="like-items">
+          {% for post in like_posts %}
+            <p>{{ post.title }}</p>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    {% endblock main %}
+    <footer>
+
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block customcss %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="{% static 'reset.css' %}">
+{% endblock customcss %}
+
+{% block header %}
+    <header>
+        <ul class="h-left">
+            <li><i class="fas fa-laptop">G-up</i></li>
+            <li><a href="#">記事一覧</a></li>
+        </ul>
+        <ul class="h-right">
+            <li>
+                <input type="text" style="font-size: 12px; width: 180px;" placeholder="キーワードで検索" name="q" class="q" id="q_in_topbar" value="" autocomplete="off">
+                <button type="submit" ><i class="fas fa-search"></i></button>
+            </li>
+            <li><a href="#">ログイン</a></li>
+            <li><a class="btn" href="#">無料会員登録</a></li>
+        </ul>
+    </header>
+{% endblock header %}
+
+{% block main %}
+<div id="list-global-container">
+    <div class="list-main-container">
+        <h2 class="entry-title">検索結果</h2>
+        {% for item in qs %}
+        <div class="list-item">
+            <div class="link-box">
+                <a href="#" class="link-item">
+                    <div class="item-category">
+                        カテゴリー：{{item.category}}
+                    </div>
+                    <h3 class="item-title">{{item.title}}</h3>
+                </a>
+            </div>
+            <div class="description">
+                {{item.description}}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="list-aside-container">
+        aaaaaaaaaa
+    </div>
+</div>
+{% endblock main %}
+
+{% block mobilenav %}
+<nav class="mobile-menu">
+    <ul class="mobile-menu__main">
+        <li class="mobile-menu__item">
+            <a class="mobile-menu__link" href="#">
+                <span class="main-title">コンテンツ一覧</span>
+            </a>
+        </li>
+        <li class="mobile-menu__item">
+            <a class="mobile-menu__link" href="#">
+                <span class="main-title">よく読まれている記事</span>
+            </a>
+        </li>
+        <li class="mobile-menu__item">
+            <a class="mobile-menu__link" href="#">
+                <span class="main-title">検索</span>
+            </a>
+        </li>
+        <li class="mobile-menu__item">
+            <a class="mobile-menu__link" href="#">
+                <span class="main-title">ログイン</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+{% endblock mobilenav%}
+
+{% block customjs %}
+<script src="{% static 'main.js' %}"></script>
+{% endblock customjs %}

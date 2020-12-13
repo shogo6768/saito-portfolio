@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>G-up</title>
+    {% block customcss %}
+    {% endblock customcss %}
+    <script src="https://kit.fontawesome.com/f1d5a3e365.js" crossorigin="anonymous"></script>
+
+  </head>
+  <body>
+  <div id="global-container">
+    <div id="container">
+    {% block header %}
+    {% endblock header %}
+
+    {% block main %}
+    {% endblock main%}
+    <footer>
+        Copyright 2020 xxxxxxxxx. All Rights Reserved.
+    </footer>
+  </div>
+  {% block mobilenav %}
+  {% endblock mobilenav%}
+</div>
+{% block customjs %}
+{% endblock customjs %}
+
+ </body>
+</html>
