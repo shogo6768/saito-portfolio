@@ -18,12 +18,31 @@ from .forms import LoginForm, CreateForm
 logger = logging.getLogger(__name__)
 
 # Create your views here.
+
+
 class TopPage(TemplateView):
-    template_name='toppage.html'
+    template_name = 'toppage.html'
+
+# save_history関数を外へ
+
+
+def save_history(request, pk):
+    user = CustomUser.objects.get(id=request.user.id)
+    request.user.history = pk
+    request.user.save()
+    context = {'pk': pk}
+    return render(request, "post.html", context)
+
 
 class PostDetail(DetailView):
     model = PostModel
     template_name = 'post.html'
+
+    # def get(self, request, pk):
+    #     # user = CustomUser.objects.get(id=request.user.id)
+    #     request.user.history = pk
+    #     request.user.save()
+    #     return render(request, 'post.html', None)
 
     def get_object(self, queryset=None):
         obj = super().get_object(queryset=queryset)
@@ -33,46 +52,44 @@ class PostDetail(DetailView):
             raise Http404
         return obj
 
-        # 閲覧履歴機能（リコメンドにも使用、未実装のためコメントアウト）
-    # def save_history(self, request, pk):
-    #     user = CustomUser.objects.get(id = request.user.id)
-    #     user.history = pk
-    #     user.save()
 
 def searchfunc(request):
     qs = PostModel.objects.all()
     key_search = request.GET.get('key_search')
-    if key_search !='' and key_search is not None:
+    if key_search != '' and key_search is not None:
         qs = qs.filter(Q(title__icontains=key_search)
                        | Q(content__icontains=key_search)
                        ).distinct
 
-    return render(request, "search_result.html", {'qs':qs})
+    return render(request, "search_result.html", {'qs': qs})
+
 
 class AllContents(TemplateView):
-    template_name='all_contents.html'
+    template_name = 'all_contents.html'
 
 
 def postfunc(request):
     qs = PostModel.objects.all()
     key_search = request.GET.get('key_search')
-    if key_search !='' and key_search is not None:
+    if key_search != '' and key_search is not None:
         qs = qs.filter(Q(title__icontains=key_search)
                        | Q(content__icontains=key_search)
                        ).distinct
 
-    return render(request, "search_result.html", {'qs':qs})
+    return render(request, "search_result.html", {'qs': qs})
+
 
 def categoryfunc(request, cats):
     category = Category.objects.get(slug=cats)
     category_posts = PostModel.objects.filter(category=category)
-    return render(request, "category.html", {'cats':cats, 'category_posts':category_posts})
+    return render(request, "category.html", {'cats': cats, 'category_posts': category_posts})
+
 
 class RankingList(ListView):
     model = PostModel
     template_name = 'ranking.html'
     paginate_by = 10
-    queryset= PostModel.objects.order_by('-views')
+    queryset = PostModel.objects.order_by('-views')
 
 
 class CreateView(View):
@@ -182,11 +199,14 @@ def like(request, pk):
 
 # マイページアップデート
 # お気に入り記事の一覧を取得し、表示できる様に変更（デザインは後回し）
+
+
 class MypageView(View):
     model = CustomUser
 
     def get(self, request, pk, *args, **kwargs):
-        like_posts=request.user.like_post.all()
-        return render(request, 'accounts/mypage.html', {'like_posts':like_posts})
+        like_posts = request.user.like_post.all()
+        return render(request, 'accounts/mypage.html', {'like_posts': like_posts})
+
 
 mypage = MypageView.as_view()

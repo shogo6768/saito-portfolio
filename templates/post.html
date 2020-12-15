@@ -52,7 +52,7 @@
     </div>
 </div>
 <div class="container">
-  <form action="{% url 'like' object.id %}" method="post">
+  <form action="{% url 'like' pk %}" method="get">
       <button type="submit" name="button">お気に入り追加</button>
       {% csrf_token %}
   </form>
