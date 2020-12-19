@@ -2,10 +2,12 @@ from django.db import models
 from django.utils import timezone
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth.models import AbstractUser
-from django.contrib.auth.models import PermissionsMixin,UserManager
-from django.contrib.auth.base_user import AbstractBaseUser,BaseUserManager
+from django.contrib.auth.models import PermissionsMixin, UserManager
+from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 
 # Create your models here.
+
+
 class Category(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)
@@ -14,6 +16,7 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+
 class Tag(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)
@@ -21,6 +24,7 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class PostModel(models.Model):
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
@@ -46,6 +50,7 @@ class PostModel(models.Model):
         return self.title
 
 # AbstractBaseUserの継承に変更（AbstracutUserからのCustomUserモデル作成はやめた）
+
 
 class UserManager(BaseUserManager):
     use_in_migrations = True
@@ -76,15 +81,20 @@ class UserManager(BaseUserManager):
 
         return self._create_user(username, email, password, **extra_fields)
 
+
 class CustomUser(AbstractBaseUser, PermissionsMixin):
 
-    username=models.CharField(verbose_name='username', max_length=30, unique=True)
-    email=models.CharField(verbose_name='email', max_length=30)
-    first_name = models.CharField(verbose_name='first name', max_length=30, blank=True)
-    last_name = models.CharField(verbose_name='last name', max_length=30, blank=True)
+    username = models.CharField(
+        verbose_name='username', max_length=30, unique=True)
+    email = models.CharField(verbose_name='email', max_length=30)
+    first_name = models.CharField(
+        verbose_name='first name', max_length=30, blank=True)
+    last_name = models.CharField(
+        verbose_name='last name', max_length=30, blank=True)
     history = models.PositiveIntegerField(verbose_name='history', default=0)
     # お気に入り機能格納用のフィールド追加
-    like_post = models.ManyToManyField(PostModel, verbose_name='like', blank=True)
+    like_post = models.ManyToManyField(
+        PostModel, verbose_name='like', blank=True)
 
     is_staff = models.BooleanField(
         verbose_name='staff status',
@@ -99,7 +109,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
             'Unselect this instead of deleting accounts.'
         ),
     )
-    date_joined = models.DateTimeField(verbose_name='date joined', default=timezone.now)
+    date_joined = models.DateTimeField(
+        verbose_name='date joined', default=timezone.now)
 
     objects = UserManager()
 
