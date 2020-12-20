@@ -35,9 +35,12 @@
             <i class="fas fa-bars fa-2x"></i>
         </button>
 
+        {% if not user.id %}
         <button class="mobile-menu__btn menu-icon-sign-in">
-            <i class="fas fa-sign-in-alt fa-2x"></i>
-        </button>
+            <a href="{% url 'login' %}"><i class="fas fa-sign-in-alt fa-2x"></i></a>
+            <a href="{% url 'create' %}"><i class="fas fa-user-plus fa-2x"></i></a>
+        </button>          
+        {% endif %}       
     </header>
 {% endblock header %}
 {% block main%}
@@ -149,29 +152,24 @@
 
 {% block sidenav %}
 <nav class="mobile-menu">
+    <i class="fas fa-times fa-lg"></i>
     <ul class="mobile-menu__main">
         <li class="mobile-menu__item">
-            <a class="mobile-menu__link" href="#">
-                <span class="main-title">コンテンツ一覧</span>
+            <a class="mobile-menu__link" href="{%url 'all_contents'%}">
+                <span class="mobile-main__title">コンテンツ一覧</span>
             </a>
         </li>
         <li class="mobile-menu__item">
             <a class="mobile-menu__link" href="#">
-                <span class="main-title">よく読まれている記事</span>
+                <span class="mobile-main__title">検索</span>
             </a>
+            <div class="mobile-search">
+                <form action="{% url 'search' %}" method="GET">
+                    <input type="search" style="font-size: 13px; width: 180px;" placeholder="キーワードで検索" name="key_search" id="q_in_topbar" value="" autocomplete="off">
+                    <button type="submit" ><i class="fas fa-search"></i></button>
+                </form>
+            </div>
         </li>
-        <li class="mobile-menu__item">
-            <a class="mobile-menu__link" href="#">
-                <span class="main-title">検索</span>
-            </a>
-        </li>
-        <li class="mobile-menu__item">
-            <a class="mobile-menu__link" href="#">
-                <span class="main-title">ログイン</span>
-            </a>
-        </li>
-    </ul>
-</nav>
 {% endblock sidenav%}
 
 {% block customjs %}

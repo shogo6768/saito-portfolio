@@ -2,11 +2,9 @@ class OpenMenu{
     constructor(){
         this.DOM = {};
         this.DOM.btn = document.querySelector('.mobile-menu__btn');
+        this.DOM.cross= document.querySelectorAll('.fa-times');
         this.DOM.side = document.querySelector('.ctg-lists');
-        this.DOM.cross= document.querySelector('.fa-times');
-        this.DOM.drop = document.getElementsByClassName('dropDown');
         this.DOM.container = document.querySelector('#global-container');
-        this.DOM.ctgContainer = document.querySelector('.category-menu');
         this.eventType= this._getEventType();
         this._addEvent();
     }
@@ -26,8 +24,10 @@ class OpenMenu{
 
     _addEvent() {
         this.DOM.btn.addEventListener(this.eventType, this._toggle.bind(this));
+        this.DOM.cross[0].addEventListener(this.eventType, this._toggle.bind(this));
+        this.DOM.cross[1].addEventListener(this.eventType, this._toggle.bind(this));
         this.DOM.side.addEventListener(this.eventType, this._toggle.bind(this));
-        this.DOM.cross.addEventListener(this.eventType, this._toggle.bind(this));
+        // this.DOM.cross.addEventListener(this.eventType, this._toggle.bind(this));
         // this.DOM.btn.addEventListener(this.eventType, this._remove.bind(this));
         // this.DOM.side.addEventListener(this.eventType, this._remove.bind(this));
     }
