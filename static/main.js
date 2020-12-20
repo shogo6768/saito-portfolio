@@ -1,11 +1,16 @@
-class MobileMenu{
+class OpenMenu{
     constructor(){
         this.DOM = {};
         this.DOM.btn = document.querySelector('.mobile-menu__btn');
+        this.DOM.side = document.querySelector('.ctg-lists');
+        this.DOM.cross= document.querySelector('.fa-times');
+        this.DOM.drop = document.getElementsByClassName('dropDown');
         this.DOM.container = document.querySelector('#global-container');
+        this.DOM.ctgContainer = document.querySelector('.category-menu');
         this.eventType= this._getEventType();
         this._addEvent();
     }
+
 
     _getEventType(){
         return window.ontouchstart ? 'touchstart' : 'click'
@@ -15,13 +20,61 @@ class MobileMenu{
         this.DOM.container.classList.toggle('menu-open')
     }
 
+    // _remove(){
+    //     this.DOM.drop.classList.remove('dropDown')
+    // }
+
     _addEvent() {
         this.DOM.btn.addEventListener(this.eventType, this._toggle.bind(this));
+        this.DOM.side.addEventListener(this.eventType, this._toggle.bind(this));
+        this.DOM.cross.addEventListener(this.eventType, this._toggle.bind(this));
+        // this.DOM.btn.addEventListener(this.eventType, this._remove.bind(this));
+        // this.DOM.side.addEventListener(this.eventType, this._remove.bind(this));
     }
-
 }
 
-new MobileMenu();
+new OpenMenu();
+
+class DorpDown{
+    constructor(){
+        this.DOM = {};
+        this.DOM.drop = document.querySelectorAll('.category-menu__item > span');
+        this.DOM.mDrop = document.querySelectorAll('.mobile-menu__link');
+        this.eventType= this._getEventType();
+        this._addEvent1();
+        this._addEvent2();
+        this._addEvent3();
+    }
+
+    _getEventType(){
+        return window.ontouchstart ? 'touchstart' : 'click'
+    }
+
+    _addEvent1() {
+        for (let i = 0; i < this.DOM.drop.length; i++) {
+        this.DOM.drop[i].addEventListener(this.eventType, function(){
+            this.classList.toggle('dropDown');
+            this.nextElementSibling.classList.toggle('dropDown');
+        });
+        }
+    }
+
+    _addEvent2() {
+        this.DOM.mDrop[2].addEventListener(this.eventType, function(){
+            this.classList.toggle('dropDown');
+            this.nextElementSibling.classList.toggle('dropDown');
+        });
+    } 
+
+    _addEvent3() {
+        this.DOM.mDrop[3].addEventListener(this.eventType, function(){
+            this.classList.toggle('dropDown');
+            this.nextElementSibling.classList.toggle('dropDown');
+        });
+    }   
+}
+
+new DorpDown();
 
 class TextAnimation {
     constructor() {

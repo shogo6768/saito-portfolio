@@ -10,4 +10,4 @@ class CustomUserAdmin(admin.ModelAdmin):
 admin.site.register(Category)
 admin.site.register(Tag)
 admin.site.register(PostModel)
-admin.site.register(CustomUser, CustomUserAdmin)
+admin.site.register(CustomUser)

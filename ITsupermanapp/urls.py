@@ -1,13 +1,16 @@
 from django.urls import path
-# like追加
-from .views import TopPage, PostDetail, searchfunc, like, AllContents, categoryfunc, CreateView, LoginView, MypageView, LogoutView, RankingList
+from .views import TopPage, PostDetail, save_history, searchfunc, like, AllContents, categoryfunc, CreateView, LoginView, MypageView, LogoutView, RankingList
 
 urlpatterns = [
     path('', TopPage.as_view(), name ='toppage'),
-    path('post/<int:pk>', PostDetail.as_view(), name='PostDetail'),
+    # # save_history関数のディスパッチャ
+    path('post/<int:pk>', save_history, name='save_history'),
+    # PostDetailへのURL構造を小変更
+    # 12/19斉藤コメント　nameを変更を関連urlも修正。またpath末尾に'/'追加（エラー回避のため）
+    path('post/<int:pk>/detail/', PostDetail.as_view(), name='post_detail'),
     # likeへのディスパッチャ
     path('post/<int:pk>/like', like, name='like'),
-    path('searchresult/', searchfunc, name='search'),
+    path('searchresult/',  searchfunc, name='search'),
     path('all_contents/', AllContents.as_view(), name ='all_contents'),
     path('category/<str:cats>/', categoryfunc, name ='category'),
     path('ranking/', RankingList.as_view(), name='ranking' ),
@@ -17,3 +20,5 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
 
 ]
+
+
