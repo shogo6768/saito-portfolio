@@ -54,9 +54,11 @@ class DorpDown{
         this.DOM = {};
         this.DOM.drop = document.querySelectorAll('.category-menu__item > span');
         this.DOM.mDrop = document.querySelectorAll('.mobile-menu__link');
+        console.log(this.DOM.mDrop[2,4])
         this.eventType= this._getEventType();
         this._addEvent1();
         this._addEvent2();
+        this._addEvent3();
     }
 
     _getEventType(){
@@ -73,13 +75,22 @@ class DorpDown{
     }
 
     _addEvent2() {
-    　　if(this.DOM.mDrop[2,4] != null){
-        this.DOM.mDrop[2,4].addEventListener(this.eventType, function(){
+    　　if(this.DOM.mDrop[2] != null){
+        this.DOM.mDrop[2].addEventListener(this.eventType, function(){
             this.classList.toggle('dropDown');
             this.nextElementSibling.classList.toggle('dropDown');
         });
     }
     } 
+
+    _addEvent3() {
+        　　if(this.DOM.mDrop[3] != null){
+            this.DOM.mDrop[3].addEventListener(this.eventType, function(){
+                this.classList.toggle('dropDown');
+                this.nextElementSibling.classList.toggle('dropDown');
+            });
+        }
+        } 
 }
 
 new DorpDown();
