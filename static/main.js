@@ -2,11 +2,13 @@ class OpenMenu{
     constructor(){
         this.DOM = {};
         this.DOM.btn = document.querySelector('.mobile-menu__btn');
+        console.log(this)
         this.DOM.cross= document.querySelectorAll('.fa-times');
         this.DOM.side = document.querySelector('.ctg-lists');
         this.DOM.container = document.querySelector('#global-container');
         this.eventType= this._getEventType();
-        this._addEvent();
+        this._addEvent1();
+        this._addEvent2();
     }
 
 
@@ -15,6 +17,7 @@ class OpenMenu{
     }
 
     _toggle(){
+        console.log(this)
         this.DOM.container.classList.toggle('menu-open')
     }
 
@@ -22,14 +25,25 @@ class OpenMenu{
     //     this.DOM.drop.classList.remove('dropDown')
     // }
 
-    _addEvent() {
+    _addEvent1() {
+        console.log(this)
         this.DOM.btn.addEventListener(this.eventType, this._toggle.bind(this));
-        this.DOM.cross[0].addEventListener(this.eventType, this._toggle.bind(this));
-        this.DOM.cross[1].addEventListener(this.eventType, this._toggle.bind(this));
-        this.DOM.side.addEventListener(this.eventType, this._toggle.bind(this));
+        if(this.DOM.side != null){
+            this.DOM.side.addEventListener(this.eventType, this._toggle.bind(this));
+        }
         // this.DOM.cross.addEventListener(this.eventType, this._toggle.bind(this));
         // this.DOM.btn.addEventListener(this.eventType, this._remove.bind(this));
         // this.DOM.side.addEventListener(this.eventType, this._remove.bind(this));
+    }
+    _addEvent2() {
+        for (let i = 0; i < this.DOM.cross.length; i++) {
+            this.DOM.cross[i].addEventListener(this.eventType, function(){
+                // this.DOM.container.classList.toggle('menu-open').bind(this);
+                console.log(this)
+                // this.DOM.container.classList.toggle('menu-open'); ←エラーの理由不明
+                document.querySelector('#global-container').classList.toggle('menu-open');
+                });
+            }
     }
 }
 
@@ -43,7 +57,6 @@ class DorpDown{
         this.eventType= this._getEventType();
         this._addEvent1();
         this._addEvent2();
-        this._addEvent3();
     }
 
     _getEventType(){
@@ -60,18 +73,13 @@ class DorpDown{
     }
 
     _addEvent2() {
-        this.DOM.mDrop[2].addEventListener(this.eventType, function(){
+    　　if(this.DOM.mDrop[2,4] != null){
+        this.DOM.mDrop[2,4].addEventListener(this.eventType, function(){
             this.classList.toggle('dropDown');
             this.nextElementSibling.classList.toggle('dropDown');
         });
+    }
     } 
-
-    _addEvent3() {
-        this.DOM.mDrop[3].addEventListener(this.eventType, function(){
-            this.classList.toggle('dropDown');
-            this.nextElementSibling.classList.toggle('dropDown');
-        });
-    }   
 }
 
 new DorpDown();
@@ -80,9 +88,11 @@ class TextAnimation {
     constructor() {
         this.DOM = {};
         this.DOM.el = document.querySelector('.inview');
-        this.chars = this.DOM.el.innerHTML.trim().split("");
-        this.DOM.el.innerHTML = this._splitText();
-    }
+        if(this.DOM.el != null){
+            this.chars = this.DOM.el.innerHTML.trim().split("");
+            this.DOM.el.innerHTML = this._splitText();
+        }    
+}
     _splitText() {
         return this.chars.reduce((acc, curr) => {
             curr = curr.replace(/\s+/, '&nbsp;');
