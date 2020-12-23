@@ -138,7 +138,7 @@ header {
     text-decoration: underline;
 }
 
-.category-menu__item .category__title,
+.category-menu__item .category__title,　
 .mobile-menu .mobile-menu__item:nth-child(3) .mobile-main__title,
 .mobile-menu .mobile-menu__item:nth-child(4) .mobile-main__title{
     display: flex;
