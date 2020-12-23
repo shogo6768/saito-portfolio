@@ -12,8 +12,9 @@
 {% block header %}
     <header>
         <ul class="h-left">
-            <li><i class="fas fa-laptop">G-up</i></li>
-            <li><a href="{% url 'all_contents' %}">コンテンツ一覧</a></li>
+            <li><i class="fas fa-laptop">Plus IT</i></li>
+            <li><a href="#link-contents">コンテンツ内容</a></li>
+            <li><a href="#registration-benefits">会員特典</a></li>
         </ul>
         <ul class="h-right">
             <li>
@@ -23,21 +24,23 @@
                 </form>
             </li>
             {% if user.id %}
-            <li>こんにちは、{{ user.username }}さん</li>
-            <li><a href="/mypage/{{ user.id }}">マイページ</a></li>
-            <li><a href="{% url 'logout' %}">ログアウトする</a></li>
+            <li>{{ user.username }}さん</li>
+            <li><a href="{% url 'logout' %}">ログアウト</a></li>
             {% else %}
-            <li><a href="{% url 'create' %}">新規登録</a></li>
             <li><a href="{% url 'login' %}">ログイン</a></li>
+            <li><a class="btn" href="{% url 'create' %}">無料会員登録</a></li>
             {% endif %}
         </ul>
         <button class="mobile-menu__btn menu-icon-bar">
             <i class="fas fa-bars fa-2x"></i>
         </button>
 
+        {% if not user.id %}
         <button class="mobile-menu__btn menu-icon-sign-in">
-            <i class="fas fa-sign-in-alt fa-2x"></i>
-        </button>
+            <a href="{% url 'login' %}"><i class="fas fa-sign-in-alt fa-2x"></i></a>
+            <a href="{% url 'create' %}"><i class="fas fa-user-plus fa-2x"></i></a>
+        </button>          
+        {% endif %}       
     </header>
 {% endblock header %}
 {% block main%}
@@ -48,14 +51,14 @@
                 <h1 class="h1-title inview">Plus IT improve your efficiency</h1>
                 <p>Plus IT(プラスイット)は、あなたの業務効率を爆上げするためのサービスです。<br>コミュニティ機能があり知識の共有や質問ができる機能もあります。<br>ITスキルUPで可能性を広げよう！</p>
             </div>
-            <a class="btn btn-green" href="#">いますぐ使ってみよう</a>
+            <a class="btn btn-green" href="{% url 'create' %}">いますぐ使ってみよう</a>
         </div>
     </section>
 
     <div class="main-container">
     <section class="about-contents">
         <div class="headline">
-            <h2>コンテンツが充実</h2>
+            <h2 id="link-contents">コンテンツが充実</h2>
             <p>初心者から上級者までITに関する幅広い情報を取り揃えています。<br>幅広い内容がひとまとまりになっていることが強みです。</p>
         </div>
         <div class="contents">
@@ -109,7 +112,7 @@
     </section>
     <section class="another-functions">
         <div class="headline">
-            <h2>会員特典</h2>
+            <h2 id="registration-benefits">会員特典</h2>
             <p>あなたの好みに合わせた使い方ができます</p>
         </div>
         <div class="contents">
@@ -141,38 +144,33 @@
     <section class="push">
         <h4>あなたのITスキルをもう一段階上に引き上げよう</h4>
         <div class="btn-block">
-        <a class="btn">無料会員登録</a>
+        <a class="btn" href="{% url 'create' %}">無料会員登録</a>
         </div>
     </section>
 </main>
 {% endblock main %}
 
-{% block mobilenav %}
+{% block sidenav %}
 <nav class="mobile-menu">
+    <i class="fas fa-times fa-lg"></i>
     <ul class="mobile-menu__main">
         <li class="mobile-menu__item">
-            <a class="mobile-menu__link" href="#">
-                <span class="main-title">コンテンツ一覧</span>
+            <a class="mobile-menu__link" href="{%url 'all_contents'%}">
+                <span class="mobile-main__title">コンテンツ一覧</span>
             </a>
         </li>
         <li class="mobile-menu__item">
             <a class="mobile-menu__link" href="#">
-                <span class="main-title">よく読まれている記事</span>
+                <span class="mobile-main__title">検索</span>
             </a>
+            <div class="mobile-search">
+                <form action="{% url 'search' %}" method="GET">
+                    <input type="search" style="font-size: 13px; width: 180px;" placeholder="キーワードで検索" name="key_search" id="q_in_topbar" value="" autocomplete="off">
+                    <button type="submit" ><i class="fas fa-search"></i></button>
+                </form>
+            </div>
         </li>
-        <li class="mobile-menu__item">
-            <a class="mobile-menu__link" href="#">
-                <span class="main-title">検索</span>
-            </a>
-        </li>
-        <li class="mobile-menu__item">
-            <a class="mobile-menu__link" href="#">
-                <span class="main-title">ログイン</span>
-            </a>
-        </li>
-    </ul>
-</nav>
-{% endblock mobilenav%}
+{% endblock sidenav%}
 
 {% block customjs %}
 <script src="{% static 'main.js' %}"></script>

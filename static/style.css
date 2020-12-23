@@ -55,8 +55,7 @@ header li{
 }
 
 .h-left li:hover, .active{
-    border-bottom: 3px solid  rgb(48, 200, 214);
-    color: #1c3746;
+    box-shadow:  inset 0 -3px 0 0 #30c8d6;
 }
 
 header {
@@ -68,7 +67,6 @@ header {
 .h-left{
     float: left;
     display: flex;
-   
 }
 
 .h-right{
@@ -89,26 +87,44 @@ header {
     transition: all 0.5s;
 }
 
-.mobile-menu{
-    position: fixed;
-    top: 0;
-    left: 0;
-    display: none;
-    transition: all 0.5s;
-}
-
-.mobile-menu{
+.mobile-menu, .category-menu{
     height: 100vh;
     background-color: #2E3944;
     width: 280px;
     padding: 10px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transition: all 0.5s;
+    display: none;
 }
 
-.mobile-menu__main{
+.menu-open .category-menu{
+  display:block;
+}
+
+.fa-times{
+    display: block;
+    color: white;
+    position: absolute;
+    top: 20px;
+    left: 250px;
+}
+
+.mobile-menu__main, .category-menu__main{
     margin-top: 40px;
 }
 
-.mobile-menu__link{
+.mobile-menu__main .category-menu__main{
+    margin: 0;
+    display: none;
+}
+
+.mobile-menu__main .dropDown{
+    display: block;
+}
+
+.mobile-menu__link, .category__title, .category-menu__link{
     transition: all 0.2s ease;
     display: block;
     color: #fff;
@@ -117,7 +133,41 @@ header {
     letter-spacing: .1em;
 }
 
-.mobile-menu__link:hover{
+.category-menu__link{
+    padding-left: 20px;
+    text-decoration: underline;
+}
+
+.category-menu__item .category__title,　
+.mobile-menu .mobile-menu__item:nth-child(3) .mobile-main__title,
+.mobile-menu .mobile-menu__item:nth-child(4) .mobile-main__title{
+    display: flex;
+    justify-content: space-between;
+}
+
+.category-menu__item .category__title::after,
+.mobile-menu .mobile-menu__item:nth-child(3) .mobile-main__title::after,
+.mobile-menu .mobile-menu__item:nth-child(4) .mobile-main__title::after{
+    content: '\f107';
+    font-family: "Font Awesome 5 Free";
+    font-weight: 600;
+}
+
+.category-menu__item .category__title.dropDown::after,
+.mobile-menu .dropDown .mobile-main__title::after{
+   transform: rotate(180deg);
+}
+
+.category-menu__item > ul, .mobile-search{
+    display:none;
+}
+
+.sub-category-menu__main.dropDown, .mobile-search.dropDown{
+    display: block
+}
+
+.mobile-menu__link:hover, .category-menu__link:hover,
+.category__title:hover{
     background-color: #242c35;
     border-radius: 5px;
 }
@@ -274,7 +324,6 @@ footer{
 
 /*　検索結果、よく読まれる、カテゴリー別リストページ*/
 #list-global-container{
-    max-width: 1170px;
     margin: 0 auto;
     display: flex;
     padding: 20px 0;
@@ -323,13 +372,9 @@ footer{
 }
 
 /* 投稿ページ */
-.p-date-box{
-
-}
-
 .p-date{
     font-size: 12px;
-    margin: 0px;
+    margin: 15px 0;
     color: #bdbdbd;
     line-height: 18px;
 }
@@ -339,6 +384,7 @@ footer{
     line-height: 40px;
     color: #333;
     margin: 20px, 0;
+    font-weight:bold;
 }
 
 .p-tag-name{
@@ -360,40 +406,147 @@ footer{
     background: #f7f7f7;
     padding: 20px 15px 18px;
     color: #333;
-    border-left: 9px solid #4865b2;
+    border-left: 9px solid rgb(48, 200, 214);
     line-height: 40px;
     font-size: 25px;
     margin-bottom:30px;
+    line-height: 2;
 }
 
 .p-content h3{
     background: #f7f7f7;
     letter-spacing: 1.6px;
-    padding: 0px 15px 0px;
-    border-left: 9px solid #4865b2;
+    padding: 5px 15px;
+    border-left: 9px solid rgb(48, 200, 214);
     color: #333;
     margin-bottom:30px;
     font-size: 20px;
-}
-
-
-.p-content img{
-    margin-bottom: 30px;
+    line-height: 2;
 }
 
 .p-content h4{
     font-size: 20px;
     color: #333;
     margin-bottom: 30px;
+    line-height: 2;
+    
+}
+
+.p-content h4::before{
+    content: '\f00c';
+    font-family: "Font Awesome 5 Free";
+    font-weight: 600;
+    position: relative;
+    left: -10px;
+    color: rgb(48, 200, 214);
 }
 
 .p-content p{
-    margin-bottom: 30px;
+    margin-bottom: 60px;
     font-size: 17px;
     color: #333;
+    line-height: 2;
+}
+
+.p-content img{
+    width: 100%;
+    height: auto;
+    margin: 30px 0;
+}
+
+.p-content .supplement{
+        font-size: 16px;
+        padding: 20px;
+        background-color: #fafafa;
+        outline: 1px solid #f0f0f0;
+        border-color: #f0f0f0;
+        text-align: left;
+        margin: 40px;
+        margin-bottom: 60px;
+        margin-top: 15px;
+}
+
+/* カテゴリーサイドバー */
+
+.global-sidebar {
+    letter-spacing: .05rem;
+    position: fixed;
+    top: 48px;
+    display: block;
+    bottom: 0;
+    border-right: 1px solid #ececec;
+    z-index: 12;
+    overflow: scroll;
+    background-color: #fff;
+}
+
+.parent-ctg__main{
+    margin-bottom: 10px;
 }
 
 /* 以降、レスポンシブ */
+
+@media (max-width: 970px){
+
+.h-left, .h-right{
+    display: none;
+}
+
+.menu-icon-bar{
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+}
+
+
+.menu-icon-sign-in{
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+}
+
+.mobile-menu__btn{
+    border: none;
+    outline: none !important;
+    cursor: pointer;
+    background-color: white;
+}
+
+header {
+    height: 48px; 
+    position: relative; 
+}
+
+.menu-open .mobile-menu{
+    display: block;
+}
+
+.fa-user-plus{
+    margin-left: 15px;
+    color: rgb(48, 200, 214);
+}
+
+#list-global-container{
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0;
+}
+
+.list-main-container{
+    width: 100%;
+    padding: 40px;
+}
+
+.list-aside-container{
+    width: 100%;
+}
+
+}
 
 @media (max-width: 767px){
 
@@ -441,48 +594,9 @@ footer{
     margin:0 30px 0 20px;
 }
 
-.h-left, .h-right{
-    display: none;
-}
-
-.menu-icon-bar{
-    display: block;
-    position: absolute;
-    top: 50%;
-    left: 10px;
-    transform: translateY(-50%);
-}
-
-
-.menu-icon-sign-in{
-   display: block;
-   position: absolute;
-   top: 50%;
-   right: 10px;
-   transform: translateY(-50%);
-}
-
-.mobile-menu__btn{
-    border: none;
-    outline: none !important;
-    cursor: pointer;
-    background-color: white;
-}
-
-header {
-    height: 48px; 
-    position: relative; 
-}
-
-.menu-open .mobile-menu{
-    display: block;
-}
-
-
 .content h3{
     position: relative;
 }
-
  
   /* Tooltip text */
 .content .tooltiptext {
@@ -501,9 +615,6 @@ header {
   
   }
 
-  .content:hover .content h3{
-    border-bottom: 1px solid red; 
-  }
   .content:hover .tooltiptext {
     visibility: visible;
   }

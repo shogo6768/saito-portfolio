@@ -34,6 +34,14 @@ def save_history(request, pk):
     return render(request, "post.html", context)
 
 
+# save_history関数を外へ
+def save_history(request, pk):
+    user = CustomUser.objects.get(id=request.user.id)
+    request.user.history = pk
+    request.user.save()
+    context = {'pk': pk}
+    return render(request, "post.html", context)
+
 class PostDetail(DetailView):
     model = PostModel
     template_name = 'post.html'
@@ -51,45 +59,44 @@ class PostDetail(DetailView):
         if not obj.is_public and not self.request.user.is_authenticated:
             raise Http404
         return obj
-
+     # 12/19斉藤コメント　カテゴリ-一覧とカテゴリ-別ランキングのcontext追加
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context["allcats"] = Category.objects.filter(parent=None)    
+        # parent=Noneによって親が空のcategoryを表示。つまり親カテゴリーのみ表示
+        context["category_ranking"] = PostModel.objects.filter(category_id=self.object.category_id).order_by('-views')
+        return context
 
 def searchfunc(request):
+    allcats = Category.objects.filter(parent=None)
+     # 12/19斉藤コメント　カテゴリ-一覧のため追加
+     # parent=Noneによって親が空のcategoryを表示。つまり親カテゴリーのみ表示
     qs = PostModel.objects.all()
     key_search = request.GET.get('key_search')
     if key_search != '' and key_search is not None:
         qs = qs.filter(Q(title__icontains=key_search)
                        | Q(content__icontains=key_search)
                        ).distinct
-
-    return render(request, "search_result.html", {'qs': qs})
-
+    return render(request, "search_result.html", {'allcats':allcats,'qs':qs})
 
 class AllContents(TemplateView):
     template_name = 'all_contents.html'
 
-
-def postfunc(request):
-    qs = PostModel.objects.all()
-    key_search = request.GET.get('key_search')
-    if key_search != '' and key_search is not None:
-        qs = qs.filter(Q(title__icontains=key_search)
-                       | Q(content__icontains=key_search)
-                       ).distinct
-
-    return render(request, "search_result.html", {'qs': qs})
+    # 12/19斉藤コメント　カテゴリ-一覧のため追加
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context["allcats"] = Category.objects.filter(parent=None)
+        return context
 
 
 def categoryfunc(request, cats):
+    allcats = Category.objects.filter(parent=None)
+    # 12/19斉藤コメント　カテゴリ-一覧のため追加
+    # parent=Noneによって親が空のcategoryを表示。つまり親カテゴリーのみ表示
     category = Category.objects.get(slug=cats)
     category_posts = PostModel.objects.filter(category=category)
-    return render(request, "category.html", {'cats': cats, 'category_posts': category_posts})
-
-
-class RankingList(ListView):
-    model = PostModel
-    template_name = 'ranking.html'
-    paginate_by = 10
-    queryset = PostModel.objects.order_by('-views')
+    category_ranking = PostModel.objects.filter(category=category).order_by('-views')
+    return render(request, "category.html", {'allcats':allcats, 'cats':cats, 'category_posts':category_posts, 'category_ranking': category_ranking})
 
 
 class CreateView(View):
@@ -188,6 +195,19 @@ class LogoutView(View):
 
 
 logout = LogoutView.as_view()
+
+# ランキング機能追加
+class RankingList(ListView):
+    model = PostModel
+    template_name = 'ranking.html'
+    paginate_by = 10
+    queryset= PostModel.objects.order_by('-views')
+
+    # 12/19斉藤コメント　カテゴリ-一覧のため追加
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context["allcats"] = Category.objects.filter(parent=None)
+        return context
 
 
 # お気に入り機能用のビュー
