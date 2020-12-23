@@ -4,6 +4,8 @@ from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
+
+
 class Category(models.Model):
     parent = models.ForeignKey('self', related_name='children' ,on_delete=models.CASCADE, blank=True, null=True)
     name = models.CharField(max_length=255)
@@ -21,7 +23,6 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.name
-
 
 
 class PostModel(models.Model):

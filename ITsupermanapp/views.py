@@ -18,8 +18,21 @@ from .forms import LoginForm, CreateForm
 logger = logging.getLogger(__name__)
 
 # Create your views here.
+
+
 class TopPage(TemplateView):
-    template_name='toppage.html'
+    template_name = 'toppage.html'
+
+# save_history関数を外へ
+
+
+def save_history(request, pk):
+    user = CustomUser.objects.get(id=request.user.id)
+    request.user.history = pk
+    request.user.save()
+    context = {'pk': pk}
+    return render(request, "post.html", context)
+
 
 # save_history関数を外へ
 def save_history(request, pk):
@@ -32,6 +45,12 @@ def save_history(request, pk):
 class PostDetail(DetailView):
     model = PostModel
     template_name = 'post.html'
+
+    # def get(self, request, pk):
+    #     # user = CustomUser.objects.get(id=request.user.id)
+    #     request.user.history = pk
+    #     request.user.save()
+    #     return render(request, 'post.html', None)
 
     def get_object(self, queryset=None):
         obj = super().get_object(queryset=queryset)
@@ -54,14 +73,14 @@ def searchfunc(request):
      # parent=Noneによって親が空のcategoryを表示。つまり親カテゴリーのみ表示
     qs = PostModel.objects.all()
     key_search = request.GET.get('key_search')
-    if key_search !='' and key_search is not None:
+    if key_search != '' and key_search is not None:
         qs = qs.filter(Q(title__icontains=key_search)
                        | Q(content__icontains=key_search)
                        ).distinct
     return render(request, "search_result.html", {'allcats':allcats,'qs':qs})
 
 class AllContents(TemplateView):
-    template_name='all_contents.html'
+    template_name = 'all_contents.html'
 
     # 12/19斉藤コメント　カテゴリ-一覧のため追加
     def get_context_data(self, *args, **kwargs):
