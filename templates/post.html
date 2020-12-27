@@ -74,12 +74,37 @@
         {% csrf_token %}
         </form>
     </div>
+    <div class="related-page-block">
+        <h3 class="related-page-headline">関連記事</h3>
+        {% for item in related_posts%}
+        <div class="list-item">
+            <div class="link-box">
+                <a href="{% url 'post_detail' item.pk %}" class="link-item">
+                    <div class="item-category">
+                        カテゴリー：{{item.category}}
+                    </div>
+                    <h3 class="item-title"><span class="ranking-headline">{{item.title}}</span></h3>
+                </a>
+            </div>
+            <div class="description">
+                {{item.description}}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
     </div>
 
     <div class="list-aside-container">
+        <h2 class="entry-title">{{object.category.slug}}関連ランキング</h2>
         {% for item in category_ranking %}
-            {{item.title}}
-        {% endfor%}
+        <div class="list-item">
+            <div class="link-box">
+                <a href="{% url 'post_detail' item.pk %}" class="link-item">
+                    <h3 class="item-title"><span class="ranking-order"></span><span class="ranking-headline">{{item.title}}</span></h3>
+                </a>
+            </div>
+        </div>
+        {% endfor %}
     </div>
 </div>
 {% endblock main %}

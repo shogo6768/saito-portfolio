@@ -2,7 +2,6 @@ class OpenMenu{
     constructor(){
         this.DOM = {};
         this.DOM.btn = document.querySelector('.mobile-menu__btn');
-        console.log(this)
         this.DOM.cross= document.querySelectorAll('.fa-times');
         this.DOM.side = document.querySelector('.ctg-lists');
         this.DOM.container = document.querySelector('#global-container');
@@ -17,7 +16,6 @@ class OpenMenu{
     }
 
     _toggle(){
-        console.log(this)
         this.DOM.container.classList.toggle('menu-open')
     }
 
@@ -26,7 +24,6 @@ class OpenMenu{
     // }
 
     _addEvent1() {
-        console.log(this)
         this.DOM.btn.addEventListener(this.eventType, this._toggle.bind(this));
         if(this.DOM.side != null){
             this.DOM.side.addEventListener(this.eventType, this._toggle.bind(this));
@@ -39,7 +36,6 @@ class OpenMenu{
         for (let i = 0; i < this.DOM.cross.length; i++) {
             this.DOM.cross[i].addEventListener(this.eventType, function(){
                 // this.DOM.container.classList.toggle('menu-open').bind(this);
-                console.log(this)
                 // this.DOM.container.classList.toggle('menu-open'); ←エラーの理由不明
                 document.querySelector('#global-container').classList.toggle('menu-open');
                 });
@@ -54,7 +50,6 @@ class DorpDown{
         this.DOM = {};
         this.DOM.drop = document.querySelectorAll('.category-menu__item > span');
         this.DOM.mDrop = document.querySelectorAll('.mobile-menu__link');
-        console.log(this.DOM.mDrop[2,4])
         this.eventType= this._getEventType();
         this._addEvent1();
         this._addEvent2();
@@ -101,6 +96,7 @@ class TextAnimation {
         this.DOM.el = document.querySelector('.inview');
         if(this.DOM.el != null){
             this.chars = this.DOM.el.innerHTML.trim().split("");
+            console.log(this.chars);
             this.DOM.el.innerHTML = this._splitText();
         }    
 }
@@ -115,3 +111,26 @@ class TextAnimation {
 
 new TextAnimation();
 
+class Trophy{
+    constructor(){
+        this.DOM = {};
+        this.DOM.el = document.querySelectorAll('.ranking-order');
+        if(this.DOM.el != null){
+            for (let i = 0; i < this.DOM.el.length; i++) {
+               if(i < 3){
+                this.DOM.el[i].classList.add('fa');
+                this.DOM.el[i].classList.add('fa-trophy');
+               }else{
+                this.DOM.el[i].innerHTML=i + 1 +".";
+               }
+            }   
+        }
+        this.DOM.el[0].classList.add('gold');
+        this.DOM.el[1].classList.add('silver');
+        this.DOM.el[2].classList.add('bronze');
+    }
+
+}
+
+
+new Trophy();

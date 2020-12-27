@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import TopPage, PostDetail, save_history, searchfunc, like, AllContents, categoryfunc, CreateView, LoginView, MypageView, LogoutView, RankingList
+from .views import TopPage, PostDetail, save_history, searchfunc, like, AllContents, categoryfunc, CreateView, LoginView, MypageView, LogoutView, RankingList, contact, success
 
 urlpatterns = [
     path('', TopPage.as_view(), name ='toppage'),
@@ -18,7 +18,8 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('mypage/<int:pk>', MypageView.as_view(), name='mypage'),
     path('logout/', LogoutView.as_view(), name='logout'),
-
+    path('contact/', contact, name='contact'),
+    path('success/', success, name='success'),
 ]
 
 

@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, DetailView, ListView
 from .models import PostModel, Category, CustomUser
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
+# メール送信のための追加インポート
+from django.core.mail import send_mail, BadHeaderError
 # 追加インポート
 import logging
 from django.urls import reverse
@@ -12,7 +14,7 @@ from django.contrib.auth import login as auth_login, logout as auth_logout
 from django.conf import settings
 from django.contrib import messages
 # フォーム定義
-from .forms import LoginForm, CreateForm
+from .forms import LoginForm, CreateForm, ContactForm
 
 # logger定義
 logger = logging.getLogger(__name__)
@@ -65,6 +67,8 @@ class PostDetail(DetailView):
         context["allcats"] = Category.objects.filter(parent=None)    
         # parent=Noneによって親が空のcategoryを表示。つまり親カテゴリーのみ表示
         context["category_ranking"] = PostModel.objects.filter(category_id=self.object.category_id).order_by('-views')
+        # 12/27斉藤コメント　関連記事
+        context["related_posts"] = PostModel.objects.filter(category_id=self.object.category_id).exclude(pk=self.object.pk)
         return context
 
 def searchfunc(request):
@@ -230,3 +234,28 @@ class MypageView(View):
 
 
 mypage = MypageView.as_view()
+
+# 12/27　斉藤コメント　コンタクトフォーム
+def contact(request):
+    # allcatsはheaderのためのcontext
+    allcats = Category.objects.filter(parent=None)
+    if request.method == 'GET':
+        form = ContactForm()
+        return render(request, 'contact.html', {'form': form, 'allcats':allcats})
+    else:
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            contact_subject = form.cleaned_data['contact_subject']
+            contact_email = form.cleaned_data['contact_email']
+            contact_message = form.cleaned_data['contact_message']
+            try:
+                send_mail(contact_subject, contact_message, contact_email, ['shogo6768@gmail.com'])
+            except BadHeaderError:
+                return HttpResponse('Invalid header found.')
+            return redirect('success')
+        return render(request, 'contact.html', {'form': form, 'allcats':allcats})
+
+# 12/27　斉藤コメント　コンタクトフォーム送信後の遷移ページ。遷移場所は要相談
+def success(request):
+    allcats = Category.objects.filter(parent=None)
+    return render(request, 'success.html', {'allcats':allcats})
