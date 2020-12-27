@@ -204,3 +204,10 @@ CKEDITOR_CONFIGS = {
 }
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
+
+# 12/27 メール送信のための設定
+EMAIL_HOST = 'smtp.gmail.com' 
+EMAIL_HOST_USER = '' # gmailのアドレス
+EMAIL_HOST_PASSWORD = '' # googleログインパスワード
+EMAIL_PORT = 587 
+EMAIL_USE_TLS = True 
