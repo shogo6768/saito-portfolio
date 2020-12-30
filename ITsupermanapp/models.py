@@ -7,7 +7,8 @@ from django.contrib.auth.models import AbstractUser
 
 
 class Category(models.Model):
-    parent = models.ForeignKey('self', related_name='children' ,on_delete=models.CASCADE, blank=True, null=True)
+    parent = models.ForeignKey(
+        'self', related_name='children', on_delete=models.CASCADE, blank=True, null=True)
     name = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)
     timestamp = models.DateTimeField(auto_now_add=True)
@@ -35,7 +36,7 @@ class PostModel(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     published_at = models.DateTimeField(blank=True, null=True)
     is_public = models.BooleanField(default=False)
-    views = models.PositiveIntegerField(default=0) 
+    views = models.PositiveIntegerField(default=0)
 
     class Meta:
         ordering = ['-created_at']
@@ -49,14 +50,18 @@ class PostModel(models.Model):
         return self.title
 
 # 12/19 斉藤コメント　ユーザーモデル拡張タイプに戻しました。
+
+
 class CustomUser(AbstractUser):
     """拡張ユーザーモデル"""
     email = models.CharField(verbose_name='メールアドレス', max_length=50)
     password = models.CharField(verbose_name='パスワード', max_length=30)
-    history = models.PositiveIntegerField(verbose_name='history', default=0)
-     # お気に入り機能格納用のフィールド追加
+    # 12/30 閲覧履歴フィールドを追加 like_postとバッティングしない様にrelated_nameを追加（これを設定しないと逆参照できないためエラーになる）
+    history = models.ManyToManyField(
+        PostModel, verbose_name='history', related_name="history", blank=True)
+    # 12/30 お気に入り機能格納用のフィールド追加　historyとバッティングしない様にrelated_nameを追加（これを設定しないと逆参照できないためエラーになる）
     like_post = models.ManyToManyField(
-        PostModel, verbose_name='like', blank=True)
+        PostModel, verbose_name='like', related_name="like_post", blank=True)
 
     def __str__(self):
         return self.username

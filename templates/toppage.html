@@ -25,6 +25,8 @@
             </li>
             {% if user.id %}
             <li>{{ user.username }}さん</li>
+            <!-- 12/30　髙木更新　マイページのリンク追加 -->
+            <li><a href="/mypage/{{ user.id }}">マイページ</a></li>
             <li><a href="{% url 'logout' %}">ログアウト</a></li>
             {% else %}
             <li><a href="{% url 'login' %}">ログイン</a></li>
@@ -39,8 +41,8 @@
         <button class="mobile-menu__btn menu-icon-sign-in">
             <a href="{% url 'login' %}"><i class="fas fa-sign-in-alt fa-2x"></i></a>
             <a href="{% url 'create' %}"><i class="fas fa-user-plus fa-2x"></i></a>
-        </button>          
-        {% endif %}       
+        </button>
+        {% endif %}
     </header>
 {% endblock header %}
 {% block main%}

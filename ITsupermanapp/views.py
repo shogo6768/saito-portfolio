@@ -13,6 +13,7 @@ from django.views import View
 from django.contrib.auth import login as auth_login, logout as auth_logout
 from django.conf import settings
 from django.contrib import messages
+from itertools import chain
 # フォーム定義
 from .forms import LoginForm, CreateForm, ContactForm
 
@@ -29,30 +30,15 @@ class TopPage(TemplateView):
 
 
 def save_history(request, pk):
-    user = CustomUser.objects.get(id=request.user.id)
-    request.user.history = pk
+    post = PostModel.objects.get(pk=pk)
+    request.user.history.add(post)
     request.user.save()
-    context = {'pk': pk}
-    return render(request, "post.html", context)
+    return redirect('post_detail', pk=pk)
 
-
-# save_history関数を外へ
-def save_history(request, pk):
-    user = CustomUser.objects.get(id=request.user.id)
-    request.user.history = pk
-    request.user.save()
-    context = {'pk': pk}
-    return render(request, "post.html", context)
 
 class PostDetail(DetailView):
     model = PostModel
     template_name = 'post.html'
-
-    # def get(self, request, pk):
-    #     # user = CustomUser.objects.get(id=request.user.id)
-    #     request.user.history = pk
-    #     request.user.save()
-    #     return render(request, 'post.html', None)
 
     def get_object(self, queryset=None):
         obj = super().get_object(queryset=queryset)
@@ -62,26 +48,31 @@ class PostDetail(DetailView):
             raise Http404
         return obj
      # 12/19斉藤コメント　カテゴリ-一覧とカテゴリ-別ランキングのcontext追加
+
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        context["allcats"] = Category.objects.filter(parent=None)    
+        context["allcats"] = Category.objects.filter(parent=None)
         # parent=Noneによって親が空のcategoryを表示。つまり親カテゴリーのみ表示
-        context["category_ranking"] = PostModel.objects.filter(category_id=self.object.category_id).order_by('-views')
+        context["category_ranking"] = PostModel.objects.filter(
+            category_id=self.object.category_id).order_by('-views')
         # 12/27斉藤コメント　関連記事
-        context["related_posts"] = PostModel.objects.filter(category_id=self.object.category_id).exclude(pk=self.object.pk)
+        context["related_posts"] = PostModel.objects.filter(
+            category_id=self.object.category_id).exclude(pk=self.object.pk)
         return context
+
 
 def searchfunc(request):
     allcats = Category.objects.filter(parent=None)
-     # 12/19斉藤コメント　カテゴリ-一覧のため追加
-     # parent=Noneによって親が空のcategoryを表示。つまり親カテゴリーのみ表示
+    # 12/19斉藤コメント　カテゴリ-一覧のため追加
+    # parent=Noneによって親が空のcategoryを表示。つまり親カテゴリーのみ表示
     qs = PostModel.objects.all()
     key_search = request.GET.get('key_search')
     if key_search != '' and key_search is not None:
         qs = qs.filter(Q(title__icontains=key_search)
                        | Q(content__icontains=key_search)
                        ).distinct
-    return render(request, "search_result.html", {'allcats':allcats,'qs':qs})
+    return render(request, "search_result.html", {'allcats': allcats, 'qs': qs})
+
 
 class AllContents(TemplateView):
     template_name = 'all_contents.html'
@@ -99,8 +90,9 @@ def categoryfunc(request, cats):
     # parent=Noneによって親が空のcategoryを表示。つまり親カテゴリーのみ表示
     category = Category.objects.get(slug=cats)
     category_posts = PostModel.objects.filter(category=category)
-    category_ranking = PostModel.objects.filter(category=category).order_by('-views')
-    return render(request, "category.html", {'allcats':allcats, 'cats':cats, 'category_posts':category_posts, 'category_ranking': category_ranking})
+    category_ranking = PostModel.objects.filter(
+        category=category).order_by('-views')
+    return render(request, "category.html", {'allcats': allcats, 'cats': cats, 'category_posts': category_posts, 'category_ranking': category_ranking})
 
 
 class CreateView(View):
@@ -201,11 +193,13 @@ class LogoutView(View):
 logout = LogoutView.as_view()
 
 # ランキング機能追加
+
+
 class RankingList(ListView):
     model = PostModel
     template_name = 'ranking.html'
     paginate_by = 10
-    queryset= PostModel.objects.order_by('-views')
+    queryset = PostModel.objects.order_by('-views')
 
     # 12/19斉藤コメント　カテゴリ-一覧のため追加
     def get_context_data(self, *args, **kwargs):
@@ -216,10 +210,14 @@ class RankingList(ListView):
 
 # お気に入り機能用のビュー
 # post.html内の"お気に入りボタン"を押されるとCustomUserモデルのlike_postフィールドに格納される
+# 12/30　高木更新　like関数が呼ばれたときに既にお気に入りに登録あれば解除する
 def like(request, pk):
     post = PostModel.objects.get(pk=pk)
-    request.user.like_post.add(post)
-    return redirect(reverse('toppage'))
+    if request.user.like_post.filter(pk=post.pk):
+        request.user.like_post.remove(post)
+    else:
+        request.user.like_post.add(post)
+    return redirect('post_detail', pk=pk)
 
 # マイページアップデート
 # お気に入り記事の一覧を取得し、表示できる様に変更（デザインは後回し）
@@ -230,18 +228,37 @@ class MypageView(View):
 
     def get(self, request, pk, *args, **kwargs):
         like_posts = request.user.like_post.all()
-        return render(request, 'accounts/mypage.html', {'like_posts': like_posts})
+        history_posts = request.user.history.all()
+
+        recommend_posts = PostModel.objects.none()
+        cats = []
+
+        for post in history_posts:
+            cat = post.category
+            cats.append(cat)
+
+        cats_unique = list(set(cats))
+
+        # 12/30　recommend_postsのクエリセットにカテゴリーから取得したオススメ記事のクエリセットを結合(chain関数　インポート必要)
+        for cat in cats_unique:
+            posts = PostModel.objects.filter(
+                category=cat).order_by('-created_at')[:3]
+            recommend_posts = chain(recommend_posts, posts)
+
+        return render(request, 'accounts/mypage.html', {'like_posts': like_posts, 'history_posts': history_posts, 'recommend_posts': recommend_posts})
 
 
 mypage = MypageView.as_view()
 
 # 12/27　斉藤コメント　コンタクトフォーム
+
+
 def contact(request):
     # allcatsはheaderのためのcontext
     allcats = Category.objects.filter(parent=None)
     if request.method == 'GET':
         form = ContactForm()
-        return render(request, 'contact.html', {'form': form, 'allcats':allcats})
+        return render(request, 'contact.html', {'form': form, 'allcats': allcats})
     else:
         form = ContactForm(request.POST)
         if form.is_valid():
@@ -249,13 +266,16 @@ def contact(request):
             contact_email = form.cleaned_data['contact_email']
             contact_message = form.cleaned_data['contact_message']
             try:
-                send_mail(contact_subject, contact_message, contact_email, ['shogo6768@gmail.com'])
+                send_mail(contact_subject, contact_message,
+                          contact_email, ['shogo6768@gmail.com'])
             except BadHeaderError:
                 return HttpResponse('Invalid header found.')
             return redirect('success')
-        return render(request, 'contact.html', {'form': form, 'allcats':allcats})
+        return render(request, 'contact.html', {'form': form, 'allcats': allcats})
 
 # 12/27　斉藤コメント　コンタクトフォーム送信後の遷移ページ。遷移場所は要相談
+
+
 def success(request):
     allcats = Category.objects.filter(parent=None)
-    return render(request, 'success.html', {'allcats':allcats})
+    return render(request, 'success.html', {'allcats': allcats})
