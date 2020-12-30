@@ -45,7 +45,9 @@
       <div class="container">
         <h2>あなたへのオススメ</h2>
         <div class="recommend-items">
-
+          {% for post in recommend_posts %}
+            <p>{{ post.title }}</p>
+          {% endfor %}
         </div>
       </div>
     </div>
@@ -53,7 +55,20 @@
       <div class="container">
         <h2>あなたの閲覧履歴</h2>
         <div class="pastread-items">
-
+          {% for post in history_posts %}
+            <p>{{ post.title }}</p>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <!-- お気に入り記事の表示用のHTML文 -->
+    <div class="pastread-wrapper">
+      <div class="container">
+        <h2>あなたのお気に入り記事</h2>
+        <div class="like-items">
+          {% for post in like_posts %}
+            <p>{{ post.title }}</p>
+          {% endfor %}
         </div>
       </div>
     </div>

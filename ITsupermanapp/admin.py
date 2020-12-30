@@ -4,8 +4,10 @@ from django.contrib.auth.admin import UserAdmin
 from .models import Category, Tag, PostModel, CustomUser
 
 # 管理画面のManyToManyフィールドカスタマイズ
+
+
 class CustomUserAdmin(admin.ModelAdmin):
-    filter_horizontal = ('like_post',)
+    filter_horizontal = ('like_post', 'history')
 
 
 # Register your models here.

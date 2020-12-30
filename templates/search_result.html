@@ -34,7 +34,7 @@
         <li><a href="{% url 'login' %}">ログイン</a></li>
         <li><a class="btn" href="{% url 'create' %}">無料会員登録</a></li>
         {% endif %}
-    </ul> 
+    </ul>
     <button class="mobile-menu__btn menu-icon-bar">
         <i class="fas fa-bars fa-2x"></i>
     </button>
@@ -43,8 +43,8 @@
     <button class="mobile-menu__btn menu-icon-sign-in">
         <a href="{% url 'login' %}"><i class="fas fa-sign-in-alt fa-2x"></i></a>
         <a href="{% url 'create' %}"><i class="fas fa-user-plus fa-2x"></i></a>
-    </button>          
-    {% endif %}                          
+    </button>
+    {% endif %}
 </header>
 {% endblock header %}
 
@@ -55,7 +55,7 @@
         {% for item in qs %}
         <div class="list-item">
             <div class="link-box">
-                <a href="{% url 'postdetail'  item.pk %}" class="link-item">
+                <a href="{% url 'post_detail'  item.pk %}" class="link-item">
                     <div class="item-category">
                         カテゴリー：{{item.category}}
                     </div>
@@ -78,7 +78,7 @@
     <ul class="category-menu__main">
         {% for category in allcats %}
         <li class="category-menu__item">
-           <span class="category__title">{{category}}</span> 
+           <span class="category__title">{{category}}</span>
         <ul class="sub-category-menu__main">
             <li class="sub-category-menu__item">
                 {% for subcategory in category.children.all %}
@@ -105,7 +105,7 @@
                 <span class="mobile-main__title">よく読まれている記事</span>
             </a>
         </li>
-        
+
         <li class="mobile-menu__item">
             <a class="mobile-menu__link" href="#">
                 <span class="mobile-main__title">カテゴリー一覧</span>
@@ -113,7 +113,7 @@
             <ul class="category-menu__main">
                 {% for category in allcats %}
                 <li class="category-menu__item">
-                   <span class="category__title">{{category}}</span> 
+                   <span class="category__title">{{category}}</span>
                 <ul class="sub-category-menu__main">
                     <li class="sub-category-menu__item">
                         {% for subcategory in category.children.all %}
