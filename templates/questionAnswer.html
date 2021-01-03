@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block customcss %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="{% static 'reset.css' %}">
+    <link rel="stylesheet" href="{% static 'question.css' %}">
+{% endblock customcss %}
+
+
+{% block main %}
+<div id="list-global-container">
+    <div class="list-main-container">
+        <div class="question-block">
+            <div class="quetion-title-block">
+                <h2 class="entry-title" id="question-list-title">{{question.title}}</h2>
+                <p class="sub-title"><span>質問日</span><span>閲覧数</span></p>
+            </div>
+            <div class="quetion-detail">
+                {{question.content|safe}}
+            </div>
+            {% for tag in question.tags.all %}
+            <div class="p-tags">
+                <a href="p-tab-link">
+                    <span class="p-tag-name">{{tag.name}}</span>
+                </a>
+            </div>
+            {% endfor %}
+            <div class="question-bottom">
+                <div class="question-edit">
+                {% if user.id == question.created_by.id %}
+                    <a class="" href="{% url 'question_update' question.pk %}">編集</a>
+                {% else %}
+                    <a class="" href="#">編集を依頼する</a>
+                {% endif %}
+                </div>
+                <div>
+                    質問者：{{question.created_by}}
+                </div>
+            </div>
+        </div>
+        <div class="answer-block">
+            <h3 class="answer-counts">{{counts}} Answers</h3>
+           
+            {% for item in answers %}
+                <div>
+                    {{item.answer| safe}}
+                    {% if user.id == item.created_by.id %}
+                    <a class="" href="{% url 'answer_update' question.pk item.pk %}">編集</a>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <form method="post">{% csrf_token %}
+                {{ form.media}}
+                {{ form.as_p }}
+                <input class="btn" type="submit" value="回答する">
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock main %}
+

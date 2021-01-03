@@ -9,40 +9,7 @@
     <link rel="stylesheet" href="{% static 'animate.css' %}">
 {% endblock customcss %}
 
-{% block header %}
-    <header>
-        <ul class="h-left">
-            <li><i class="fas fa-laptop">Plus IT</i></li>
-            <li><a href="#link-contents">コンテンツ内容</a></li>
-            <li><a href="#registration-benefits">会員特典</a></li>
-        </ul>
-        <ul class="h-right">
-            <li>
-                <form action="{% url 'search' %}" method="GET">
-                    <input type="search" style="font-size: 13px; width: 180px;" placeholder="キーワードで検索" name="key_search" id="q_in_topbar" value="" autocomplete="off">
-                    <button type="submit" ><i class="fas fa-search"></i></button>
-                </form>
-            </li>
-            {% if user.id %}
-            <li>{{ user.username }}さん</li>
-            <li><a href="{% url 'logout' %}">ログアウト</a></li>
-            {% else %}
-            <li><a href="{% url 'login' %}">ログイン</a></li>
-            <li><a class="btn" href="{% url 'create' %}">無料会員登録</a></li>
-            {% endif %}
-        </ul>
-        <button class="mobile-menu__btn menu-icon-bar">
-            <i class="fas fa-bars fa-2x"></i>
-        </button>
 
-        {% if not user.id %}
-        <button class="mobile-menu__btn menu-icon-sign-in">
-            <a href="{% url 'login' %}"><i class="fas fa-sign-in-alt fa-2x"></i></a>
-            <a href="{% url 'create' %}"><i class="fas fa-user-plus fa-2x"></i></a>
-        </button>          
-        {% endif %}       
-    </header>
-{% endblock header %}
 {% block main%}
 <main>
     <section class="introduction">
@@ -149,29 +116,3 @@
     </section>
 </main>
 {% endblock main %}
-
-{% block sidenav %}
-<nav class="mobile-menu">
-    <i class="fas fa-times fa-lg"></i>
-    <ul class="mobile-menu__main">
-        <li class="mobile-menu__item">
-            <a class="mobile-menu__link" href="{%url 'all_contents'%}">
-                <span class="mobile-main__title">コンテンツ一覧</span>
-            </a>
-        </li>
-        <li class="mobile-menu__item">
-            <a class="mobile-menu__link" href="#">
-                <span class="mobile-main__title">検索</span>
-            </a>
-            <div class="mobile-search">
-                <form action="{% url 'search' %}" method="GET">
-                    <input type="search" style="font-size: 13px; width: 180px;" placeholder="キーワードで検索" name="key_search" id="q_in_topbar" value="" autocomplete="off">
-                    <button type="submit" ><i class="fas fa-search"></i></button>
-                </form>
-            </div>
-        </li>
-{% endblock sidenav%}
-
-{% block customjs %}
-<script src="{% static 'main.js' %}"></script>
-{% endblock customjs %}

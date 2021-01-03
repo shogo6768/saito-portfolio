@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView, DetailView, ListView
-from .models import PostModel, Category, CustomUser
+from django.views.generic import TemplateView, DetailView, ListView, CreateView, UpdateView, DeleteView
+# from django.views.generic.edit import CreateView
+from .models import PostModel,Category, CustomUser,  QuestionModel, AnswerModel
 from django.http import Http404, HttpResponse
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
@@ -8,33 +9,26 @@ from django.shortcuts import get_object_or_404
 from django.core.mail import send_mail, BadHeaderError
 # 追加インポート
 import logging
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.contrib.auth import login as auth_login, logout as auth_logout
 from django.conf import settings
 from django.contrib import messages
 # フォーム定義
-from .forms import LoginForm, CreateForm, ContactForm
+from .forms import LoginForm, CreateForm, ContactForm, QuestionForm, AnswerForm
 
 # logger定義
 logger = logging.getLogger(__name__)
 
 # Create your views here.
 
-
-class TopPage(TemplateView):
-    template_name = 'toppage.html'
-
-# save_history関数を外へ
-
-
-def save_history(request, pk):
-    user = CustomUser.objects.get(id=request.user.id)
-    request.user.history = pk
-    request.user.save()
-    context = {'pk': pk}
-    return render(request, "post.html", context)
-
+class TopPage(View):
+    
+    def get(self, request, *args, **kwargs):
+        # すでにログインしている場合はトップ画面へリダイレクト
+        if request.user.is_authenticated:
+            return redirect('mypage', pk=request.user.id)
+        return render(request, 'toppage.html', {})
 
 # save_history関数を外へ
 def save_history(request, pk):
@@ -103,11 +97,11 @@ def categoryfunc(request, cats):
     return render(request, "category.html", {'allcats':allcats, 'cats':cats, 'category_posts':category_posts, 'category_ranking': category_ranking})
 
 
-class CreateView(View):
+class CreateUser(View):
     def get(self, request, *args, **kwargs):
         # すでにログインしている場合はトップ画面へリダイレクト
         if request.user.is_authenticated:
-            return redirect(reverse('toppage'))
+            return redirect('mypage', pk=request.user.id)
 
         context = {
             'form': CreateForm(),
@@ -134,10 +128,10 @@ class CreateView(View):
         # ログイン処理（取得した Userオブジェクトをセッションに保存 & Userデータを更新）
         auth_login(request, user)
 
-        return redirect(reverse('toppage'))
+        return redirect('mypage', pk=request.user.id)
 
 
-create = CreateView.as_view()
+# create = CreateView.as_view()
 
 
 class LoginView(View):
@@ -145,7 +139,7 @@ class LoginView(View):
         """GETリクエスト用のメソッド"""
         # すでにログインしている場合はショップ画面へリダイレクト
         if request.user.is_authenticated:
-            return redirect(reverse('toppage'))
+            return redirect('mypage', pk=request.user.id)
 
         context = {
             'form': LoginForm(),
@@ -178,7 +172,7 @@ class LoginView(View):
         messages.info(request, "ログインしました。")
 
         # トップ画面にリダイレクト
-        return redirect(reverse('toppage'))
+        return redirect('mypage', pk=request.user.id)
 
 
 login = LoginView.as_view()
@@ -259,3 +253,100 @@ def contact(request):
 def success(request):
     allcats = Category.objects.filter(parent=None)
     return render(request, 'success.html', {'allcats':allcats})
+
+
+class QuestionCreate(CreateView):
+    template_name = 'questionForm.html'
+    model = QuestionModel
+    form_class=QuestionForm
+    # fields=('title', 'category', 'content')
+    success_url = reverse_lazy('question_list')
+
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        return super(QuestionCreate, self).form_valid(form)
+
+class QuestionList(ListView):
+    template_name = 'questionList.html'
+    paginate_by = 5
+    queryset= PostModel.objects.order_by('-created_at')
+
+    def get_context_data(self, *args, **kwargs):
+        print(QuestionModel.objects.all)
+        context = super(QuestionList, self).get_context_data(*args, **kwargs)
+        context["questions"] = QuestionModel.objects.all
+        context["allcats"] = Category.objects.filter(parent=None)
+        return context
+    
+
+def questionAnswer(request, pk):
+    question = get_object_or_404(QuestionModel, pk=pk)
+    answers = question.answers.all()
+    counts = answers.count()
+    new_comment = None
+
+    if request.method == 'POST':
+        answer_form = AnswerForm(request.POST) 
+        if answer_form.is_valid():
+            new_answer = answer_form.save(commit=False)
+            new_answer.question = question
+            new_answer.created_by = request.use
+            new_answer.save()
+            return redirect('question_answer', pk=question.pk)
+    else:
+        answer_form = AnswerForm()
+        
+    return render(request, "questionAnswer.html", {
+        'question':question,
+        'answers':answers,
+        'form':answer_form,
+        'counts':counts
+    })
+
+class QuestionUpdate(UpdateView):
+    template_name = 'questionForm.html'
+    model = QuestionModel
+    form_class=QuestionForm
+
+    def get_success_url(self):
+        pk = self.kwargs["pk"]
+        return reverse("question_answer", kwargs={"pk": pk})
+
+class AnswerUpdate(UpdateView):
+    template_name = 'questionAnswer.html'
+    model = AnswerModel
+    form_class=AnswerForm
+
+    def get_object(self, **kwargs):
+        obj =  AnswerModel.objects.get(pk=self.kwargs['answer_pk'])
+        return obj
+
+    def get_success_url(self):
+        pk = self.kwargs["pk"]
+        return reverse("question_answer", kwargs={"pk": pk})
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)   
+        question = QuestionModel.objects.get(pk=self.kwargs['pk'])
+        context["question"] = question
+        context["answers"] = AnswerModel.objects.filter(question=self.kwargs['pk'])
+        context["counts"] = AnswerModel.objects.filter(question=self.kwargs['pk']).count()
+        return context
+
+class QuestionDelete(DeleteView):
+    model =QuestionModel
+    success_url = reverse_lazy('question_list')
+    template_name = 'delete.html'
+
+
+class AnswerDelete(DeleteView):
+    model =AnswerModel
+    template_name = 'delete.html'
+
+    def get_success_url(self):
+        pk = self.kwargs["pk"]
+        return reverse("question_answer", kwargs={"pk": pk})
+    
+    def get_object(self, **kwargs):
+        obj =  AnswerModel.objects.get(pk=self.kwargs['answer_pk'])
+        return obj
