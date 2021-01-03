@@ -5,7 +5,7 @@ from .views import TopPage, PostDetail, save_history, searchfunc, like, AllConte
                     QuestionDelete,  AnswerDelete
 
 urlpatterns = [
-    path('', TopPage.as_view(), name ='toppage'),
+    path('', TopPage.as_view(), name='toppage'),
     # # save_history関数のディスパッチャ
     path('post/<int:pk>', save_history, name='save_history'),
     # PostDetailへのURL構造を小変更
@@ -19,7 +19,7 @@ urlpatterns = [
     path('ranking/', RankingList.as_view(), name='ranking' ),
     path('create/', CreateUser.as_view(), name='create'),
     path('login/', LoginView.as_view(), name='login'),
-    path('mypage/<int:pk>', MypageView.as_view(), name='mypage'),
+    path('mypage/<int:pk>/', MypageView.as_view(), name='mypage'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('contact/', contact, name='contact'),
     path('success/', success, name='success'),
@@ -31,5 +31,3 @@ urlpatterns = [
     path('question_answer/<int:pk>/question_delete', QuestionDelete.as_view(), name='question_delete'),
     path('question_answer/<int:pk>/answer_delete/<int:answer_pk>', AnswerDelete.as_view(), name='answer_delete'),
 ]
-
-
