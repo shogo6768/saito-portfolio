@@ -228,3 +228,49 @@
             transform: translateY(0);
   }
 }
+
+/* messageのためのCSS */
+.messages {
+        animation: animateNoticeBanner 4.5s cubic-bezier(0.25, 0.5, 0.25, 1);
+        background-color: orange;
+        opacity: 1;
+        position: fixed;
+        top: 70px;
+        right: -1000px;
+        z-index: 5000000;
+        text-align: center;
+        color: #fff;
+        font-size: 0.75rem;
+        min-height: 60px;
+        padding: 12px;
+        letter-spacing: .07em;
+        border-radius: 4px;
+        display: table;
+    }
+
+.messages li{
+    text-align: left;
+    display: table-cell;
+    vertical-align: middle;
+    font-weight: bold;
+}
+
+
+@keyframes animateNoticeBanner  {
+    0% {
+        transform: translateX(-1000px);
+    }
+    20% {
+        transform: translateX(-1040px);
+        opacity: 1;
+    }
+    
+    70% {
+        transform: translateX(-1040px);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(-600px);
+    }
+
+}
