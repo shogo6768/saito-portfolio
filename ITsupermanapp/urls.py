@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import TopPage, PostDetail, save_history, searchfunc, like, AllContents, categoryfunc,\
-                    CreateUser, LoginView, MypageView, LogoutView, RankingList, contact, success, \
+                    CreateUser, LoginView, MypageView, LogoutView, RankingList, contact,  \
                     QuestionCreate, QuestionList, questionAnswer, QuestionUpdate, AnswerUpdate,\
                     QuestionDelete,  AnswerDelete
 
@@ -22,7 +22,7 @@ urlpatterns = [
     path('mypage/<int:pk>/', MypageView.as_view(), name='mypage'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('contact/', contact, name='contact'),
-    path('success/', success, name='success'),
+    
     path('question_form/', QuestionCreate.as_view(), name='question_form'),
     path('question_list/', QuestionList.as_view(), name='question_list'),
     path('question_answer/<int:pk>', questionAnswer, name='question_answer'),

@@ -12,13 +12,21 @@
     height: auto;
     display: flex;
     padding: 15px;
-    border-bottom: 1px solid rgb(128, 128, 128);
+    border-bottom: 1px solid #E3E6E8;
 }
 
 .counts-block{
     display: flex;
     margin-right:20px;
 }
+
+.update-block{
+    padding-bottom: 10px;
+    border-bottom: 1px solid #E3E6E8;
+    margin-bottom:20px;
+}
+
+
 
 .answer-counts-block, .view-counts-block{
     text-align: center;
@@ -40,6 +48,13 @@
 
 .answer-number{
     margin-bottom: 10px;
+}
+
+.answer-counts{
+    margin-top: 10px;
+    margin-bottom: 15px;
+    font-size: 20px;
+    font-weight: bold; 
 }
 
 .Form-Item{
@@ -71,12 +86,12 @@
 
 .question-block{
     padding-bottom: 15px;
-    border-bottom:1px solid gray;
+    border-bottom:1px solid#E3E6E8;
 }
 
 .quetion-title-block{
     padding-bottom: 12px;
-    border-bottom:1px solid gray ;
+    border-bottom:1px solid #E3E6E8 ;
     margin-bottom: 15px;
 }
 

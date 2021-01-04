@@ -24,12 +24,15 @@ logger = logging.getLogger(__name__)
 # Create your views here.
 
 class TopPage(View):
-    
     def get(self, request, *args, **kwargs):
         # すでにログインしている場合はトップ画面へリダイレクト
         if request.user.is_authenticated:
             return redirect('mypage', pk=request.user.id)
         return render(request, 'toppage.html', {})
+    
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context["allcats"] = Category.objects.filter(parent=None)
 
 
 def save_history(request, pk):
@@ -56,11 +59,9 @@ class PostDetail(DetailView):
         context = super().get_context_data(*args, **kwargs)
         context["allcats"] = Category.objects.filter(parent=None)
         # parent=Noneによって親が空のcategoryを表示。つまり親カテゴリーのみ表示
-        context["category_ranking"] = PostModel.objects.filter(
-            category_id=self.object.category_id).order_by('-views')
+        context["category_ranking"] = PostModel.objects.filter(category_id=self.object.category_id).order_by('-views')
         # 12/27斉藤コメント　関連記事
-        context["related_posts"] = PostModel.objects.filter(
-            category_id=self.object.category_id).exclude(pk=self.object.pk)
+        context["related_posts"] = PostModel.objects.filter(category_id=self.object.category_id).exclude(pk=self.object.pk)
         return context
 
 
@@ -93,8 +94,7 @@ def categoryfunc(request, cats):
     # parent=Noneによって親が空のcategoryを表示。つまり親カテゴリーのみ表示
     category = Category.objects.get(slug=cats)
     category_posts = PostModel.objects.filter(category=category)
-    category_ranking = PostModel.objects.filter(
-        category=category).order_by('-views')
+    category_ranking = PostModel.objects.filter(category=category).order_by('-views')
     return render(request, "category.html", {'allcats': allcats, 'cats': cats, 'category_posts': category_posts, 'category_ranking': category_ranking})
 
 
@@ -138,12 +138,16 @@ class CreateUser(View):
 class LoginView(View):
     def get(self, request, *args, **kwargs):
         """GETリクエスト用のメソッド"""
+         # 1/4 斉藤allcats追加
+        allcats = Category.objects.filter(parent=None)
         # すでにログインしている場合はショップ画面へリダイレクト
         if request.user.is_authenticated:
             return redirect('mypage', pk=request.user.id)
 
+        # 1/4 斉藤allcats追加
         context = {
             'form': LoginForm(),
+            'allcats':allcats
         }
         # ログイン画面用のテンプレートに値が空のフォームをレンダリング
         return render(request, 'accounts/login.html', context)
@@ -174,6 +178,7 @@ class LoginView(View):
 
         # トップ画面にリダイレクト
         return redirect('mypage', pk=request.user.id)
+    
 
 
 login = LoginView.as_view()
@@ -191,6 +196,11 @@ class LogoutView(View):
         messages.info(request, "ログアウトしました。")
 
         return redirect(reverse('toppage'))
+    
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context["allcats"] = Category.objects.filter(parent=None)
+        return context
 
 
 logout = LogoutView.as_view()
@@ -232,9 +242,12 @@ class MypageView(View):
     def get(self, request, pk, *args, **kwargs):
         like_posts = request.user.like_post.all()
         history_posts = request.user.history.all()
-
+    
         recommend_posts = PostModel.objects.none()
         cats = []
+
+        # 1/4 斉藤追加
+        allcats = Category.objects.filter(parent=None)
 
         for post in history_posts:
             cat = post.category
@@ -248,14 +261,12 @@ class MypageView(View):
                 category=cat).order_by('-created_at')[:3]
             recommend_posts = chain(recommend_posts, posts)
 
-        return render(request, 'accounts/mypage.html', {'like_posts': like_posts, 'history_posts': history_posts, 'recommend_posts': recommend_posts})
+        return render(request, 'accounts/mypage.html', {'like_posts': like_posts, 'history_posts': history_posts, 'recommend_posts': recommend_posts, 'allcats':allcats})
 
 
 mypage = MypageView.as_view()
 
 # 12/27　斉藤コメント　コンタクトフォーム
-
-
 def contact(request):
     # allcatsはheaderのためのcontext
     allcats = Category.objects.filter(parent=None)
@@ -268,31 +279,31 @@ def contact(request):
             contact_subject = form.cleaned_data['contact_subject']
             contact_email = form.cleaned_data['contact_email']
             contact_message = form.cleaned_data['contact_message']
+            
             try:
-                send_mail(contact_subject, contact_message,
-                          contact_email, ['shogo6768@gmail.com'])
+                send_mail(contact_subject, contact_message,contact_email, ['shogo6768@gmail.com'])
+                messages.success(request, '貴重なご意見ありがとうございました。')
             except BadHeaderError:
                 return HttpResponse('Invalid header found.')
-            return redirect('success')
+            return redirect('mypage', pk=request.user.id)
         return render(request, 'contact.html', {'form': form, 'allcats': allcats})
 
-# 12/27　斉藤コメント　コンタクトフォーム送信後の遷移ページ。遷移場所は要相談
 
-
-def success(request):
-    allcats = Category.objects.filter(parent=None)
-    return render(request, 'success.html', {'allcats':allcats})
-
+# 1/4　斉藤コメント　以降Q&A関連
 class QuestionCreate(CreateView):
     template_name = 'questionForm.html'
     model = QuestionModel
     form_class=QuestionForm
-    # fields=('title', 'category', 'content')
     success_url = reverse_lazy('question_list')
 
     def form_valid(self, form):
         form.instance.created_by = self.request.user
         return super(QuestionCreate, self).form_valid(form)
+    
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context["allcats"] = Category.objects.filter(parent=None)
+        return context
 
 class QuestionList(ListView):
     template_name = 'questionList.html'
@@ -300,25 +311,29 @@ class QuestionList(ListView):
     queryset= PostModel.objects.order_by('-created_at')
 
     def get_context_data(self, *args, **kwargs):
-        print(QuestionModel.objects.all)
-        context = super(QuestionList, self).get_context_data(*args, **kwargs)
-        context["questions"] = QuestionModel.objects.all
+        context = super().get_context_data(*args, **kwargs)
+        question = QuestionModel.objects.all()
+        context["questions"] = question
         context["allcats"] = Category.objects.filter(parent=None)
         return context
     
 
 def questionAnswer(request, pk):
+    # 質問文
     question = get_object_or_404(QuestionModel, pk=pk)
+    question.views += 1
+    question.save()
+    # 回答文
     answers = question.answers.all()
     counts = answers.count()
+    # 新規回答文
     new_comment = None
-
     if request.method == 'POST':
         answer_form = AnswerForm(request.POST) 
         if answer_form.is_valid():
             new_answer = answer_form.save(commit=False)
             new_answer.question = question
-            new_answer.created_by = request.use
+            new_answer.created_by = request.user
             new_answer.save()
             return redirect('question_answer', pk=question.pk)
     else:
@@ -336,9 +351,14 @@ class QuestionUpdate(UpdateView):
     model = QuestionModel
     form_class=QuestionForm
 
-    def get_success_url(self):
+    def get_success_url(self,  **kwargs):
         pk = self.kwargs["pk"]
         return reverse("question_answer", kwargs={"pk": pk})
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context["allcats"] = Category.objects.filter(parent=None)
+        return context
 
 class AnswerUpdate(UpdateView):
     template_name = 'questionAnswer.html'
@@ -349,7 +369,7 @@ class AnswerUpdate(UpdateView):
         obj =  AnswerModel.objects.get(pk=self.kwargs['answer_pk'])
         return obj
 
-    def get_success_url(self):
+    def get_success_url(self,  **kwargs):
         pk = self.kwargs["pk"]
         return reverse("question_answer", kwargs={"pk": pk})
 
@@ -357,6 +377,7 @@ class AnswerUpdate(UpdateView):
         context = super().get_context_data(*args, **kwargs)   
         question = QuestionModel.objects.get(pk=self.kwargs['pk'])
         context["question"] = question
+        context["allcats"] = Category.objects.filter(parent=None)
         context["answers"] = AnswerModel.objects.filter(question=self.kwargs['pk'])
         context["counts"] = AnswerModel.objects.filter(question=self.kwargs['pk']).count()
         return context
@@ -366,12 +387,16 @@ class QuestionDelete(DeleteView):
     success_url = reverse_lazy('question_list')
     template_name = 'delete.html'
 
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context["allcats"] = Category.objects.filter(parent=None)
+        return context
 
 class AnswerDelete(DeleteView):
     model =AnswerModel
     template_name = 'delete.html'
 
-    def get_success_url(self):
+    def get_success_url(self,  **kwargs):
         pk = self.kwargs["pk"]
         return reverse("question_answer", kwargs={"pk": pk})
     
@@ -379,3 +404,7 @@ class AnswerDelete(DeleteView):
         obj =  AnswerModel.objects.get(pk=self.kwargs['answer_pk'])
         return obj
     
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context["allcats"] = Category.objects.filter(parent=None)
+        return context

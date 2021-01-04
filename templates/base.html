@@ -55,6 +55,14 @@
         </button>          
         {% endif %}                          
     </header>
+    
+    {% if messages %}
+    <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+    </ul>
+    {% endif %}
 
 
 
@@ -94,6 +102,19 @@
   <nav class="mobile-menu">
       <i class="fas fa-times fa-lg"></i>
       <ul class="mobile-menu__main">
+        {% if user.id %}
+          <li class="mobile-menu__item">
+            <a class="mobile-menu__link" href="/mypage/{{ user.id }}">
+                <span class="mobile-main__title">マイページ</span>
+            </a>
+          </li>
+        {% else %}
+          <li class="mobile-menu__item">
+                <a class="mobile-menu__link" href="{%url 'toppage'%}">
+                    <span class="mobile-main__title">トップページ</span>
+                </a>
+          </li>
+        {% endif %}
           <li class="mobile-menu__item">
               <a class="mobile-menu__link" href="{%url 'all_contents'%}">
                   <span class="mobile-main__title">コンテンツ一覧</span>

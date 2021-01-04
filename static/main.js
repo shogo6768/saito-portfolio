@@ -25,7 +25,7 @@ class OpenMenu{
 
     _addEvent1() {
         this.DOM.btn.addEventListener(this.eventType, this._toggle.bind(this));
-        if(this.DOM.side != null){
+        if(this.DOM.side !== null){
             this.DOM.side.addEventListener(this.eventType, this._toggle.bind(this));
         }
         // this.DOM.cross.addEventListener(this.eventType, this._toggle.bind(this));
@@ -70,8 +70,8 @@ class DorpDown{
     }
 
     _addEvent2() {
-    　　if(this.DOM.mDrop[2] != null){
-        this.DOM.mDrop[2].addEventListener(this.eventType, function(){
+    　　if(this.DOM.mDrop[3] !== null){
+        this.DOM.mDrop[3].addEventListener(this.eventType, function(){
             this.classList.toggle('dropDown');
             this.nextElementSibling.classList.toggle('dropDown');
         });
@@ -79,8 +79,8 @@ class DorpDown{
     } 
 
     _addEvent3() {
-        　　if(this.DOM.mDrop[3] != null){
-            this.DOM.mDrop[3].addEventListener(this.eventType, function(){
+        　　if(this.DOM.mDrop[4] !== null){
+            this.DOM.mDrop[4].addEventListener(this.eventType, function(){
                 this.classList.toggle('dropDown');
                 this.nextElementSibling.classList.toggle('dropDown');
             });
@@ -94,7 +94,7 @@ class TextAnimation {
     constructor() {
         this.DOM = {};
         this.DOM.el = document.querySelector('.inview');
-        if(this.DOM.el != null){
+        if(this.DOM.el !== null){
             this.chars = this.DOM.el.innerHTML.trim().split("");
             console.log(this.chars);
             this.DOM.el.innerHTML = this._splitText();
@@ -113,24 +113,39 @@ new TextAnimation();
 
 class Trophy{
     constructor(){
+        const color = ['gold','silver','bronze'];
         this.DOM = {};
-        this.DOM.el = document.querySelectorAll('.ranking-order');
-        if(this.DOM.el != null){
-            for (let i = 0; i < this.DOM.el.length; i++) {
+        this.DOM.rank = document.querySelectorAll('.ranking-order');
+        if(this.DOM.rank !== null){
+            for (let i = 0; i < this.DOM.rank.length; i++) {
                if(i < 3){
-                this.DOM.el[i].classList.add('fa');
-                this.DOM.el[i].classList.add('fa-trophy');
+                this.DOM.rank[i].classList.add('fa');
+                this.DOM.rank[i].classList.add('fa-trophy');
+                this.DOM.rank[i].classList.add(color[i]);
                }else{
-                this.DOM.el[i].innerHTML=i + 1 +".";
+                this.DOM.rank[i].innerHTML=i + 1 +".";
                }
             }   
         }
-        this.DOM.el[0].classList.add('gold');
-        this.DOM.el[1].classList.add('silver');
-        this.DOM.el[2].classList.add('bronze');
     }
 
 }
 
 
 new Trophy();
+
+// class Message{
+//     constructor(){
+//         this.DOM = {};
+//         this.DOM.msg = document.querySelector(".messages");
+//         console.log(this.DOM.msg);
+//         if(this.DOM.msg !== null){
+//             const _that = this;
+//             setTimeout(function(){
+//                 _that.DOM.msg.classList.add('hide');
+//              }, 3000);
+//         }   
+//     }
+// }
+
+// new Message();

@@ -15,7 +15,7 @@
         <div class="question-block">
             <div class="quetion-title-block">
                 <h2 class="entry-title" id="question-list-title">{{question.title}}</h2>
-                <p class="sub-title"><span>質問日</span><span>閲覧数</span></p>
+                <p class="sub-title"><span>質問日:</span><span>閲覧数:{{question.views}}</span></p>
             </div>
             <div class="quetion-detail">
                 {{question.content|safe}}
@@ -31,6 +31,7 @@
                 <div class="question-edit">
                 {% if user.id == question.created_by.id %}
                     <a class="" href="{% url 'question_update' question.pk %}">編集</a>
+                    <a class="" href="{% url 'question_delete' question.pk %}">削除</a>
                 {% else %}
                     <a class="" href="#">編集を依頼する</a>
                 {% endif %}
@@ -44,10 +45,11 @@
             <h3 class="answer-counts">{{counts}} Answers</h3>
            
             {% for item in answers %}
-                <div>
+                <div class="update-block">
                     {{item.answer| safe}}
                     {% if user.id == item.created_by.id %}
-                    <a class="" href="{% url 'answer_update' question.pk item.pk %}">編集</a>
+                    <a class="edit" href="{% url 'answer_update' question.pk item.pk %}">編集</a>
+                    <a class="delete" href="{% url 'answer_delete' question.pk item.pk %}">削除</a>
                     {% endif %}
                 </div>
             {% endfor %}
