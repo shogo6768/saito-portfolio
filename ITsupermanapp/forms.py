@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm, UsernameField
 from django.core.exceptions import ObjectDoesNotExist
-from .models import CustomUser, QuestionModel, AnswerModel
+from .models import CustomUser, QuestionModel, AnswerModel, RequestModel
 
 class CreateForm(forms.ModelForm):
     """ユーザー登録画面用のフォーム"""
@@ -175,4 +175,18 @@ class AnswerForm(forms.ModelForm):
         labels = {
             'answer': '',
         }
+
+class RequestForm(forms.ModelForm):
+    class Meta:
+        model = RequestModel
+        fields = ('subject', 'message')
+        labels = {
+            'subject': '',
+            'message': '',
+        }
+    
+    def __init__(self, *args, **kwargs):
+        super(RequestForm, self).__init__(*args, **kwargs)
+        self.fields['subject'].widget.attrs['class'] = 'Form-Item-Input'
+        self.fields['message'].widget.attrs['class'] = 'Form-Item-Textarea'
 

@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.db import models
 from django.contrib.auth.admin import UserAdmin
-from .models import Category, Tag, PostModel, CustomUser, QuestionModel, AnswerModel
+from .models import Category, Tag, PostModel, CustomUser, QuestionModel, AnswerModel, RequestModel
 
 # 管理画面のManyToManyフィールドカスタマイズ
 
@@ -17,3 +17,4 @@ admin.site.register(PostModel)
 admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(QuestionModel)
 admin.site.register(AnswerModel)
+admin.site.register(RequestModel)

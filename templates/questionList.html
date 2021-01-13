@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="{% static 'style.css' %}">
     <link rel="stylesheet" href="{% static 'reset.css' %}">
     <link rel="stylesheet" href="{% static 'question.css' %}">
+    <link rel="stylesheet" href="{% static 'animate.css' %}">
 {% endblock customcss %}
 
 {% block main %}
@@ -23,7 +24,7 @@
                         <div>answers</div>
                     </div>
                     <div class="view-counts-block">
-                        <div class="answer-number"><span>{{item.views}}</span></div>
+                        <div class="view-number"><span>{{item.views}}</span></div>
                         <div>views</div>
                     </div>
             </div>
@@ -36,13 +37,17 @@
                         <h3 class="item-title"><span class="ranking-headline">{{item.title}}</span></h3>
                     </a>
                 </div>
-                {% for tag in item.tags.all %}
-                <div class="p-tags">
-                    <a href="p-tab-link">
-                        <span class="p-tag-name">{{tag.name}}</span>
+                <div class="tags-info">
+                    <a href="tag-link">
+                        <div class="tags">
+                            <span class="p-tag-name">{{item.tags}}</span>
+                        </div>
                     </a>
+                    <div class="user-and-date">
+                        <span class="username">{{item.created_by}}</span>
+                        <span class="post-date">{{item.created_at|timesince}}前</span>
+                    </div>
                 </div>
-                {% endfor %}
             </div>
         </div>
         {% endfor %}
