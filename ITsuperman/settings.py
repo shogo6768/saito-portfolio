@@ -110,9 +110,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ja'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Tokyo'
 
 USE_I18N = True
 
@@ -204,7 +204,7 @@ CKEDITOR_UPLOAD_PATH = "uploads/"
 
 # 12/27 メール送信のための設定
 EMAIL_HOST = 'smtp.gmail.com' 
-EMAIL_HOST_USER = '' # gmailのアドレス
-EMAIL_HOST_PASSWORD = '' # googleログインパスワード
+EMAIL_HOST_USER = 'shogo6768@gmail.com' # gmailのアドレス
+EMAIL_HOST_PASSWORD = '6768abcs12010' # googleログインパスワード
 EMAIL_PORT = 587 
 EMAIL_USE_TLS = True 

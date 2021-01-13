@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, DetailView, ListView, CreateView, UpdateView, DeleteView
 # from django.views.generic.edit import CreateView
-from .models import PostModel,Category, CustomUser,  QuestionModel, AnswerModel
+from .models import PostModel,Category, CustomUser,  QuestionModel, AnswerModel, RequestModel
 from django.http import Http404, HttpResponse
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
@@ -15,8 +15,10 @@ from django.contrib.auth import login as auth_login, logout as auth_logout
 from django.conf import settings
 from django.contrib import messages
 from itertools import chain
+from django.core.exceptions import PermissionDenied
 # フォーム定義
-from .forms import LoginForm, CreateForm, ContactForm, QuestionForm, AnswerForm
+from .forms import LoginForm, CreateForm, ContactForm, QuestionForm, AnswerForm, RequestForm
+from django import template
 
 # logger定義
 logger = logging.getLogger(__name__)
@@ -244,22 +246,28 @@ class MypageView(View):
         history_posts = request.user.history.all()
     
         recommend_posts = PostModel.objects.none()
+        # print(recommend_posts)
         cats = []
+        # print(cats)
 
         # 1/4 斉藤追加
         allcats = Category.objects.filter(parent=None)
 
         for post in history_posts:
             cat = post.category
+            print(cat)
             cats.append(cat)
-
+            print(cats)
         cats_unique = list(set(cats))
+        print(cats_unique)
 
         # 12/30　recommend_postsのクエリセットにカテゴリーから取得したオススメ記事のクエリセットを結合(chain関数　インポート必要)
         for cat in cats_unique:
             posts = PostModel.objects.filter(
                 category=cat).order_by('-created_at')[:3]
+            print(posts)
             recommend_posts = chain(recommend_posts, posts)
+            print(recommend_posts)
 
         return render(request, 'accounts/mypage.html', {'like_posts': like_posts, 'history_posts': history_posts, 'recommend_posts': recommend_posts, 'allcats':allcats})
 
@@ -346,25 +354,66 @@ def questionAnswer(request, pk):
         'counts':counts
     })
 
+# 1/10 編集request追加
+def QuestionRequest(request, pk):
+    # allcatsはheaderのためのcontext
+    allcats = Category.objects.filter(parent=None)
+    question = get_object_or_404(QuestionModel, pk=pk)
+    if request.method == 'GET':
+        form = RequestForm()
+        return render(request, 'questionRequest.html', {'form': form, 'allcats': allcats, 'question':question})
+    else:
+        form = RequestForm(request.POST)
+        if form.is_valid():
+            request_subject = form.cleaned_data['subject']
+            request_message = form.cleaned_data['message']
+            from_email = "shogo6768@gmail.com"
+            to_email = QuestionModel.objects.get(pk=pk).created_by.email
+            try:
+                send_mail(request_subject, request_message, from_email, [to_email])
+                messages.success(request, '送信完了しました。')
+            except BadHeaderError:
+                return HttpResponse('Invalid header found.')
+            return redirect('question_answer', pk=pk)
+        return render(request, 'questionRequest.html', {'form': form, 'allcats': allcats, 'question':question})
+
+
 class QuestionUpdate(UpdateView):
     template_name = 'questionForm.html'
     model = QuestionModel
     form_class=QuestionForm
-
-    def get_success_url(self,  **kwargs):
-        pk = self.kwargs["pk"]
-        return reverse("question_answer", kwargs={"pk": pk})
+    
+# 1/10 アクセス制限
+    def get(self, request, *args, **kwargs):
+        obj=QuestionModel.objects.get(pk=self.kwargs['pk'])
+        if obj.created_by != self.request.user:
+            messages.warning(request, "権限がありません")
+            return redirect('question_answer', pk=self.kwargs['pk'])
+        return super(QuestionUpdate, self).get(request,*args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context["allcats"] = Category.objects.filter(parent=None)
         return context
 
+    def get_success_url(self,  **kwargs):
+        pk = self.kwargs["pk"]
+        return reverse("question_answer", kwargs={"pk": pk})
+
+   
 class AnswerUpdate(UpdateView):
     template_name = 'questionAnswer.html'
     model = AnswerModel
     form_class=AnswerForm
 
+# 1/10 アクセス制限
+    def get(self, request, *args, **kwargs):
+        obj=AnswerModel.objects.get(pk=self.kwargs['answer_pk'])
+        if obj.created_by != self.request.user:
+            messages.warning(request, "権限がありません")
+            return redirect('question_answer', pk=self.kwargs['pk'])
+        return super(AnswerUpdate, self).get(request,*args, **kwargs)
+    
     def get_object(self, **kwargs):
         obj =  AnswerModel.objects.get(pk=self.kwargs['answer_pk'])
         return obj
@@ -386,6 +435,13 @@ class QuestionDelete(DeleteView):
     model =QuestionModel
     success_url = reverse_lazy('question_list')
     template_name = 'delete.html'
+    
+    def get(self, request, *args, **kwargs):
+        obj=QuestionModel.objects.get(pk=self.kwargs['pk'])
+        if obj.created_by != self.request.user:
+            messages.warning(request, "権限がありません")
+            return redirect('question_answer', pk=self.kwargs['pk'])
+        return super(QuestionDelete, self).get(request,*args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -403,6 +459,14 @@ class AnswerDelete(DeleteView):
     def get_object(self, **kwargs):
         obj =  AnswerModel.objects.get(pk=self.kwargs['answer_pk'])
         return obj
+
+# 1/10 アクセス制限
+    def get(self, request, *args, **kwargs):
+        obj=AnswerModel.objects.get(pk=self.kwargs['answer_pk'])
+        if obj.created_by != self.request.user:
+            messages.warning(request, "権限がありません")
+            return redirect('question_answer', pk=self.kwargs['pk'])
+        return super(AnswerDelete, self).get(request,*args, **kwargs)
     
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)

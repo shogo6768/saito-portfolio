@@ -232,8 +232,8 @@
 /* messageのためのCSS */
 .messages {
         animation: animateNoticeBanner 4.5s cubic-bezier(0.25, 0.5, 0.25, 1);
-        background-color: orange;
         opacity: 1;
+        background-color: orange;
         position: fixed;
         top: 70px;
         right: -1000px;
@@ -248,13 +248,18 @@
         display: table;
     }
 
-.messages li{
+ .messages li{
     text-align: left;
     display: table-cell;
     vertical-align: middle;
     font-weight: bold;
 }
 
+
+.messages .warning{
+        color: red;
+        font-size: 1rem;
+} 
 
 @keyframes animateNoticeBanner  {
     0% {

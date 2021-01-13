@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="{% static 'style.css' %}">
     <link rel="stylesheet" href="{% static 'reset.css' %}">
     <link rel="stylesheet" href="{% static 'question.css' %}">
+    <link rel="stylesheet" href="{% static 'animate.css' %}">
 {% endblock customcss %}
 
 
@@ -15,29 +16,27 @@
         <div class="question-block">
             <div class="quetion-title-block">
                 <h2 class="entry-title" id="question-list-title">{{question.title}}</h2>
-                <p class="sub-title"><span>質問日:</span><span>閲覧数:{{question.views}}</span></p>
+                <p class="sub-title"><span>{{question.created_at|timesince}}前</span><span>{{question.views}}</span>views</p>
             </div>
-            <div class="quetion-detail">
+            <div class="question-detail">
                 {{question.content|safe}}
-            </div>
-            {% for tag in question.tags.all %}
-            <div class="p-tags">
-                <a href="p-tab-link">
-                    <span class="p-tag-name">{{tag.name}}</span>
-                </a>
-            </div>
-            {% endfor %}
-            <div class="question-bottom">
-                <div class="question-edit">
-                {% if user.id == question.created_by.id %}
-                    <a class="" href="{% url 'question_update' question.pk %}">編集</a>
-                    <a class="" href="{% url 'question_delete' question.pk %}">削除</a>
-                {% else %}
-                    <a class="" href="#">編集を依頼する</a>
-                {% endif %}
+                <div class="p-tags">
+                    <a href="p-tab-link">
+                        <span class="p-tag-name">{{question.tags}}</span>
+                    </a>
                 </div>
-                <div>
-                    質問者：{{question.created_by}}
+                <div class="question-bottom">
+                    <div class="question-edit">
+                    {% if user.id == question.created_by.id %}
+                        <a class="btn edit" href="{% url 'question_update' question.pk %}">編集</a>
+                        <a class="btn delete" href="{% url 'question_delete' question.pk %}">削除</a>
+                    {% else %}
+                        <a class="btn edit" href="{% url 'question_request' question.pk %}">編集を依頼する</a>
+                    {% endif %}
+                    </div>
+                    <div>
+                        質問者：{{question.created_by}}
+                    </div>
                 </div>
             </div>
         </div>
@@ -47,17 +46,29 @@
             {% for item in answers %}
                 <div class="update-block">
                     {{item.answer| safe}}
+
+                    
+                    <div class="answer-bottom">
                     {% if user.id == item.created_by.id %}
-                    <a class="edit" href="{% url 'answer_update' question.pk item.pk %}">編集</a>
-                    <a class="delete" href="{% url 'answer_delete' question.pk item.pk %}">削除</a>
+                        <div class="answer-update">
+                            <a class=" btn edit" href="{% url 'answer_update' question.pk item.pk %}">編集</a>
+                            <a class="btn delete" href="{% url 'answer_delete' question.pk item.pk %}">削除</a>
+                        </div>
                     {% endif %}
+                        <div class="answer-created_by">
+                            回答者：{{item.created_by}}
+                        </div>
+                    </div>
                 </div>
             {% endfor %}
-            <form method="post">{% csrf_token %}
+            <div class="new-answer-block">
+                <h3 class="new-answer-headline">回答フォーム</h3>
+                <form method="post">{% csrf_token %}
                 {{ form.media}}
-                {{ form.as_p }}
-                <input class="btn" type="submit" value="回答する">
-            </form>
+                    {{ form.as_p }}
+                    <input class="btn" type="submit" value="回答する">
+                </form>
+            </div>
         </div>
     </div>
 </div>

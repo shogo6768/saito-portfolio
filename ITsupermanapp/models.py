@@ -86,3 +86,11 @@ class AnswerModel(models.Model):
     created_by= models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+class RequestModel(models.Model):
+    question = models.ForeignKey(QuestionModel, on_delete=models.CASCADE, related_name='requests')
+    subject = models.CharField(max_length=255)
+    message = models.TextField()
+    created_by= models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    

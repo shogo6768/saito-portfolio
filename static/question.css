@@ -13,29 +13,60 @@
     display: flex;
     padding: 15px;
     border-bottom: 1px solid #E3E6E8;
+   
+}
+
+.tags-info{
+    display:flex;
+    justify-content: space-between;
+    line-height: 29px;
+    width: 100%;
 }
 
 .counts-block{
     display: flex;
-    margin-right:20px;
+    margin-right: 20px;
+    align-items: center;
 }
+
+.list-item{
+    width: 100%;
+}
+
+.question-detail{
+    padding: 0 15px;
+}
+
+.update-block p{
+    margin-bottom: 15px;
+}
+
 
 .update-block{
-    padding-bottom: 10px;
     border-bottom: 1px solid #E3E6E8;
     margin-bottom:20px;
+    padding: 0 15px;
+    padding-bottom: 15px;
 }
 
+.answer-bottom{
+    display: flex;
+}
+
+.answer-created_by{
+    margin-left: auto;
+}
 
 
 .answer-counts-block, .view-counts-block{
     text-align: center;
     min-width:50px;
     padding: 5px;
+
 }
 
 .link-box{
-    padding: 5px;
+    padding: 5px 5px 0 5px;
 }
 
 .answer-counts-block{
@@ -46,13 +77,13 @@
     margin: 0;
 }
 
-.answer-number{
+.answer-number, .view-number{
     margin-bottom: 10px;
 }
 
-.answer-counts{
-    margin-top: 10px;
-    margin-bottom: 15px;
+.answer-counts, .new-answer-headline{
+    margin-top: 30px;
+    margin-bottom: 30px;
     font-size: 20px;
     font-weight: bold; 
 }
@@ -74,7 +105,7 @@
     margin-bottom: 5px;
 }
 
-.Form-Item-Input, .django-ckeditor-widget{
+.Form-Item-Input, .django-ckeditor-widget, .Form-Item-Textarea{
     width: 100%;
     padding: 5px;
 }
@@ -96,7 +127,7 @@
 }
 
 .sub-title{
-    margin-top: 9px;
+    margin-top: 20px;
 }
 
 .p-tags{
@@ -107,4 +138,49 @@
     margin-top: 15px;
     display: flex;
     justify-content: space-between;
+}
+
+.edit{
+    background-color: #e7e7e7; 
+    color: black;
+    min-width: 70px;
+}
+
+.edit:hover{
+    background-color:  #e7e7e76e;
+    color: black;
+}
+
+.delete{
+    background-color: #f44336;
+    min-width: 70px;
+}
+
+.delete:hover{
+    background-color: #f43636c9;
+    min-width: 70px;
+}
+
+@media (max-width: 767px){
+    .question-list{
+        height: auto;
+        display: block;
+        padding: 15px;
+        border-bottom: 1px solid #E3E6E8;
+    }
+
+    .answer-counts-block, .view-counts-block{
+        display: flex;
+        padding: 0px;
+    }
+
+    .link-box{
+        padding: 0;
+    }
+
+    .answer-number span, .view-number span {
+        margin-right: 2px;
+    }
+
+
 }
