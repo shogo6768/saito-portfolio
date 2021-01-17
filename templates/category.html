@@ -34,7 +34,7 @@
             <li><a href="{% url 'login' %}">ログイン</a></li>
             <li><a class="btn" href="{% url 'create' %}">無料会員登録</a></li>
             {% endif %}
-        </ul> 
+        </ul>
         <button class="mobile-menu__btn menu-icon-bar">
             <i class="fas fa-bars fa-2x"></i>
         </button>
@@ -43,8 +43,8 @@
         <button class="mobile-menu__btn menu-icon-sign-in">
             <a href="{% url 'login' %}"><i class="fas fa-sign-in-alt fa-2x"></i></a>
             <a href="{% url 'create' %}"><i class="fas fa-user-plus fa-2x"></i></a>
-        </button>          
-        {% endif %}                          
+        </button>
+        {% endif %}
     </header>
 {% endblock header %}
 
@@ -55,7 +55,7 @@
         {% for item in category_posts %}
         <div class="list-item">
             <div class="link-box">
-                <a href="{% url 'post_detail' item.pk %}" class="link-item">
+                <a href="{% url 'save_history' item.pk %}" class="link-item">
                     <div class="item-category">
                         カテゴリー：{{item.category}}
                     </div>
@@ -74,7 +74,7 @@
     {% for item in category_ranking %}
     <div class="list-item">
         <div class="link-box">
-            <a href="{% url 'post_detail' item.pk %}" class="link-item">
+            <a href="{% url 'save_history' item.pk %}" class="link-item">
                 <h3 class="item-title"><span class="ranking-order"></span><span class="ranking-headline">{{item.title}}</span></h3>
             </a>
         </div>
@@ -84,6 +84,3 @@
 </div>
 
 {% endblock main %}
-
-
-
