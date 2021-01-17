@@ -30,6 +30,8 @@ class PostModel(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     tags = models.ManyToManyField(Tag, blank=True)
     title = models.CharField(max_length=255)
+    # アイキャッチ画像のフィールド追加（$pip install pillowが必要）
+    eye_catch = models.ImageField(upload_to='media/', blank=True)
     content = RichTextUploadingField(blank=True, null=True)
     description = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -49,22 +51,44 @@ class PostModel(models.Model):
     def __str__(self):
         return self.title
 
-# 12/19 斉藤コメント　ユーザーモデル拡張タイプに戻しました。
 
-
+# 1/14　ユーザーモデル内のlike, historyはLike、Historyモデルに切り出し
 class CustomUser(AbstractUser):
-    """拡張ユーザーモデル"""
     email = models.CharField(verbose_name='メールアドレス', max_length=50)
     password = models.CharField(verbose_name='パスワード', max_length=30)
-    # 12/30 閲覧履歴フィールドを追加 like_postとバッティングしない様にrelated_nameを追加（これを設定しないと逆参照できないためエラーになる）
-    history = models.ManyToManyField(
-        PostModel, verbose_name='history', related_name="history", blank=True)
-    # 12/30 お気に入り機能格納用のフィールド追加　historyとバッティングしない様にrelated_nameを追加（これを設定しないと逆参照できないためエラーになる）
-    like_post = models.ManyToManyField(
-        PostModel, verbose_name='like', related_name="like_post", blank=True)
 
     def __str__(self):
         return self.username
+
+
+class Like(models.Model):
+    user = models.ForeignKey(
+        CustomUser, verbose_name='user', blank=True, on_delete=models.CASCADE)
+    post = models.ForeignKey(
+        PostModel, verbose_name='post', blank=True, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return self.created_at.strftime('%Y/%m/%d %H:%M:%S')+'　'+self.user.username+'　'+self.post.title
+
+
+class History(models.Model):
+    user = models.ForeignKey(
+        CustomUser, verbose_name='user', blank=True, on_delete=models.CASCADE)
+    post = models.ForeignKey(
+        PostModel, verbose_name='post', blank=True, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return self.created_at.strftime('%Y/%m/%d %H:%M:%S')+'　'+self.user.username+'　'+self.post.title
 
 
 class QuestionModel(models.Model):
@@ -72,7 +96,7 @@ class QuestionModel(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     tags = models.CharField(max_length=255)
     content = RichTextUploadingField(blank=True, null=True)
-    created_by= models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     views = models.PositiveIntegerField(default=0)
@@ -80,17 +104,20 @@ class QuestionModel(models.Model):
     def __str__(self):
         return self.title
 
+
 class AnswerModel(models.Model):
-    question = models.ForeignKey(QuestionModel, on_delete=models.CASCADE, related_name='answers')
+    question = models.ForeignKey(
+        QuestionModel, on_delete=models.CASCADE, related_name='answers')
     answer = RichTextUploadingField(blank=True, null=True)
-    created_by= models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+
 class RequestModel(models.Model):
-    question = models.ForeignKey(QuestionModel, on_delete=models.CASCADE, related_name='requests')
+    question = models.ForeignKey(
+        QuestionModel, on_delete=models.CASCADE, related_name='requests')
     subject = models.CharField(max_length=255)
     message = models.TextField()
-    created_by= models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
-    

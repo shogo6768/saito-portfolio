@@ -45,7 +45,7 @@
         {% for item in related_posts%}
         <div class="list-item">
             <div class="link-box">
-                <a href="{% url 'post_detail' item.pk %}" class="link-item">
+                <a href="{% url 'save_history' item.pk %}" class="link-item">
                     <div class="item-category">
                         カテゴリー：{{item.category}}
                     </div>
@@ -65,7 +65,7 @@
         {% for item in category_ranking %}
         <div class="list-item">
             <div class="link-box">
-                <a href="{% url 'post_detail' item.pk %}" class="link-item">
+                <a href="{% url 'save_history' item.pk %}" class="link-item">
                     <h3 class="item-title"><span class="ranking-order"></span><span class="ranking-headline">{{item.title}}</span></h3>
                 </a>
             </div>
@@ -74,4 +74,3 @@
     </div>
 </div>
 {% endblock main %}
-

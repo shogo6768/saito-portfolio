@@ -14,7 +14,7 @@
         {% for item in qs %}
         <div class="list-item">
             <div class="link-box">
-                <a href="{% url 'post_detail'  item.pk %}" class="link-item">
+                <a href="{% url 'save_history'  item.pk %}" class="link-item">
                     <div class="item-category">
                         カテゴリー：{{item.category}}
                     </div>
@@ -30,4 +30,3 @@
 
 </div>
 {% endblock main %}
-
