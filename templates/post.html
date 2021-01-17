@@ -31,7 +31,7 @@
         <!-- 12/30　髙木更新　お気に入りの状態に応じて表示を変更 -->
         <form action="{% url 'like' object.pk %}" method="get">
         <button type="submit" name="button">
-            {% if object in user.like_post.all %}
+            {% if like %}
                 お気に入り解除
             {% else %}
                 お気に入り追加
