@@ -20,7 +20,7 @@
   </head>
   <body>
   <div id="global-container">
-    <div id="container"> 
+    <div id="container">
     <header>
         <ul class="h-left">
             {% if user.id %}
@@ -35,7 +35,7 @@
             <li><a href="{%url 'question_list' %}">Q&A</a></li>
             {% endif %}
         </ul>
-    
+
         <ul class="h-right">
             <li>
                 <form action="{% url 'search' %}" method="GET">
@@ -44,25 +44,25 @@
                 </form>
             </li>
             {% if user.id %}
-            <li>{{ user.username }}さん</li>
+            <li><a href="/mypage/{{ user.id }}">こんにちは、{{ user.username }}</a>さん</li>
             <li><a href="{% url 'logout' %}">ログアウト</a></li>
             {% else %}
             <li><a href="{% url 'login' %}">ログイン</a></li>
             <li><a class="btn" href="{% url 'create' %}">無料会員登録</a></li>
             {% endif %}
-        </ul> 
+        </ul>
         <button class="mobile-menu__btn menu-icon-bar">
             <i class="fas fa-bars fa-2x"></i>
         </button>
-    
+
         {% if not user.id %}
         <button class="mobile-menu__btn menu-icon-sign-in">
             <a href="{% url 'login' %}"><i class="fas fa-sign-in-alt fa-2x"></i></a>
             <a href="{% url 'create' %}"><i class="fas fa-user-plus fa-2x"></i></a>
-        </button>          
-        {% endif %}                          
+        </button>
+        {% endif %}
     </header>
-    
+
     {% if messages %}
     <ul class="messages">
             {% for message in messages %}
@@ -92,7 +92,7 @@
       <ul class="category-menu__main">
           {% for category in allcats %}
           <li class="category-menu__item">
-             <span class="category__title">{{category}}</span> 
+             <span class="category__title">{{category}}</span>
           <ul class="sub-category-menu__main">
               <li class="sub-category-menu__item">
                   {% for subcategory in category.children.all %}
@@ -132,7 +132,7 @@
                   <span class="mobile-main__title">よく読まれている記事</span>
               </a>
           </li>
-          
+
           <li class="mobile-menu__item">
               <a class="mobile-menu__link" href="#">
                   <span class="mobile-main__title">カテゴリー一覧</span>
@@ -140,7 +140,7 @@
               <ul class="category-menu__main">
                   {% for category in allcats %}
                   <li class="category-menu__item">
-                     <span class="category__title">{{category}}</span> 
+                     <span class="category__title">{{category}}</span>
                   <ul class="sub-category-menu__main">
                       <li class="sub-category-menu__item">
                           {% for subcategory in category.children.all %}
