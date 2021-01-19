@@ -816,7 +816,7 @@ footer {
     font-size: 20px;
 }
 
-  .content h3 {
+.content h3 {
     font-size: 18px;
     padding: 5px;
     order: 2;
@@ -826,7 +826,11 @@ footer {
     font-size: 20px;
 }
 
-  .content-wrapper {
+.entry-title{
+  font-size: 25px;
+}
+
+.content-wrapper {
     width: 100%;
   }
 

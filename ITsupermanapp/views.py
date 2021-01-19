@@ -45,7 +45,7 @@ def save_history(request, pk):
     user = request.user
     look_post = PostModel.objects.get(pk=pk)
     history = History.objects.filter(Q(user=user) & Q(post=look_post))
-
+    
     if history:
         history.delete()
         history = History.objects.create(user=user, post=look_post)
@@ -77,8 +77,10 @@ class PostDetail(DetailView):
         # 12/27斉藤コメント　関連記事
         context["related_posts"] = PostModel.objects.filter(
             category_id=self.object.category_id).exclude(pk=self.object.pk)
-        context["like"] = Like.objects.filter(
-            Q(user=self.request.user) & Q(post=self.object))
+        print(self.request.user)
+        # 1/19 斉藤追加
+        if self.request.user.id:
+            context["like"] = Like.objects.filter(Q(user=self.request.user) & Q(post=self.object))
         return context
 
 

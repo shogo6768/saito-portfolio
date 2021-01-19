@@ -1,5 +1,6 @@
 #question-list-title{
     margin: 0;
+    font-weight: bold;
 }
 
 .question-box{
@@ -182,5 +183,24 @@
         margin-right: 2px;
     }
 
+    .question-bottom, .answer-bottom, .tags-info{
+        flex-wrap: wrap;
+    }
 
+    .user-and-date{
+        width: 100%;
+        margin-top: 15px;
+    }
+
+    .counts-block{
+        margin: 0 0 15px;
+    }
+
+    .answer-created_by, .question-created_by{
+        margin: 15px 0 0;
+    }
+
+    #question-list-title{
+        font-size: 20px;
+    }
 }

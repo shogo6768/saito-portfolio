@@ -14,12 +14,17 @@
         {% for item in qs %}
         <div class="list-item">
             <div class="link-box">
-                <a href="{% url 'save_history'  item.pk %}" class="link-item">
+            {% if user.id %}
+            <a href="{% url 'save_history'  item.pk %}" class="link-item">
+            {% else %}
+            <a href="{% url 'post_detail'  item.pk %}" class="link-item">
+            {% endif%}
                     <div class="item-category">
                         カテゴリー：{{item.category}}
                     </div>
                     <h3 class="item-title"><span class="ranking-headline">{{item.title}}</span></h3>
                 </a>
+              
             </div>
             <div class="description">
                 {{item.description}}

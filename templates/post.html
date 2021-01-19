@@ -29,23 +29,29 @@
     <div class="container">
         <!-- 12/19 斉藤コメント　エラー修正のためpk→object.pkに変更しました。 -->
         <!-- 12/30　髙木更新　お気に入りの状態に応じて表示を変更 -->
-        <form action="{% url 'like' object.pk %}" method="get">
-        <button type="submit" name="button">
-            {% if like %}
-                お気に入り解除
-            {% else %}
-                お気に入り追加
-            {% endif %}
-        </button>
-        {% csrf_token %}
-        </form>
+        {% if user.id %}
+            <form action="{% url 'like' object.pk %}" method="get">
+            <button type="submit" name="button">
+                {% if like %}
+                    お気に入り解除
+                {% else %}
+                    お気に入り追加
+                {% endif %}
+            </button>
+            {% csrf_token %}
+            </form>
+        {% endif %}
     </div>
     <div class="related-page-block">
         <h3 class="related-page-headline">関連記事</h3>
         {% for item in related_posts%}
         <div class="list-item">
             <div class="link-box">
-                <a href="{% url 'save_history' item.pk %}" class="link-item">
+                {% if user.id %}
+                <a href="{% url 'save_history'  item.pk %}" class="link-item">
+                {% else %}
+                <a href="{% url 'post_detail'  item.pk %}" class="link-item">
+                {% endif%}
                     <div class="item-category">
                         カテゴリー：{{item.category}}
                     </div>
@@ -65,7 +71,11 @@
         {% for item in category_ranking %}
         <div class="list-item">
             <div class="link-box">
-                <a href="{% url 'save_history' item.pk %}" class="link-item">
+                {% if user.id %}
+                <a href="{% url 'save_history'  item.pk %}" class="link-item">
+                {% else %}
+                <a href="{% url 'post_detail'  item.pk %}" class="link-item">
+                {% endif%}
                     <h3 class="item-title"><span class="ranking-order"></span><span class="ranking-headline">{{item.title}}</span></h3>
                 </a>
             </div>
