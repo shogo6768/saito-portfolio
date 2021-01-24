@@ -19,6 +19,8 @@ from django.core.exceptions import PermissionDenied
 # フォーム定義
 from .forms import LoginForm, CreateForm, ContactForm, QuestionForm, AnswerForm, RequestForm
 from django import template
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 # logger定義
 logger = logging.getLogger(__name__)
@@ -29,13 +31,14 @@ logger = logging.getLogger(__name__)
 class TopPage(View):
     def get(self, request, *args, **kwargs):
         # すでにログインしている場合はトップ画面へリダイレクト
+        allcats = Category.objects.filter(parent=None)
         if request.user.is_authenticated:
             return redirect('mypage', pk=request.user.id)
-        return render(request, 'toppage.html', {})
+        return render(request, 'toppage.html', {'allcats': allcats})
 
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(*args, **kwargs)
-        context["allcats"] = Category.objects.filter(parent=None)
+    # def get_context_data(self, *args, **kwargs):
+    #     context = super().get_context_data(*args, **kwargs)
+    #     context["allcats"] = Category.objects.filter(parent=None)
 
 
 # 1/14　髙木更新　Historyモデルを使う前提でsave_history関数を書き直し
@@ -61,13 +64,13 @@ class PostDetail(DetailView):
 
     def get_object(self, queryset=None):
         obj = super().get_object(queryset=queryset)
+        if not obj.is_public:
+            raise Http404
         obj.views += 1
         obj.save()
-        if not obj.is_public and not self.request.user.is_authenticated:
-            raise Http404
         return obj
-     # 12/19斉藤コメント　カテゴリ-一覧とカテゴリ-別ランキングのcontext追加
 
+     # 12/19斉藤コメント　カテゴリ-一覧とカテゴリ-別ランキングのcontext追加
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context["allcats"] = Category.objects.filter(parent=None)
@@ -77,7 +80,6 @@ class PostDetail(DetailView):
         # 12/27斉藤コメント　関連記事
         context["related_posts"] = PostModel.objects.filter(
             category_id=self.object.category_id).exclude(pk=self.object.pk)
-        print(self.request.user)
         # 1/19 斉藤追加
         if self.request.user.id:
             context["like"] = Like.objects.filter(Q(user=self.request.user) & Q(post=self.object))
@@ -121,9 +123,10 @@ def categoryfunc(request, cats):
 class CreateUser(View):
     def get(self, request, *args, **kwargs):
         # すでにログインしている場合はマイページへリダイレクト
+        allcats = Category.objects.filter(parent=None)
         if request.user.is_authenticated:
             return redirect('mypage', pk=request.user.id)
-        context = {'form': CreateForm()}
+        context = {'form': CreateForm(), 'allcats': allcats}
         return render(request, 'accounts/create.html', context)
 
     def post(self, request, *args, **kwargs):
@@ -319,6 +322,7 @@ def contact(request):
 
 
 # 1/4　斉藤コメント　以降Q&A関連
+@method_decorator(login_required(login_url='/accounts/login/'), name='dispatch')
 class QuestionCreate(CreateView):
     template_name = 'questionForm.html'
     model = QuestionModel
@@ -334,7 +338,7 @@ class QuestionCreate(CreateView):
         context["allcats"] = Category.objects.filter(parent=None)
         return context
 
-
+@method_decorator(login_required(login_url='/accounts/login/'), name='dispatch')
 class QuestionList(ListView):
     template_name = 'questionList.html'
     paginate_by = 5
@@ -347,8 +351,9 @@ class QuestionList(ListView):
         context["allcats"] = Category.objects.filter(parent=None)
         return context
 
-
+@login_required(login_url='/accounts/login/')
 def questionAnswer(request, pk):
+    allcats = Category.objects.filter(parent=None)
     # 質問文
     question = get_object_or_404(QuestionModel, pk=pk)
     question.views += 1
@@ -370,6 +375,7 @@ def questionAnswer(request, pk):
         answer_form = AnswerForm()
 
     return render(request, "questionAnswer.html", {
+        'allcats':allcats,
         'question': question,
         'answers': answers,
         'form': answer_form,
@@ -378,7 +384,7 @@ def questionAnswer(request, pk):
 
 # 1/10 編集request追加
 
-
+@login_required(login_url='/accounts/login/')
 def QuestionRequest(request, pk):
     # allcatsはheaderのためのcontext
     allcats = Category.objects.filter(parent=None)
@@ -402,7 +408,7 @@ def QuestionRequest(request, pk):
             return redirect('question_answer', pk=pk)
         return render(request, 'questionRequest.html', {'form': form, 'allcats': allcats, 'question': question})
 
-
+@method_decorator(login_required(login_url='/accounts/login/'), name='dispatch')
 class QuestionUpdate(UpdateView):
     template_name = 'questionForm.html'
     model = QuestionModel
@@ -425,7 +431,7 @@ class QuestionUpdate(UpdateView):
         pk = self.kwargs["pk"]
         return reverse("question_answer", kwargs={"pk": pk})
 
-
+@method_decorator(login_required(login_url='/accounts/login/'), name='dispatch')
 class AnswerUpdate(UpdateView):
     template_name = 'questionAnswer.html'
     model = AnswerModel
@@ -458,7 +464,7 @@ class AnswerUpdate(UpdateView):
             question=self.kwargs['pk']).count()
         return context
 
-
+@method_decorator(login_required(login_url='/accounts/login/'), name='dispatch')
 class QuestionDelete(DeleteView):
     model = QuestionModel
     success_url = reverse_lazy('question_list')
@@ -476,7 +482,7 @@ class QuestionDelete(DeleteView):
         context["allcats"] = Category.objects.filter(parent=None)
         return context
 
-
+@method_decorator(login_required(login_url='/accounts/login/'), name='dispatch')
 class AnswerDelete(DeleteView):
     model = AnswerModel
     template_name = 'delete.html'

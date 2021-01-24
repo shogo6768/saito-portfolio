@@ -19,9 +19,9 @@ class OpenMenu{
         this.DOM.container.classList.toggle('menu-open')
     }
 
-    // _remove(){
-    //     this.DOM.drop.classList.remove('dropDown')
-    // }
+    _remove(){
+        this.DOM.drop.classList.remove('dropDown')
+    }
 
     _addEvent1() {
         this.DOM.btn.addEventListener(this.eventType, this._toggle.bind(this));
@@ -41,6 +41,8 @@ class OpenMenu{
                 });
             }
     }
+
+
 }
 
 new OpenMenu();
@@ -54,6 +56,8 @@ class DorpDown{
         this._addEvent1();
         this._addEvent2();
         this._addEvent3();
+        // this._addEvent4();
+        
     }
 
     _getEventType(){
@@ -85,7 +89,26 @@ class DorpDown{
                 this.nextElementSibling.classList.toggle('dropDown');
             });
         }
-        } 
+        }
+    
+    // _addEvent4() {
+    //         if(document.getElementById('menu-open') == null){
+    //             if(this.DOM.mDrop[3] !== null){
+    //                 this.DOM.mDrop[3].addEventListener(this.eventType, function(){
+    //                     this.classList.remove('dropDown');
+    //                     this.nextElementSibling.classList.remove('dropDown');
+    //                 });
+    //             }
+    //             if(this.DOM.mDrop[4] !== null){
+    //                 this.DOM.mDrop[4].addEventListener(this.eventType, function(){
+    //                     this.classList.remove('dropDown');
+    //                     this.nextElementSibling.classList.remove('dropDown');
+    //                 });
+
+    //             }
+    
+    //         }
+    // }
 }
 
 new DorpDown();
@@ -131,21 +154,4 @@ class Trophy{
 
 }
 
-
 new Trophy();
-
-// class Message{
-//     constructor(){
-//         this.DOM = {};
-//         this.DOM.msg = document.querySelector(".messages");
-//         console.log(this.DOM.msg);
-//         if(this.DOM.msg !== null){
-//             const _that = this;
-//             setTimeout(function(){
-//                 _that.DOM.msg.classList.add('hide');
-//              }, 3000);
-//         }   
-//     }
-// }
-
-// new Message();

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=emulateIE7" />
+    <title>Coverage for ITsupermanapp/urls.py: 100%</title>
+    <link rel="icon" sizes="32x32" href="favicon_32.png">
+    <link rel="stylesheet" href="style.css" type="text/css">
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="jquery.hotkeys.js"></script>
+    <script type="text/javascript" src="jquery.isonscreen.js"></script>
+    <script type="text/javascript" src="coverage_html.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(coverage.pyfile_ready);
+    </script>
+</head>
+<body class="pyfile">
+<div id="header">
+    <div class="content">
+        <h1>Coverage for <b>ITsupermanapp/urls.py</b> :
+            <span class="pc_cov">100%</span>
+        </h1>
+        <img id="keyboard_icon" src="keybd_closed.png" alt="Show keyboard shortcuts" />
+        <h2 class="stats">
+            3 statements &nbsp;
+            <button type="button" class="run shortkey_r button_toggle_run" title="Toggle lines run">3 run</button>
+            <button type="button" class="mis show_mis shortkey_m button_toggle_mis" title="Toggle lines missing">0 missing</button>
+            <button type="button" class="exc show_exc shortkey_x button_toggle_exc" title="Toggle lines excluded">0 excluded</button>
+        </h2>
+    </div>
+</div>
+<div class="help_panel">
+    <img id="panel_icon" src="keybd_open.png" alt="Hide keyboard shortcuts" />
+    <p class="legend">Hot-keys on this page</p>
+    <div>
+    <p class="keyhelp">
+        <span class="key">r</span>
+        <span class="key">m</span>
+        <span class="key">x</span>
+        <span class="key">p</span> &nbsp; toggle line displays
+    </p>
+    <p class="keyhelp">
+        <span class="key">j</span>
+        <span class="key">k</span> &nbsp; next/prev highlighted chunk
+    </p>
+    <p class="keyhelp">
+        <span class="key">0</span> &nbsp; (zero) top of page
+    </p>
+    <p class="keyhelp">
+        <span class="key">1</span> &nbsp; (one) first highlighted chunk
+    </p>
+    </div>
+</div>
+<div id="source">
+    <p id="t1" class="run"><span class="n"><a href="#t1">1</a></span><span class="t"><span class="key">from</span> <span class="nam">django</span><span class="op">.</span><span class="nam">urls</span> <span class="key">import</span> <span class="nam">path</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t2" class="run"><span class="n"><a href="#t2">2</a></span><span class="t"><span class="key">from</span> <span class="op">.</span><span class="nam">views</span> <span class="key">import</span> <span class="nam">TopPage</span><span class="op">,</span> <span class="nam">PostDetail</span><span class="op">,</span> <span class="nam">save_history</span><span class="op">,</span> <span class="nam">searchfunc</span><span class="op">,</span> <span class="nam">like</span><span class="op">,</span> <span class="nam">AllContents</span><span class="op">,</span> <span class="nam">categoryfunc</span><span class="op">,</span><span class="xx">\</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t3" class="pln"><span class="n"><a href="#t3">3</a></span><span class="t">    <span class="nam">CreateUser</span><span class="op">,</span> <span class="nam">LoginView</span><span class="op">,</span> <span class="nam">MypageView</span><span class="op">,</span> <span class="nam">LogoutView</span><span class="op">,</span> <span class="nam">RankingList</span><span class="op">,</span> <span class="nam">contact</span><span class="op">,</span>  <span class="xx">\</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t4" class="pln"><span class="n"><a href="#t4">4</a></span><span class="t">    <span class="nam">QuestionCreate</span><span class="op">,</span> <span class="nam">QuestionList</span><span class="op">,</span> <span class="nam">questionAnswer</span><span class="op">,</span> <span class="nam">QuestionUpdate</span><span class="op">,</span> <span class="nam">AnswerUpdate</span><span class="op">,</span><span class="xx">\</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t5" class="pln"><span class="n"><a href="#t5">5</a></span><span class="t">    <span class="nam">QuestionDelete</span><span class="op">,</span>  <span class="nam">AnswerDelete</span><span class="op">,</span> <span class="nam">QuestionRequest</span><span class="op">,</span> <span class="nam">Resign</span><span class="op">,</span> <span class="nam">ResConduct</span><span class="op">,</span> <span class="nam">ResComplete</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t6" class="pln"><span class="n"><a href="#t6">6</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
+    <p id="t7" class="run"><span class="n"><a href="#t7">7</a></span><span class="t"><span class="nam">urlpatterns</span> <span class="op">=</span> <span class="op">[</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t8" class="pln"><span class="n"><a href="#t8">8</a></span><span class="t">    <span class="nam">path</span><span class="op">(</span><span class="str">''</span><span class="op">,</span> <span class="nam">TopPage</span><span class="op">.</span><span class="nam">as_view</span><span class="op">(</span><span class="op">)</span><span class="op">,</span> <span class="nam">name</span><span class="op">=</span><span class="str">'toppage'</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t9" class="pln"><span class="n"><a href="#t9">9</a></span><span class="t">    <span class="nam">path</span><span class="op">(</span><span class="str">'post/&lt;int:pk>'</span><span class="op">,</span> <span class="nam">save_history</span><span class="op">,</span> <span class="nam">name</span><span class="op">=</span><span class="str">'save_history'</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t10" class="pln"><span class="n"><a href="#t10">10</a></span><span class="t">    <span class="nam">path</span><span class="op">(</span><span class="str">'post/&lt;int:pk>/detail/'</span><span class="op">,</span> <span class="nam">PostDetail</span><span class="op">.</span><span class="nam">as_view</span><span class="op">(</span><span class="op">)</span><span class="op">,</span> <span class="nam">name</span><span class="op">=</span><span class="str">'post_detail'</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t11" class="pln"><span class="n"><a href="#t11">11</a></span><span class="t">    <span class="nam">path</span><span class="op">(</span><span class="str">'post/&lt;int:pk>/like'</span><span class="op">,</span> <span class="nam">like</span><span class="op">,</span> <span class="nam">name</span><span class="op">=</span><span class="str">'like'</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t12" class="pln"><span class="n"><a href="#t12">12</a></span><span class="t">    <span class="nam">path</span><span class="op">(</span><span class="str">'searchresult/'</span><span class="op">,</span>  <span class="nam">searchfunc</span><span class="op">,</span> <span class="nam">name</span><span class="op">=</span><span class="str">'search'</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t13" class="pln"><span class="n"><a href="#t13">13</a></span><span class="t">    <span class="nam">path</span><span class="op">(</span><span class="str">'all_contents/'</span><span class="op">,</span> <span class="nam">AllContents</span><span class="op">.</span><span class="nam">as_view</span><span class="op">(</span><span class="op">)</span><span class="op">,</span> <span class="nam">name</span><span class="op">=</span><span class="str">'all_contents'</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t14" class="pln"><span class="n"><a href="#t14">14</a></span><span class="t">    <span class="nam">path</span><span class="op">(</span><span class="str">'category/&lt;str:cats>/'</span><span class="op">,</span> <span class="nam">categoryfunc</span><span class="op">,</span> <span class="nam">name</span><span class="op">=</span><span class="str">'category'</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t15" class="pln"><span class="n"><a href="#t15">15</a></span><span class="t">    <span class="nam">path</span><span class="op">(</span><span class="str">'ranking/'</span><span class="op">,</span> <span class="nam">RankingList</span><span class="op">.</span><span class="nam">as_view</span><span class="op">(</span><span class="op">)</span><span class="op">,</span> <span class="nam">name</span><span class="op">=</span><span class="str">'ranking'</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t16" class="pln"><span class="n"><a href="#t16">16</a></span><span class="t">    <span class="nam">path</span><span class="op">(</span><span class="str">'create/'</span><span class="op">,</span> <span class="nam">CreateUser</span><span class="op">.</span><span class="nam">as_view</span><span class="op">(</span><span class="op">)</span><span class="op">,</span> <span class="nam">name</span><span class="op">=</span><span class="str">'create'</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t17" class="pln"><span class="n"><a href="#t17">17</a></span><span class="t">    <span class="com"># login_required&#20351;&#12358;&#12383;&#12417;url&#12395;'accounts'&#36861;&#21152; </span>&nbsp;</span><span class="r"></span></p>
+    <p id="t18" class="pln"><span class="n"><a href="#t18">18</a></span><span class="t">    <span class="nam">path</span><span class="op">(</span><span class="str">'accounts/login/'</span><span class="op">,</span> <span class="nam">LoginView</span><span class="op">.</span><span class="nam">as_view</span><span class="op">(</span><span class="op">)</span><span class="op">,</span> <span class="nam">name</span><span class="op">=</span><span class="str">'login'</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t19" class="pln"><span class="n"><a href="#t19">19</a></span><span class="t">    <span class="nam">path</span><span class="op">(</span><span class="str">'mypage/&lt;int:pk>/'</span><span class="op">,</span> <span class="nam">MypageView</span><span class="op">.</span><span class="nam">as_view</span><span class="op">(</span><span class="op">)</span><span class="op">,</span> <span class="nam">name</span><span class="op">=</span><span class="str">'mypage'</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t20" class="pln"><span class="n"><a href="#t20">20</a></span><span class="t">    <span class="nam">path</span><span class="op">(</span><span class="str">'logout/'</span><span class="op">,</span> <span class="nam">LogoutView</span><span class="op">.</span><span class="nam">as_view</span><span class="op">(</span><span class="op">)</span><span class="op">,</span> <span class="nam">name</span><span class="op">=</span><span class="str">'logout'</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t21" class="pln"><span class="n"><a href="#t21">21</a></span><span class="t">    <span class="nam">path</span><span class="op">(</span><span class="str">'resign/'</span><span class="op">,</span> <span class="nam">Resign</span><span class="op">.</span><span class="nam">as_view</span><span class="op">(</span><span class="op">)</span><span class="op">,</span> <span class="nam">name</span><span class="op">=</span><span class="str">'resign'</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t22" class="pln"><span class="n"><a href="#t22">22</a></span><span class="t">    <span class="nam">path</span><span class="op">(</span><span class="str">'resign/&lt;int:pk>/conduct'</span><span class="op">,</span> <span class="nam">ResConduct</span><span class="op">.</span><span class="nam">as_view</span><span class="op">(</span><span class="op">)</span><span class="op">,</span> <span class="nam">name</span><span class="op">=</span><span class="str">'resign_conduct'</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t23" class="pln"><span class="n"><a href="#t23">23</a></span><span class="t">    <span class="nam">path</span><span class="op">(</span><span class="str">'resign/complete/'</span><span class="op">,</span> <span class="nam">ResComplete</span><span class="op">.</span><span class="nam">as_view</span><span class="op">(</span><span class="op">)</span><span class="op">,</span> <span class="nam">name</span><span class="op">=</span><span class="str">'resign_complete'</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t24" class="pln"><span class="n"><a href="#t24">24</a></span><span class="t">    <span class="nam">path</span><span class="op">(</span><span class="str">'contact/'</span><span class="op">,</span> <span class="nam">contact</span><span class="op">,</span> <span class="nam">name</span><span class="op">=</span><span class="str">'contact'</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t25" class="pln"><span class="n"><a href="#t25">25</a></span><span class="t">    <span class="nam">path</span><span class="op">(</span><span class="str">'question_form/'</span><span class="op">,</span> <span class="nam">QuestionCreate</span><span class="op">.</span><span class="nam">as_view</span><span class="op">(</span><span class="op">)</span><span class="op">,</span> <span class="nam">name</span><span class="op">=</span><span class="str">'question_form'</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t26" class="pln"><span class="n"><a href="#t26">26</a></span><span class="t">    <span class="nam">path</span><span class="op">(</span><span class="str">'question_list/'</span><span class="op">,</span> <span class="nam">QuestionList</span><span class="op">.</span><span class="nam">as_view</span><span class="op">(</span><span class="op">)</span><span class="op">,</span> <span class="nam">name</span><span class="op">=</span><span class="str">'question_list'</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t27" class="pln"><span class="n"><a href="#t27">27</a></span><span class="t">    <span class="nam">path</span><span class="op">(</span><span class="str">'question_answer/&lt;int:pk>'</span><span class="op">,</span> <span class="nam">questionAnswer</span><span class="op">,</span> <span class="nam">name</span><span class="op">=</span><span class="str">'question_answer'</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t28" class="pln"><span class="n"><a href="#t28">28</a></span><span class="t">    <span class="nam">path</span><span class="op">(</span><span class="str">'question_answer/&lt;int:pk>/question_update'</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t29" class="pln"><span class="n"><a href="#t29">29</a></span><span class="t">         <span class="nam">QuestionUpdate</span><span class="op">.</span><span class="nam">as_view</span><span class="op">(</span><span class="op">)</span><span class="op">,</span> <span class="nam">name</span><span class="op">=</span><span class="str">'question_update'</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t30" class="pln"><span class="n"><a href="#t30">30</a></span><span class="t">    <span class="nam">path</span><span class="op">(</span><span class="str">'question_answer/&lt;int:pk>/question_request'</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t31" class="pln"><span class="n"><a href="#t31">31</a></span><span class="t">         <span class="nam">QuestionRequest</span><span class="op">,</span> <span class="nam">name</span><span class="op">=</span><span class="str">'question_request'</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t32" class="pln"><span class="n"><a href="#t32">32</a></span><span class="t">    <span class="nam">path</span><span class="op">(</span><span class="str">'question_answer/&lt;int:pk>/answer_update/&lt;int:answer_pk>'</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t33" class="pln"><span class="n"><a href="#t33">33</a></span><span class="t">         <span class="nam">AnswerUpdate</span><span class="op">.</span><span class="nam">as_view</span><span class="op">(</span><span class="op">)</span><span class="op">,</span> <span class="nam">name</span><span class="op">=</span><span class="str">'answer_update'</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t34" class="pln"><span class="n"><a href="#t34">34</a></span><span class="t">    <span class="nam">path</span><span class="op">(</span><span class="str">'question_answer/&lt;int:pk>/question_delete'</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t35" class="pln"><span class="n"><a href="#t35">35</a></span><span class="t">         <span class="nam">QuestionDelete</span><span class="op">.</span><span class="nam">as_view</span><span class="op">(</span><span class="op">)</span><span class="op">,</span> <span class="nam">name</span><span class="op">=</span><span class="str">'question_delete'</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t36" class="pln"><span class="n"><a href="#t36">36</a></span><span class="t">    <span class="nam">path</span><span class="op">(</span><span class="str">'question_answer/&lt;int:pk>/answer_delete/&lt;int:answer_pk>'</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t37" class="pln"><span class="n"><a href="#t37">37</a></span><span class="t">         <span class="nam">AnswerDelete</span><span class="op">.</span><span class="nam">as_view</span><span class="op">(</span><span class="op">)</span><span class="op">,</span> <span class="nam">name</span><span class="op">=</span><span class="str">'answer_delete'</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t38" class="pln"><span class="n"><a href="#t38">38</a></span><span class="t"><span class="op">]</span>&nbsp;</span><span class="r"></span></p>
+</div>
+<div id="footer">
+    <div class="content">
+        <p>
+            <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v5.3.1</a>,
+            created at 2021-01-24 21:01 +0900
+        </p>
+    </div>
+</div>
+</body>
+</html>

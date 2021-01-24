@@ -54,8 +54,12 @@
     display: flex;
 }
 
+.question-created_by{
+    margin: auto 0 auto auto;
+}
+
 .answer-created_by{
-    margin-left: auto;
+    margin: auto 0 auto auto;
 }
 
 
@@ -144,7 +148,7 @@
 .edit{
     background-color: #e7e7e7; 
     color: black;
-    min-width: 70px;
+    min-width: 40px;
 }
 
 .edit:hover{
@@ -154,7 +158,7 @@
 
 .delete{
     background-color: #f44336;
-    min-width: 70px;
+    min-width: 40px;
 }
 
 .delete:hover{
@@ -166,7 +170,7 @@
     .question-list{
         height: auto;
         display: block;
-        padding: 15px;
+        padding: 15px 0;
         border-bottom: 1px solid #E3E6E8;
     }
 
@@ -185,6 +189,7 @@
 
     .question-bottom, .answer-bottom, .tags-info{
         flex-wrap: wrap;
+        vertical-align: middle;
     }
 
     .user-and-date{
@@ -194,10 +199,6 @@
 
     .counts-block{
         margin: 0 0 15px;
-    }
-
-    .answer-created_by, .question-created_by{
-        margin: 15px 0 0;
     }
 
     #question-list-title{

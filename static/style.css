@@ -120,6 +120,32 @@ header {
   display: flex;
 }
 
+.search-box{
+  position: relative;
+}
+
+.input-search{
+  transition: border 0.1s linear, background-color 0.1s linear;
+  width: 100%;
+  height: 32px;
+  padding: 5px 5px 5px 25px;
+  color: #2b546a;
+  background-color: #f7f9fc;
+  border: 1px solid #d9e0e7;
+  border-radius: 5px;
+  letter-spacing: .02em;
+  width:100px;
+}
+
+.search-icon{
+  display: inline-block;
+  position:absolute;
+  top: 50%;
+  left: 7px;
+  transform: translateY(-50%);
+
+}
+
 .h-right .no-btn:hover {
   background-color: #f0f5fd;
   color: #2b546a;
@@ -737,10 +763,16 @@ footer {
 
 /* 以降、レスポンシブ */
 
-@media (max-width: 970px) {
+@media (max-width: 980px) {
   .h-left,
   .h-right {
     display: none;
+  }
+  
+  header {
+    height: 48px;
+    position: relative;
+    overflow: visible;
   }
 
   .menu-icon-bar {
@@ -766,15 +798,47 @@ footer {
     background-color: white;
   }
 
-  header {
-    height: 48px;
-    position: relative;
-  }
-
   .menu-open .mobile-menu {
     display: block;
   }
 
+
+  .tooltip-login, .tooltip-create {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .tooltip-login .tooltiptext-login,  .tooltip-create .tooltiptext-create{
+    visibility: hidden;
+    overflow: visible;
+    width: 80px;
+    font-size: 11px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 100000000;
+    top: 150%;
+    left: 50%;
+    margin-left: -40px;
+  }
+
+  .tooltip-login .tooltiptext-login::after, .tooltip-create .tooltiptext-create::after {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent black transparent;
+  }
+  
+  .tooltip-login:hover .tooltiptext-login, .tooltip-create:hover .tooltiptext-create {
+    visibility: visible;
+  }
   .fa-user-plus {
     margin-left: 15px;
     color: rgb(48, 200, 214);
@@ -789,13 +853,14 @@ footer {
 
   .list-main-container {
     width: 100%;
-    padding: 40px;
+    padding: 20px;
     margin-left:0;
 }
 
   .list-aside-container {
     width: 100%;
     margin-left:0;
+    padding: 20px;
 }
 
 }
@@ -872,4 +937,26 @@ footer {
   .content:hover .tooltiptext {
     visibility: visible;
   }
+
+  .item-title {
+    font-size: 18px;
+  }
+
+  .p-entry-title {
+    font-size: 25px;
+    line-height: 40px;
+    color: #333;
+    margin: 20px, 0;
+  }
+
+  .p-content h2 {
+    padding: 20px 15px 18px;
+    color: #333;
+    line-height: 40px;
+    font-size: 20px;
+    margin-bottom: 30px;
+    line-height: 1.5;
+  }
+
 }
+

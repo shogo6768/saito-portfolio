@@ -14,7 +14,8 @@ urlpatterns = [
     path('category/<str:cats>/', categoryfunc, name='category'),
     path('ranking/', RankingList.as_view(), name='ranking'),
     path('create/', CreateUser.as_view(), name='create'),
-    path('login/', LoginView.as_view(), name='login'),
+    # login_required使うためurlに'accounts'追加 
+    path('accounts/login/', LoginView.as_view(), name='login'),
     path('mypage/<int:pk>/', MypageView.as_view(), name='mypage'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('resign/', Resign.as_view(), name='resign'),
@@ -26,7 +27,6 @@ urlpatterns = [
     path('question_answer/<int:pk>', questionAnswer, name='question_answer'),
     path('question_answer/<int:pk>/question_update',
          QuestionUpdate.as_view(), name='question_update'),
-    # 1/10 question_request追加
     path('question_answer/<int:pk>/question_request',
          QuestionRequest, name='question_request'),
     path('question_answer/<int:pk>/answer_update/<int:answer_pk>',
