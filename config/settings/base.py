@@ -15,16 +15,13 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+PROJECT_NAME = os.path.basename(BASE_DIR)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'yrl#nx6c#r9t5=fw_sy!q3(7s3q*6_=j@0w_ggj)qd*%t_h@(1'
-
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -79,12 +76,8 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+DATABASES = {}
+    
 
 # CustomUserモデルの使用準備
 AUTH_USER_MODEL = 'accounts.CustomUser'
@@ -126,14 +119,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
-]
-
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATIC_ROOT = '/var/www/{}/static'.format(PROJECT_NAME)
 
 MEDIA_URL = '/media/'
+MEDIA_ROOT = '/var/www/{}/media'.format(PROJECT_NAME)
 
 CKEDITOR_CONFIGS = {
     'default': {
@@ -152,9 +142,3 @@ CKEDITOR_CONFIGS = {
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
 
-# 12/27 メール送信のための設定
-EMAIL_HOST = 'smtp.gmail.com' 
-EMAIL_HOST_USER = 'shogo6768@gmail.com' # gmailのアドレス
-EMAIL_HOST_PASSWORD = '12010abS6768' # googleログインパスワード
-EMAIL_PORT = 587 
-EMAIL_USE_TLS = True 
