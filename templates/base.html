@@ -39,7 +39,7 @@
             <ul class="h-right">
                 <li>
                     <form class="search-box" action="{% url 'search' %}" method="GET">
-                            <input type="search" class="input-search" style="font-size: 13px; width: 180px;" placeholder="キーワードで検索" name="key_search" id="q_in_topbar" value="" >
+                            <input type="search" class="input-search" style="font-size: 13px; width: 180px;" placeholder="キーワードで検索" name="key_search" id="q_in_topbar" value="{{ request.GET.key_search }}" >
                             <i class="search-icon fas fa-search"></i>
                     </form>
                 </li>

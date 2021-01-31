@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=emulateIE7" />
-    <title>Coverage for ITsupermanapp/models.py: 94%</title>
+    <title>Coverage for ITsupermanapp/models.py: 98%</title>
     <link rel="icon" sizes="32x32" href="favicon_32.png">
     <link rel="stylesheet" href="style.css" type="text/css">
     <script type="text/javascript" src="jquery.min.js"></script>
@@ -18,13 +18,13 @@
 <div id="header">
     <div class="content">
         <h1>Coverage for <b>ITsupermanapp/models.py</b> :
-            <span class="pc_cov">94%</span>
+            <span class="pc_cov">98%</span>
         </h1>
         <img id="keyboard_icon" src="keybd_closed.png" alt="Show keyboard shortcuts" />
         <h2 class="stats">
             83 statements &nbsp;
-            <button type="button" class="run shortkey_r button_toggle_run" title="Toggle lines run">78 run</button>
-            <button type="button" class="mis show_mis shortkey_m button_toggle_mis" title="Toggle lines missing">5 missing</button>
+            <button type="button" class="run shortkey_r button_toggle_run" title="Toggle lines run">81 run</button>
+            <button type="button" class="mis show_mis shortkey_m button_toggle_mis" title="Toggle lines missing">2 missing</button>
             <button type="button" class="exc show_exc shortkey_x button_toggle_exc" title="Toggle lines excluded">0 excluded</button>
         </h2>
     </div>
@@ -77,7 +77,7 @@
     <p id="t23" class="run"><span class="n"><a href="#t23">23</a></span><span class="t">    <span class="nam">timestamp</span> <span class="op">=</span> <span class="nam">models</span><span class="op">.</span><span class="nam">DateTimeField</span><span class="op">(</span><span class="nam">auto_now_add</span><span class="op">=</span><span class="key">True</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p id="t24" class="pln"><span class="n"><a href="#t24">24</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p id="t25" class="run"><span class="n"><a href="#t25">25</a></span><span class="t">    <span class="key">def</span> <span class="nam">__str__</span><span class="op">(</span><span class="nam">self</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t26" class="mis show_mis"><span class="n"><a href="#t26">26</a></span><span class="t">        <span class="key">return</span> <span class="nam">self</span><span class="op">.</span><span class="nam">name</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t26" class="run"><span class="n"><a href="#t26">26</a></span><span class="t">        <span class="key">return</span> <span class="nam">self</span><span class="op">.</span><span class="nam">name</span>&nbsp;</span><span class="r"></span></p>
     <p id="t27" class="pln"><span class="n"><a href="#t27">27</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p id="t28" class="pln"><span class="n"><a href="#t28">28</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p id="t29" class="run"><span class="n"><a href="#t29">29</a></span><span class="t"><span class="key">class</span> <span class="nam">PostModel</span><span class="op">(</span><span class="nam">models</span><span class="op">.</span><span class="nam">Model</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
@@ -112,7 +112,7 @@
     <p id="t58" class="run"><span class="n"><a href="#t58">58</a></span><span class="t">    <span class="nam">password</span> <span class="op">=</span> <span class="nam">models</span><span class="op">.</span><span class="nam">CharField</span><span class="op">(</span><span class="nam">verbose_name</span><span class="op">=</span><span class="str">'&#12497;&#12473;&#12527;&#12540;&#12489;'</span><span class="op">,</span> <span class="nam">max_length</span><span class="op">=</span><span class="num">30</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p id="t59" class="pln"><span class="n"><a href="#t59">59</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p id="t60" class="run"><span class="n"><a href="#t60">60</a></span><span class="t">    <span class="key">def</span> <span class="nam">__str__</span><span class="op">(</span><span class="nam">self</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t61" class="mis show_mis"><span class="n"><a href="#t61">61</a></span><span class="t">        <span class="key">return</span> <span class="nam">self</span><span class="op">.</span><span class="nam">username</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t61" class="run"><span class="n"><a href="#t61">61</a></span><span class="t">        <span class="key">return</span> <span class="nam">self</span><span class="op">.</span><span class="nam">username</span>&nbsp;</span><span class="r"></span></p>
     <p id="t62" class="pln"><span class="n"><a href="#t62">62</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p id="t63" class="pln"><span class="n"><a href="#t63">63</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p id="t64" class="run"><span class="n"><a href="#t64">64</a></span><span class="t"><span class="key">class</span> <span class="nam">Like</span><span class="op">(</span><span class="nam">models</span><span class="op">.</span><span class="nam">Model</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
@@ -156,7 +156,7 @@
     <p id="t102" class="run"><span class="n"><a href="#t102">102</a></span><span class="t">    <span class="nam">views</span> <span class="op">=</span> <span class="nam">models</span><span class="op">.</span><span class="nam">PositiveIntegerField</span><span class="op">(</span><span class="nam">default</span><span class="op">=</span><span class="num">0</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p id="t103" class="pln"><span class="n"><a href="#t103">103</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p id="t104" class="run"><span class="n"><a href="#t104">104</a></span><span class="t">    <span class="key">def</span> <span class="nam">__str__</span><span class="op">(</span><span class="nam">self</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t105" class="mis show_mis"><span class="n"><a href="#t105">105</a></span><span class="t">        <span class="key">return</span> <span class="nam">self</span><span class="op">.</span><span class="nam">title</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t105" class="run"><span class="n"><a href="#t105">105</a></span><span class="t">        <span class="key">return</span> <span class="nam">self</span><span class="op">.</span><span class="nam">title</span>&nbsp;</span><span class="r"></span></p>
     <p id="t106" class="pln"><span class="n"><a href="#t106">106</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p id="t107" class="pln"><span class="n"><a href="#t107">107</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p id="t108" class="run"><span class="n"><a href="#t108">108</a></span><span class="t"><span class="key">class</span> <span class="nam">AnswerModel</span><span class="op">(</span><span class="nam">models</span><span class="op">.</span><span class="nam">Model</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
@@ -180,7 +180,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v5.3.1</a>,
-            created at 2021-01-24 21:11 +0900
+            created at 2021-01-27 18:27 +0900
         </p>
     </div>
 </div>
