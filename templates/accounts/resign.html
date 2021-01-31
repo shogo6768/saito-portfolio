@@ -1,45 +1,31 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nextage</title>
-    <link rel="stylesheet" href="/css/reset.css">
-  </head>
-  <body>
-    <header>
-      <div class="container">
-        <div class="header-left">
-          <div class="logo">
-            <a href="#"> > Nextage </a>
-          </div>
-        </div>
-        <div class="header-right">
-          <a href="#">ログイン</a>
-        </div>
-      </div>
-    </header>
-    <div class="menu-wrapper">
-      <div class="container">
-        <div class="menu">
-          <ul>
-            <li><a href="#">サイトトップ</a></li>
-            <li><a href="#">すべての記事</a></li>
-            <li><a href="#">カテゴリ別記事</a></li>
-            <li><a href="#">お気に入り</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="container">
-      <div class="resign-confirmation">
-        <h1>本当に退会しますか？</h1>
-        <h2>退会すると全てのユーザーログが抹消されます</h2>
-        <p><input type="submit" value="退会確認画面へ"></p>
-      </div>
-    </div>
-    <footer>
+{% extends 'base.html' %}
+{% load static %}
 
-    </footer>
-  </body>
-</html>
+{% block customcss %}
+<link rel="stylesheet" href="{% static 'semantic.min.css' %}">
+<link rel="stylesheet" href="{% static 'reset.css' %}">
+<link rel="stylesheet" href="{% static 'style.css' %}">
+<link rel="stylesheet" href="{% static 'animate.css' %}">
+{% endblock customcss %}
+
+{% block header %}
+{% endblock header %}
+
+{% block main %}
+<div class="user_resign_wrap">
+  <div class="user_wrap">
+    <div class="user_form">
+      <h1>本当に退会しますか？</h1>
+      <h2>退会すると以下のユーザー情報がすべて抹消されます</br>※退会した後、抹消されたユーザー情報は二度と復元できません</h2>
+      <ul>
+        <li>■抹消される情報</li>
+        <li>アカウント・アイコン・プロフィール</li>
+        <li>閲覧履歴</li>
+        <li>お気に入り履歴</li>
+        <li>リコメンド情報</li>
+      </ul>
+      <a href="{% url 'resign_conduct' user.pk %}" class="user_button">本当に退会する</a>
+    </div>
+  </div>
+</div>
+{% endblock main %}
