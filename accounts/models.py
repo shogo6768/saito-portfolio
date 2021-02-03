@@ -4,8 +4,8 @@ from django.contrib.auth.models import AbstractUser
 
 # 1/14　ユーザーモデル内のlike, historyはLike、Historyモデルに切り出し
 class CustomUser(AbstractUser):
-    email = models.CharField(verbose_name='メールアドレス', max_length=50)
-    password = models.CharField(verbose_name='パスワード', max_length=30)
+    email = models.CharField(verbose_name='メールアドレス', max_length=255)
+    password = models.CharField(verbose_name='パスワード', max_length=255)
 
     def __str__(self):
         return self.username
