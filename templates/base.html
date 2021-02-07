@@ -24,7 +24,7 @@
         <header>
             <ul class="h-left">
                 {% if user.id %}
-                <li><a href="/mypage/{{ user.id }}"><i class="fas fa-laptop">マイページ</i></a></li>
+                <li><a href="{% url 'mypage' user.id %}"><i class="fas fa-laptop">マイページ</i></a></li>
                 {% else %}
                 <li><a href="{% url 'toppage' %}"><i class="fas fa-laptop">トップページ</i></a></li>
                 {% endif %}
@@ -44,7 +44,7 @@
                     </form>
                 </li>
                 {% if user.id %}
-                <li><a href="/mypage/{{ user.id }}">{{ user.username }}</a>さん</li>
+                <li><a href="{% url 'mypage' user.id %}">{{ user.username }}</a>さん</li>
                 <li><a href="{% url 'logout' %}">ログアウト</a></li>
                 {% else %}
                 <li><a href="{% url 'login' %}">ログイン</a></li>
@@ -122,7 +122,7 @@
         <ul class="mobile-menu__main">
             {% if user.id %}
             <li class="mobile-menu__item">
-                <a class="mobile-menu__link" href="/mypage/{{ user.id }}">
+                <a class="mobile-menu__link" href="{% url 'mypage' user.id %}">
                     <span class="mobile-main__title">マイページ</span>
                 </a>
             </li>

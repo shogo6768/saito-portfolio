@@ -77,9 +77,9 @@
               {% endif %}
             </div>
             {% if history_post.post.eye_catch %}
-            <img src="{{ MEDIA_URL }}{{history_post.post.eye_catch}}" alt="" width="250" height="158" class="alignnone size-medium wp-image-986" />
+            <img src="{{ history_post.post.eye_catch.url }}" alt="" width="250" height="158" class="alignnone size-medium wp-image-986" />
             {% else %}
-            <img src="{{ MEDIA_URL }}/media/img_not_set.png" alt="" width="250" height="158" class="alignnone size-medium wp-image-986" />
+            <img src="{% static '/images/img_not_set.png' %}" alt="" width="250" height="158" class="alignnone size-medium wp-image-986" />
             {% endif %}
           </div>
         </a>
@@ -117,9 +117,9 @@
               {% endif %}
             </div>
             {% if like_post.post.eye_catch %}
-            <img src="{{ MEDIA_URL }}{{like_post.post.eye_catch}}" alt="" width="250" height="158" class="alignnone size-medium wp-image-986" />
+            <img src="{{ like_post.post.eye_catch.url }}" alt="" width="250" height="158" class="alignnone size-medium wp-image-986" />
             {% else %}
-            <img src="{{ MEDIA_URL }}/media/img_not_set.png" alt="" width="250" height="158" class="alignnone size-medium wp-image-986" />
+            <img src="{% static '/images/img_not_set.png' %}" alt="" width="250" height="158" class="alignnone size-medium wp-image-986" />
             {% endif %}
           </div>
         </a>
