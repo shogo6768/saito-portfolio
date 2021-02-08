@@ -123,7 +123,7 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = '/var/www/{}/static'.format(PROJECT_NAME)
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = '/var/www/{}/media'.format(PROJECT_NAME)
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 CKEDITOR_CONFIGS = {
     'default': {
@@ -131,8 +131,7 @@ CKEDITOR_CONFIGS = {
         'toolbar_Custom': [
             ['Bold', 'Italic', 'Underline', '-', 'NumberedList', 'BulletedList'],
             [ 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-            ['Link'],
-            ['Source']
+            ['Link', '-', 'Image' ,'-','Source']
         ],
         'height': '100%',
         'width': '100%',

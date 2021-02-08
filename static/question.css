@@ -1,3 +1,7 @@
+.qa-mg-top{
+    margin-top: 20px;
+}
+
 #question-list-title{
     margin: 0;
     font-weight: bold;
@@ -6,7 +10,37 @@
 .question-box{
     display: flex;
     justify-content: space-between;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
+}
+
+.qa-ctg-container{
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 30px;
+}
+
+.qa-ctg-box{
+    display: inline-flex;
+    border: 1px solid #8491a5;
+    border-radius: 3px;
+}
+
+
+.qa-ctg-item{
+    padding: 10px 15px;
+    border-right: 1px solid #8491a5;
+}
+
+.qa-ctg-item:hover, .active {
+    box-shadow: inset 0 -3px 0 0 #30c8d6;
+}
+
+.qa-ctg-item:last-child{
+    border-right: none;
+}
+
+.qa-ctg-link{
+    font-size: 14px;
 }
 
 .question-list{
@@ -14,7 +48,6 @@
     display: flex;
     padding: 15px;
     border-bottom: 1px solid #E3E6E8;
-   
 }
 
 .tags-info{
@@ -29,13 +62,16 @@
     margin-right: 20px;
     align-items: center;
 }
-
 .list-item{
     width: 100%;
 }
 
 .question-detail{
     padding: 0 15px;
+}
+
+.question-detail p{
+    line-height: 22px;
 }
 
 .update-block p{
@@ -48,6 +84,10 @@
     margin-bottom:20px;
     padding: 0 15px;
     padding-bottom: 15px;
+}
+
+.quetion-title-block .time{
+    margin-right: 10px;
 }
 
 .answer-bottom{
@@ -163,7 +203,7 @@
 
 .delete:hover{
     background-color: #f43636c9;
-    min-width: 70px;
+    min-width: 40px;
 }
 
 @media (max-width: 767px){

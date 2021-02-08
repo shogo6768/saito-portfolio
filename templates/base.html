@@ -31,9 +31,7 @@
                 <li><a href="{%url 'all_contents'%}">コンテンツ一覧</a></li>
                 <li><a href="{%url 'ranking'%}">よく読まれている記事</a></li>
                 <li class="ctg-lists"><a href="#">カテゴリー一覧</a></li>
-                {% if user.id %}
-                <li><a href="{%url 'question_list' %}">Q&A</a></li>
-                {% endif %}
+                <li><a href="{%url 'question_list' pk=1 %}">質問する</a></li>
             </ul>
 
             <ul class="h-right">
@@ -176,12 +174,12 @@
                     </form>
                 </div>
             </li>
-            {% if user.id %}
             <li class="mobile-menu__item">
-                <a class="mobile-menu__link" href="{% url 'question_list' %} ">
-                    <span class="mobile-main__title">Q&A</span>
+                <a class="mobile-menu__link" href="{% url 'question_list' pk=1　%} ">
+                    <span class="mobile-main__title">質問する</span>
                 </a>
             </li>
+            {% if user.id %}
             <li class="mobile-menu__item">
                 <a class="mobile-menu__link" href="{% url 'logout' %} ">
                     <span class="mobile-main__title">ログアウト</span>

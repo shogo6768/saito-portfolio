@@ -15,7 +15,9 @@
         <div class="main-container">
             <div class="about-g-up">
                 <h1 class="h1-title inview">Plus IT improve your efficiency</h1>
-                <p>Plus IT(プラスイット)は、あなたの業務効率を爆上げするためのサービスです。<br>コミュニティ機能があり知識の共有や質問ができる機能もあります。<br>ITスキルUPで可能性を広げよう！</p>
+                <p>Plus IT(プラスイット)は、幅広いPCスキルを学べるサービスです。
+                <br>OfficeやWeb会議システム等幅広いコンテンツを取り揃えております。
+                <br>PCスキルUPでデキるビジネスパーソンになろう！</p>
             </div>
             <a class="btn btn-green" href="{% url 'create' %}">いますぐ使ってみよう</a>
         </div>
@@ -25,52 +27,64 @@
     <section class="about-contents">
         <div class="headline">
             <h2 id="link-contents">コンテンツが充実</h2>
-            <p>初心者から上級者までITに関する幅広い情報を取り揃えています。<br>幅広い内容がひとまとまりになっていることが強みです。</p>
+            <p>初心者から上級者までPCスキルに関する幅広い情報を取り揃えています。<br>幅広い内容がひとまとまりになっていることが強みです。</p>
         </div>
         <div class="contents">
             <div class="content-wrapper">
+            <a href="{% url 'all_contents'%}#office">
                 <div class="content">
                     <h3>Office365</h3>
                     <img src="{% static 'images/Office logo.png' %}" alt="Office365のロゴ">
                     <p class="tooltiptext">ppt、execl、Outlook等に関する情報掲載</p>
                 </div>
+            </a>
             </div>
 
             <div class="content-wrapper">
+            <a href="{% url 'all_contents'%}#google_app">
                 <div class="content">
                     <h3>Googleアプリ</h3>
                     <img src="{% static 'images/google1.png' %}" alt="googleのロゴ">
                     <p class="tooltiptext">gmail、スプレッドシート、ドライブ等に関する情報掲載</p>
                 </div>
+            </a>
             </div>
             <div class="content-wrapper">
+            <a href="{% url 'all_contents'%}#web_system">
                 <div class="content">
                     <h3>Web会議システム</h3>
                     <img src="{% static 'images/remote.jpg' %}" alt="web会議のイメージ">
                     <p class="tooltiptext">ZoomやSkype等に関する情報掲載</p>
                 </div>
+            </a>
             </div>
             <div class="content-wrapper">
+            <a href="{% url 'all_contents'%}#windows">
                 <div class="content">
                     <h3>Windows</h3>
                     <img src="{% static 'images/windows.jpg' %}" alt="windowsのロゴ">
                     <p class="tooltiptext">オススメの設定やショートカットキー等に関する情報掲載</p>
                 </div>
+            </a>
             </div>
             <div class="content-wrapper">
+            <a href="{% url 'all_contents'%}#mac">
                 <div class="content">
                     <h3>Mac</h3>
                     <img src="{% static 'images/mac.jpg' %}" alt="Macのロゴ">
                     <p class="tooltiptext">オススメの設定やショートカットキー等に関する情報掲載</p>
                 </div>
+            </a>
             </div>
             <div class="content-wrapper">
+            <a href="{% url 'all_contents'%}#tool">
                 <div class="content">
                     <h3>便利ツール</h3>
                     <img src="{% static 'images/server.jpg' %}" alt="のロゴ">
                     <p class="tooltiptext">翻訳ツール等の便利ツールに関する情報掲載</p>
                 </div>
             </div>
+            </a>
         </div>
         <div class="btn-block">
             <a class="btn" href="{% url 'all_contents' %}">もっとみる</a>
@@ -79,28 +93,21 @@
     <section class="another-functions">
         <div class="headline">
             <h2 id="registration-benefits">会員特典</h2>
-            <p>あなたの好みに合わせた使い方ができます</p>
+            <p>あなたの好みに合わせた使い方ができます。</p>
         </div>
         <div class="contents">
              <div class="content-wrapper">
                 <div class="content">
                     <h3>リコメンド機能</h3>
-                    <img class="circle" src="{% static 'images/Office logo.png' %}" alt="Office365のロゴ">
-                    <p class="tooltiptext">あなたへのオススメ記事を表示することで効率よく学習できます</p>
+                    <img class="circle" src="{% static 'images/リコメンド.jpeg' %}" alt="Office365のロゴ">
+                    <p class="tooltiptext">あなたへのオススメ記事が表示されることで効率よく学習できます</p>
                 </div>
             </div>
             <div class="content-wrapper">
                 <div class="content">
-                    <h3>コミュニティ機能</h3>
+                    <h3>質問機能</h3>
                     <img  src="{% static 'images/SNS.jpg' %}" alt="コミュニティのイメージ">
-                    <p class="tooltiptext">コミュニティ内で困りごとに対してピンポイントで質問できます</p>
-                </div>
-            </div>
-            <div class="content-wrapper">
-                <div class="content">
-                    <h3>ITビジネス情報</h3>
-                    <img  src="{% static 'images/IT_Trend.jpg' %}" alt="ITトレンドのイメージ">
-                    <p class="tooltiptext">最先端のITトレンドやビジネス情報を学ぶことができます</p>
+                    <p class="tooltiptext">実現したい内容について質問すると、他のユーザーから回答をもらうことができます。</p>
                 </div>
             </div>
         </div>
@@ -108,7 +115,7 @@
 </div>
 
     <section class="push">
-        <h4>あなたのITスキルをもう一段階上に引き上げよう</h4>
+        <h4>あなたのPCスキルをもう一段階上に引き上げよう</h4>
         <div class="btn-block">
         <a class="btn" href="{% url 'create' %}">無料会員登録</a>
         </div>

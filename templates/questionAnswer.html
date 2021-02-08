@@ -16,11 +16,11 @@
         <div class="question-block">
             <div class="quetion-title-block">
                 <h2 class="entry-title" id="question-list-title">{{question.title}}</h2>
-                <p class="sub-title"><span>{{question.created_at|timesince}}前</span><span>{{question.views}}</span>views</p>
+                <p class="sub-title"><span class="time">{{question.created_at|timesince}}前</span><span>{{question.views}}</span>views</p>
             </div>
             <div class="question-detail">
                 {{question.content|safe}}
-                <div class="p-tags">
+                <div class="p-tagstime">
                     <a href="p-tab-link">
                         <span class="p-tag-name">{{question.tags}}</span>
                     </a>
@@ -66,7 +66,7 @@
                 <form method="post">{% csrf_token %}
                 {{ form.media}}
                     {{ form.as_p }}
-                    <input class="btn" type="submit" value="回答する">
+                    <input class="btn qa-mg-top" type="submit" value="回答する">
                 </form>
             </div>
         </div>

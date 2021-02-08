@@ -36,7 +36,7 @@ class QuestionCreate(CreateView):
         return super().form_valid(form)
 
     def get_success_url(self,  **kwargs):
-        return reverse('question_list')
+        return reverse('question_list', kwargs={"pk": 1})
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -61,6 +61,32 @@ class QuestionCreate(CreateView):
 #     return render(request, 'questionForm.html', {'form': form, 'allcats': allcats})
 
 
+# @login_required(login_url='/accounts/login/')
+# def QuestionList(request, pk):
+#     allcats = Category.objects.filter(parent=None)
+#     print(pk)
+#     if  pk == 1:
+#         questions = QuestionModel.objects.all()
+#         return render(request, "questionList.html", {
+#         'allcats':allcats,
+#         'questions': questions,
+#     })
+
+#     elif pk == 2:
+#         answers = AnswerModel.objects.all()
+#         return render(request, "questionList.html", {
+#         'answers':answers,
+#         'allcats':allcats,
+#     })
+
+#     else:
+#         answers =AnswerModel.objects.all().get(answer=not None)
+#         question = answers.question
+#         return render(request, "questionList.html", {
+#         'allcats':allcats,
+#         'questions': questions,
+#     })
+
 @method_decorator(login_required(login_url='/accounts/login/'), name='dispatch')
 class QuestionList(ListView):
     template_name = 'questionList.html'
@@ -71,6 +97,7 @@ class QuestionList(ListView):
         context = super().get_context_data(*args, **kwargs)
         question = QuestionModel.objects.all()
         context["questions"] = question
+        context["pk"] = self.kwargs['pk']
         context["allcats"] = Category.objects.filter(parent=None)
         return context
 
@@ -190,7 +217,6 @@ class AnswerUpdate(UpdateView):
 @method_decorator(login_required(login_url='/accounts/login/'), name='dispatch')
 class QuestionDelete(DeleteView):
     model = QuestionModel
-    success_url = reverse_lazy('question_list')
     template_name = 'delete.html'
 
     def get(self, request, *args, **kwargs):
@@ -204,6 +230,9 @@ class QuestionDelete(DeleteView):
         context = super().get_context_data(*args, **kwargs)
         context["allcats"] = Category.objects.filter(parent=None)
         return context
+    
+    def get_success_url(self,  **kwargs):
+        return reverse("question_list", kwargs={"pk": 1})
 
 @method_decorator(login_required(login_url='/accounts/login/'), name='dispatch')
 class AnswerDelete(DeleteView):

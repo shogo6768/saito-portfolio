@@ -5,7 +5,7 @@ from .views import  QuestionCreate, QuestionList, questionAnswer, QuestionUpdate
 
 urlpatterns = [
     path('question_form', QuestionCreate.as_view(), name='question_form'),
-    path('question_list', QuestionList.as_view(), name='question_list'),
+    path('question_list/<int:pk>', QuestionList.as_view(), name='question_list'),
     path('question_answer/<int:pk>', questionAnswer, name='question_answer'),
     path('question_answer/<int:pk>/question_update',
          QuestionUpdate.as_view(), name='question_update'),
