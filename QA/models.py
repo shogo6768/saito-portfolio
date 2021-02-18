@@ -9,7 +9,7 @@ class QuestionModel(models.Model):
     title = models.CharField(max_length=255)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     tags = models.CharField(max_length=255)
-    content = RichTextUploadingField(blank=True, null=True)
+    content = RichTextUploadingField(config_name='non_admin')
     created_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -22,7 +22,7 @@ class QuestionModel(models.Model):
 class AnswerModel(models.Model):
     question = models.ForeignKey(
         QuestionModel, on_delete=models.CASCADE, related_name='answers')
-    answer = RichTextUploadingField(blank=True, null=True)
+    answer = RichTextUploadingField(config_name='non_admin')
     created_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

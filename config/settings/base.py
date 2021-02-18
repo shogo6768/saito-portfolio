@@ -127,6 +127,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 CKEDITOR_CONFIGS = {
     'default': {
+        'toolbar': 'full',
+    },
+
+    'non_admin': {
         'toolbar': 'Custom',
         'toolbar_Custom': [
             ['Bold', 'Italic', 'Underline', '-', 'NumberedList', 'BulletedList'],
@@ -135,7 +139,7 @@ CKEDITOR_CONFIGS = {
         ],
         'height': '100%',
         'width': '100%',
-        'toolbarCanCollapse': False,
+        'allowedContent': True,
     }
 }
 

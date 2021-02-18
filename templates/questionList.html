@@ -60,7 +60,7 @@
                 </div>
             </div>
             {% elif pk == 2 %}
-                {% if item.answers.count >= 1 %}
+                {% if item.answers.count == 0 %}
                     {{continue}}
                     <div class="question-list">
                         <div class="counts-block">
@@ -97,7 +97,7 @@
                     </div>
                 {% endif %}
             {% else %}
-                {% if item.answers.count == 0 %}
+                {% if item.answers.count  >= 1 %}
                     {{continue}} 
                     <div class="question-list">
                     <div class="counts-block">

@@ -135,13 +135,14 @@ def contact(request):
     else:
         form = ContactForm(request.POST)
         if form.is_valid():
-            contact_subject = form.cleaned_data['contact_subject']
-            contact_email = form.cleaned_data['contact_email']
-            contact_message = form.cleaned_data['contact_message']
-
+            subject = form.cleaned_data['contact_subject']
+            body = {
+			    'contact_email' : form.cleaned_data['contact_email'],
+                'contact_message' : form.cleaned_data['contact_message']
+			}
+            message = "\n".join(body.values())
             try:
-                send_mail(contact_subject, contact_message,
-                          contact_email, ['shogo6768@gmail.com'])
+                send_mail(subject, message, 'test@em9607.plusit-1.com', ['testplusit@gmail.com'])
                 messages.success(request, '貴重なご意見ありがとうございました。')
             except BadHeaderError:
                 return HttpResponse('Invalid header found.')
@@ -150,5 +151,4 @@ def contact(request):
             else:
                 return redirect('toppage')
         return render(request, 'contact.html', {'form': form, 'allcats': allcats})
-
 

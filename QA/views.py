@@ -90,12 +90,11 @@ class QuestionCreate(CreateView):
 @method_decorator(login_required(login_url='/accounts/login/'), name='dispatch')
 class QuestionList(ListView):
     template_name = 'questionList.html'
-    paginate_by = 5
-    queryset = PostModel.objects.order_by('-created_at')
+    model = QuestionModel
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        question = QuestionModel.objects.all()
+        question = QuestionModel.objects.all().order_by('-created_at')
         context["questions"] = question
         context["pk"] = self.kwargs['pk']
         context["allcats"] = Category.objects.filter(parent=None)
@@ -147,12 +146,12 @@ def QuestionRequest(request, pk):
         if form.is_valid():
             request_subject = form.cleaned_data['subject']
             request_message = form.cleaned_data['message']
-            from_email = "shogo6768@gmail.com"
+            from_email = "no-reply@em9607.plusit-1.com"
             to_email = QuestionModel.objects.get(pk=pk).created_by.email
             try:
                 send_mail(request_subject, request_message,
                           from_email, [to_email])
-                messages.success(request, '送信完了しました。')
+                messages.success(request, '編集を依頼しました。')
             except BadHeaderError:
                 return HttpResponse('Invalid header found.')
             return redirect('question_answer', pk=pk)
