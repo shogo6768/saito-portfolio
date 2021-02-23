@@ -64,9 +64,11 @@ class PostDetail(DetailView):
         context["related_posts"] = PostModel.objects.filter(
             category_id=self.object.category_id).exclude(pk=self.object.pk)
         # 1/19 斉藤追加
-        if self.request.user.id:
-            context["like"] = Like.objects.filter(Q(user=self.request.user) & Q(post=self.object))
+        if self.request.user.is_authenticated:
+            context["like"] = Like.objects.filter(
+                Q(user=self.request.user) & Q(post=self.object))
         return context
+         
 
 
 # def searchfunc(request):
@@ -101,15 +103,15 @@ class AllContents(TemplateView):
         return context
 
 
-def categoryfunc(request, cats):
+def categoryfunc(request, slug):
     allcats = Category.objects.filter(parent=None)
     # 12/19斉藤コメント　カテゴリ-一覧のため追加
     # parent=Noneによって親が空のcategoryを表示。つまり親カテゴリーのみ表示
-    category = Category.objects.get(slug=cats)
+    category = Category.objects.get(slug=slug)
     category_posts = PostModel.objects.filter(category=category)
     category_ranking = PostModel.objects.filter(
         category=category).order_by('-views')
-    return render(request, "category.html", {'allcats': allcats, 'cats': cats, 'category_posts': category_posts, 'category_ranking': category_ranking})
+    return render(request, "category.html", {'allcats': allcats, 'slug': slug, 'category_posts': category_posts, 'category_ranking': category_ranking})
 
 # ランキング機能追加
 
@@ -151,4 +153,5 @@ def contact(request):
             else:
                 return redirect('toppage')
         return render(request, 'contact.html', {'form': form, 'allcats': allcats})
+
 

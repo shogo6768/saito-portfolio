@@ -11,15 +11,11 @@
 {% block main %}
 <div id="list-global-container">
     <div class="list-main-container">
-        <h2 class="entry-title">{{cats}}関連一覧</h2>
+        <h2 class="entry-title">{{slug}}関連一覧</h2>
         {% for item in category_posts %}
         <div class="list-item">
             <div class="link-box">
-                {% if user.id %}
                 <a href="{% url 'save_history'  item.pk %}" class="link-item">
-                {% else %}
-                <a href="{% url 'post_detail'  item.pk %}" class="link-item">
-                {% endif%}
                     <div class="item-category">
                         カテゴリー：{{item.category}}
                     </div>
@@ -34,7 +30,7 @@
     </div>
 
     <div class="list-aside-container">
-    <h2 class="entry-title">{{cats}}関連ランキング</h2>
+    <h2 class="entry-title">{{slug}}関連ランキング</h2>
     {% for item in category_ranking %}
     <div class="list-item">
         <div class="link-box">
@@ -52,3 +48,4 @@
 </div>
 
 {% endblock main %}
+

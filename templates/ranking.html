@@ -16,11 +16,7 @@
         {% for item in object_list %}
         <div class="list-item">
             <div class="link-box">
-                {% if user.id %}
                 <a href="{% url 'save_history'  item.pk %}" class="link-item">
-                {% else %}
-                <a href="{% url 'post_detail'  item.pk %}" class="link-item">
-                {% endif%}
                     <div class="item-category">
                         カテゴリー：{{item.category}}
                     </div>
@@ -33,6 +29,6 @@
         </div>
         {% endfor %}
     </div>
-
 </div>
 {% endblock main%}
+
