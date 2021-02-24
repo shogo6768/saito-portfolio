@@ -1,24 +1,16 @@
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, DetailView, ListView, CreateView, UpdateView, DeleteView
-# from django.views.generic.edit import CreateView
 from .models import QuestionModel, AnswerModel, RequestModel
 from accounts.models import CustomUser
 from blogs.models import PostModel, Category
 from django.http import Http404, HttpResponse
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
-# メール送信のための追加インポート
 from django.core.mail import send_mail, BadHeaderError
-# 追加インポート
-import logging
 from django.urls import reverse, reverse_lazy
 from django.views import View
-from django.contrib.auth import login as auth_login, logout as auth_logout
-from django.conf import settings
 from django.contrib import messages
-from itertools import chain
 from django.core.exceptions import PermissionDenied
-# フォーム定義
 from .forms import QuestionForm, AnswerForm, RequestForm
 from django import template
 from django.contrib.auth.decorators import login_required
@@ -27,7 +19,7 @@ from django.utils.decorators import method_decorator
 
 @method_decorator(login_required(login_url='/accounts/login/'), name='dispatch')
 class QuestionCreate(CreateView):
-    template_name = 'questionForm.html'
+    template_name = 'QA/questionForm.html'
     form_class = QuestionForm
     model = QuestionModel
 
@@ -41,55 +33,11 @@ class QuestionCreate(CreateView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context["allcats"] = Category.objects.filter(parent=None)
-        return context
-    
-
-# @login_required(login_url='/accounts/login/')
-# def QuestionCreate(request):
-#     allcats = Category.objects.filter(parent=None)
-#     if request.method == 'GET':
-#         form = QuestionForm()
-#         return render(request, 'questionForm.html', {'form': form, 'allcats': allcats})
-#     else:
-#         form = QuestionForm(request.POST)
-#         if form.is_valid():
-#             question = form.save(commit=False)
-#             question.created_by = request.user
-#             # form.instance.created_by = request.user
-#             question.save()
-#             return redirect('question_list')    
-#     return render(request, 'questionForm.html', {'form': form, 'allcats': allcats})
-
-
-# @login_required(login_url='/accounts/login/')
-# def QuestionList(request, pk):
-#     allcats = Category.objects.filter(parent=None)
-#     print(pk)
-#     if  pk == 1:
-#         questions = QuestionModel.objects.all()
-#         return render(request, "questionList.html", {
-#         'allcats':allcats,
-#         'questions': questions,
-#     })
-
-#     elif pk == 2:
-#         answers = AnswerModel.objects.all()
-#         return render(request, "questionList.html", {
-#         'answers':answers,
-#         'allcats':allcats,
-#     })
-
-#     else:
-#         answers =AnswerModel.objects.all().get(answer=not None)
-#         question = answers.question
-#         return render(request, "questionList.html", {
-#         'allcats':allcats,
-#         'questions': questions,
-#     })
+        return context   
 
 @method_decorator(login_required(login_url='/accounts/login/'), name='dispatch')
 class QuestionList(ListView):
-    template_name = 'questionList.html'
+    template_name = 'QA/questionList.html'
     model = QuestionModel
 
     def get_context_data(self, *args, **kwargs):
@@ -123,7 +71,7 @@ def questionAnswer(request, pk):
     else:
         answer_form = AnswerForm()
 
-    return render(request, "questionAnswer.html", {
+    return render(request, "QA/questionAnswer.html", {
         'allcats':allcats,
         'question': question,
         'answers': answers,
@@ -132,7 +80,6 @@ def questionAnswer(request, pk):
     })
 
 # 1/10 編集request追加
-
 @login_required(login_url='/accounts/login/')
 def QuestionRequest(request, pk):
     # allcatsはheaderのためのcontext
@@ -140,7 +87,7 @@ def QuestionRequest(request, pk):
     question = get_object_or_404(QuestionModel, pk=pk)
     if request.method == 'GET':
         form = RequestForm()
-        return render(request, 'questionRequest.html', {'form': form, 'allcats': allcats, 'question': question})
+        return render(request, 'QA/questionRequest.html', {'form': form, 'allcats': allcats, 'question': question})
     else:
         form = RequestForm(request.POST)
         if form.is_valid():
@@ -159,7 +106,7 @@ def QuestionRequest(request, pk):
 
 @method_decorator(login_required(login_url='/accounts/login/'), name='dispatch')
 class QuestionUpdate(UpdateView):
-    template_name = 'questionForm.html'
+    template_name = 'QA/questionForm.html'
     model = QuestionModel
     form_class = QuestionForm
 
@@ -182,7 +129,7 @@ class QuestionUpdate(UpdateView):
 
 @method_decorator(login_required(login_url='/accounts/login/'), name='dispatch')
 class AnswerUpdate(UpdateView):
-    template_name = 'questionAnswer.html'
+    template_name = 'QA/questionAnswer.html'
     model = AnswerModel
     form_class = AnswerForm
 
@@ -216,7 +163,7 @@ class AnswerUpdate(UpdateView):
 @method_decorator(login_required(login_url='/accounts/login/'), name='dispatch')
 class QuestionDelete(DeleteView):
     model = QuestionModel
-    template_name = 'delete.html'
+    template_name = 'QA/delete.html'
 
     def get(self, request, *args, **kwargs):
         obj = QuestionModel.objects.get(pk=self.kwargs['pk'])
@@ -236,7 +183,7 @@ class QuestionDelete(DeleteView):
 @method_decorator(login_required(login_url='/accounts/login/'), name='dispatch')
 class AnswerDelete(DeleteView):
     model = AnswerModel
-    template_name = 'delete.html'
+    template_name = 'QA/delete.html'
 
     def get_success_url(self,  **kwargs):
         pk = self.kwargs["pk"]

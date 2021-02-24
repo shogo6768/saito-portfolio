@@ -5,7 +5,6 @@ urlpatterns = [
     path('post/<int:pk>', save_history, name='save_history'),
     path('post/<int:pk>/like', like, name='like'),
     path('create/', CreateUser.as_view(), name='create'),
-    # login_required使うためurlに'accounts'追加 
     path('login/', LoginView.as_view(), name='login'),
     path('mypage/<int:pk>/', MypageView.as_view(), name='mypage'),
     path('logout/', LogoutView.as_view(), name='logout'),

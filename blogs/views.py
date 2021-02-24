@@ -12,8 +12,6 @@ from django.core.mail import send_mail, BadHeaderError
 import logging
 from django.urls import reverse, reverse_lazy
 from django.views import View
-from django.contrib.auth import login as auth_login, logout as auth_logout
-from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied
 # フォーム定義
@@ -26,24 +24,9 @@ logger = logging.getLogger(__name__)
 
 # Create your views here.
 
-class TopPage(View):
-    def get(self, request, *args, **kwargs):
-        # すでにログインしている場合はトップ画面へリダイレクト
-        allcats = Category.objects.filter(parent=None)
-        if request.user.is_authenticated:
-            return redirect('mypage', pk=request.user.id)
-        return render(equest, 'toppage.html', {'allcats': allcats})
-
-    # def get_context_data(self, *args, **kwargs):
-    #     context = super().get_context_data(*args, **kwargs)
-    #     context["allcats"] = Category.objects.filter(parent=None)
-
-
-# 1/14　髙木更新　Historyモデルを使う前提でsave_history関数を書き直し
-
 class PostDetail(DetailView):
     model = PostModel
-    template_name = 'post.html'
+    template_name = 'blogs/post.html'
 
     def get_object(self, queryset=None):
         obj = super().get_object(queryset=queryset)
@@ -70,17 +53,6 @@ class PostDetail(DetailView):
         return context
          
 
-
-# def searchfunc(request):
-#     allcats = Category.objects.filter(parent=None)
-#     # 12/19斉藤コメント　カテゴリ-一覧のため追加
-#     # parent=Noneによって親が空のcategoryを表示。つまり親カテゴリーのみ表示
-#     qs = PostModel.objects.all()
-#     key_search = request.GET.get('key_search')
-#     if key_search != '' and key_search is not None:
-#         qs = qs.filter(Q(title__icontains=key_search)| Q(content__icontains=key_search)).distinct
-#     return render(request, "search_result.html", {'allcats': allcats, 'qs': qs})
-
 def searchfunc(request):
     allcats = Category.objects.filter(parent=None)
     # 12/19斉藤コメント　カテゴリ-一覧のため追加
@@ -89,13 +61,12 @@ def searchfunc(request):
     print(key_search)
     if key_search != '' and key_search is not None:
         qs = PostModel.objects.filter(Q(title__icontains=key_search)| Q(content__icontains=key_search)).distinct
-        return render(request, "search_result.html", {'allcats': allcats, 'qs': qs})
-    return render(request, "search_result.html", {'allcats': allcats})
+        return render(request, "blogs/search_result.html", {'allcats': allcats, 'qs': qs})
+    return render(request, "blogs/search_result.html", {'allcats': allcats})
 
 
 class AllContents(TemplateView):
-    template_name = 'all_contents.html'
-
+    template_name = 'blogs/all_contents.html'
     # 12/19斉藤コメント　カテゴリ-一覧のため追加
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -111,13 +82,13 @@ def categoryfunc(request, slug):
     category_posts = PostModel.objects.filter(category=category)
     category_ranking = PostModel.objects.filter(
         category=category).order_by('-views')
-    return render(request, "category.html", {'allcats': allcats, 'slug': slug, 'category_posts': category_posts, 'category_ranking': category_ranking})
+    return render(request, "blogs/category.html", {'allcats': allcats, 'slug': slug, 'category_posts': category_posts, 'category_ranking': category_ranking})
 
 # ランキング機能追加
 
 class RankingList(ListView):
     model = PostModel
-    template_name = 'ranking.html'
+    template_name = 'blogs/ranking.html'
     paginate_by = 10
     queryset = PostModel.objects.order_by('-views')
 
@@ -129,11 +100,10 @@ class RankingList(ListView):
  
 
 def contact(request):
-    # allcatsはheaderのためのcontext
     allcats = Category.objects.filter(parent=None)
     if request.method == 'GET':
         form = ContactForm()
-        return render(request, 'contact.html', {'form': form, 'allcats': allcats})
+        return render(request, 'blogs/contact.html', {'form': form, 'allcats': allcats})
     else:
         form = ContactForm(request.POST)
         if form.is_valid():
@@ -152,6 +122,6 @@ def contact(request):
                 return redirect('mypage', pk=request.user.id)
             else:
                 return redirect('toppage')
-        return render(request, 'contact.html', {'form': form, 'allcats': allcats})
+        return render(request, 'blogs/contact.html', {'form': form, 'allcats': allcats})
 
 
