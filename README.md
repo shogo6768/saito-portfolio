@@ -36,17 +36,14 @@ PCスキルUPのためのコンテンツ学習サイト
 #### ◆コンテンツをカテゴリー別、ランキング順に表示
 ![ランキング](https://user-images.githubusercontent.com/73920107/109258703-23de2a80-783e-11eb-9717-b12e4e2a703e.gif)
 
-
 #### ◆コンテンツの検索が可能
 ![検索](https://user-images.githubusercontent.com/73920107/109258776-44a68000-783e-11eb-939d-2acb265c8dd7.gif)
 
-
 #### ◆ご意見箱の設置（コンタクトフォーム）
-
+![コンタクトフォーム ](https://user-images.githubusercontent.com/73920107/109259483-a74c4b80-783f-11eb-8f77-fc813d75bc24.gif)
 
 #### ◆Wordpressのようなエディタ　※記事投稿は管理者以外使えない設定
 ![ckeditor](https://user-images.githubusercontent.com/73920107/109257700-0f009780-783c-11eb-8035-54bc6ea017b1.gif)
-
 
 ## ②ユーザー機能　※ログイン要
 
