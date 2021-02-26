@@ -44,7 +44,7 @@ PCスキルUPのためのコンテンツ学習サイト
 ## ②ユーザー機能　※ログイン要
 
 #### ◆基本的な認証機能（新規登録、ログイン、ログアウトetc）
-![認証](https://user-images.githubusercontent.com/73920107/109253926-3c494780-7834-11eb-86cc-a34a3e7bc5b7.gif)
+![認証](https://user-images.githubusercontent.com/73920107/109255102-aa8f0980-7836-11eb-8e6d-f8a445adfb7f.gif)
 
 ◆閲覧履歴に応じてリコメンド記事を表示
 
