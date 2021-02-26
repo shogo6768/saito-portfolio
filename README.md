@@ -88,11 +88,11 @@ https://plusit-1.com/
 
 # 使用技術について
 
-◆フロントエンド
+#### ◆フロントエンド
 * HTML/CSS（マークアップ）
 * Javascript （フロントエンド）
 
-◆バックエンド
+#### ◆バックエンド
 * Python（バックエンド）
 * Django（フレームワーク）
 * Pillow（画像処理）
@@ -101,10 +101,10 @@ https://plusit-1.com/
 * environ（シークレット変数の取り扱い）
 * PostgreSQL（データベース）
 
-◆テスト
+#### ◆テスト
 * Unit テスト（django views.py. models.py, forms.py）
 
-◆インフラ
+#### ◆インフラ
 * AWS VPC（ネットワーク）
 * AWS EC2（仮想サーバー）
 * AWS Route53（ドメインとの紐付け）
