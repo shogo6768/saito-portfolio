@@ -28,15 +28,10 @@ class OpenMenu{
         if(this.DOM.side !== null){
             this.DOM.side.addEventListener(this.eventType, this._toggle.bind(this));
         }
-        // this.DOM.cross.addEventListener(this.eventType, this._toggle.bind(this));
-        // this.DOM.btn.addEventListener(this.eventType, this._remove.bind(this));
-        // this.DOM.side.addEventListener(this.eventType, this._remove.bind(this));
     }
     _addEvent2() {
         for (let i = 0; i < this.DOM.cross.length; i++) {
             this.DOM.cross[i].addEventListener(this.eventType, function(){
-                // this.DOM.container.classList.toggle('menu-open').bind(this);
-                // this.DOM.container.classList.toggle('menu-open'); ←エラーの理由不明
                 document.querySelector('#global-container').classList.toggle('menu-open');
                 });
             }
@@ -56,7 +51,6 @@ class DorpDown{
         this._addEvent1();
         this._addEvent2();
         this._addEvent3();
-        // this._addEvent4();
         
     }
 
@@ -91,24 +85,6 @@ class DorpDown{
         }
         }
     
-    // _addEvent4() {
-    //         if(document.getElementById('menu-open') == null){
-    //             if(this.DOM.mDrop[3] !== null){
-    //                 this.DOM.mDrop[3].addEventListener(this.eventType, function(){
-    //                     this.classList.remove('dropDown');
-    //                     this.nextElementSibling.classList.remove('dropDown');
-    //                 });
-    //             }
-    //             if(this.DOM.mDrop[4] !== null){
-    //                 this.DOM.mDrop[4].addEventListener(this.eventType, function(){
-    //                     this.classList.remove('dropDown');
-    //                     this.nextElementSibling.classList.remove('dropDown');
-    //                 });
-
-    //             }
-    
-    //         }
-    // }
 }
 
 new DorpDown();
